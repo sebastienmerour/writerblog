@@ -1,0 +1,48 @@
+html {
+  scroll-behavior: smooth;
+}
+h1:before {
+    height: 90px;
+    content: "";
+    display:block;
+}
+h2:before {
+    height: 54px;
+    content: "";
+    display:block;
+}
+
+header {
+  color: white;
+  padding: 4rem;
+  text-align: center;
+}
+
+nav ul {
+  list-style: none;
+  margin: 10;
+  padding: 0;
+}
+/* Only stick if you can fit */
+@media (min-height: 300px) {
+  nav ul {
+    position: sticky;
+    top: 0;
+  }
+}
+nav ul li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: white;
+  text-decoration: none;
+}
+nav ul li a.current {
+  background: black;
+}
+main {
+  padding-bottom: 40rem;
+}
+section {
+  padding: 2rem;
+  margin: 0 0 2rem 0;
+}
