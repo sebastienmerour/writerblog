@@ -63,7 +63,7 @@ while ($comment = $comments->fetch())
   <img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?php echo isset($comment['avatar_com']) ? $comment['avatar_com'] : $default ;?>" alt="user">
   <div class="media-body">
     <h6 class="mt-0"><?php echo htmlspecialchars(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author'], ENT_QUOTES, 'UTF-8');?></h6>
-		<h4><?php echo htmlspecialchars($comment['content_comment'], ENT_QUOTES, 'UTF-8'); ?></h4>
+		<h4><?php echo htmlspecialchars($comment['content'], ENT_QUOTES, 'UTF-8'); ?></h4>
 		<em>le <?php echo $comment['date_comment_fr']; ?></em><br>
 			<?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>
 				<em>commentaire modifé le&nbsp;<?php echo $item['date_update']; ?></em>
@@ -89,7 +89,7 @@ require('comment_pagination_view.php');
           <form action="index.php?action=createcomment&amp;id=<?= $item['id'] ?>" method="post">
             <div class="form-group">
               <input class="form-control" id="author" name="author" type="text" placeholder="Prénom"><br>
-                  <textarea class="form-control" id="comment" name="content_comment" rows="6" placeholder="Ecrivez ici votre commentaire"></textarea>
+                  <textarea class="form-control" id="comment" name="content" rows="6" placeholder="Ecrivez ici votre commentaire"></textarea>
             </div>
                   <button type="submit" class="btn btn-primary">Envoyer</button>
           </form>
@@ -110,7 +110,7 @@ else {?>
 								</div>
   					</div>
 					<div class="form-group">
-					<textarea class="form-control" id="comment" name="content_comment" rows="6" placeholder="Ecrivez ici votre commentaire"></textarea>
+					<textarea class="form-control" id="comment" name="content" rows="6" placeholder="Ecrivez ici votre commentaire"></textarea>
 					</div>
 								<button type="submit" class="btn btn-primary">Envoyer</button>
 				</form>

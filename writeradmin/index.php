@@ -98,8 +98,8 @@ define("ROOT_PATH", $_SERVER["DOCUMENT_ROOT"] . "/writerblog/");
             // Update :
             elseif ($_GET['action'] == 'updatecomment') {
                 if (isset($_GET['id_comment']) && $_GET['id_comment'] > 0) {
-                    if (!empty($_POST['content_comment'])) {
-                        updateComment($_GET['id_comment'], $_POST['content_comment']);
+                    if (!empty($_POST['content'])) {
+                        updateComment($_GET['id_comment'], $_POST['content']);
                     } else {
                         throw new Exception('Tous les champs ne sont pas remplis !');
                     }

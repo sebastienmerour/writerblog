@@ -111,7 +111,7 @@ require('comment_pagination_view.php');}
           </div>
 
         </div></td>
-        <td><h6 class="mt-2 text-left"><?php echo htmlspecialchars($comment['content_comment'], ENT_QUOTES, 'UTF-8'); ?></h6></td>
+        <td><h6 class="mt-2 text-left"><?php echo htmlspecialchars($comment['content'], ENT_QUOTES, 'UTF-8'); ?></h6></td>
         <td><a href="index.php?id_comment=<?php echo $comment['id'] ;?>&action=readcomment" role="button" class="btn btn-sm btn-primary">Modifier</a></td>
         <td><a href="index.php?id_comment=<?php echo $comment['id'] ;?>&action=deletecomment" role="button" class="btn btn-sm btn-danger">Supprimer</a></td>
       </tr>

@@ -218,10 +218,10 @@ function readComment()
 
 // Update :
 // Modification d'un commentaire
-function updateComment($id_comment, $content_comment)
+function updateComment($id_comment, $content)
 {
     $commentManager = new \SM\Blog\Model\CommentManager();
-    $newComment     = $commentManager->changeComment($id_comment, $content_comment);
+    $newComment     = $commentManager->changeComment($id_comment, $content);
     if ($newComment === false) {
         throw new Exception('Impossible de modifier le commentaire !');
     } else {

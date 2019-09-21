@@ -55,10 +55,10 @@ function readItemLoggedIn()
 // COMMENTS //
 // Create
 // Ajout d'un nouveau commentaire :
-function createComment($item_id, $author, $content_comment)
+function createComment($item_id, $author, $content)
 {
     $commentManager = new \SM\Blog\Model\CommentManager();
-    $affectedLines = $commentManager->insertComment($item_id, $author, $content_comment);
+    $affectedLines = $commentManager->insertComment($item_id, $author, $content);
     if ($affectedLines === false) {
       // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
       throw new Exception('Impossible d\'ajouter le commentaire !');
@@ -68,11 +68,11 @@ function createComment($item_id, $author, $content_comment)
     }
 }
 
-function createCommentLoggedIn($item_id, $user_id, $author, $content_comment)
+function createCommentLoggedIn($item_id, $user_id, $author, $content)
 {
     $commentManager = new \SM\Blog\Model\CommentManager();
     $user_id = $_SESSION['id_user'];
-    $affectedLines = $commentManager->insertCommentLoggedIn($item_id, $user_id, $author, $content_comment);
+    $affectedLines = $commentManager->insertCommentLoggedIn($item_id, $user_id, $author, $content);
     if ($affectedLines === false) {
       // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
       throw new Exception('Impossible d\'ajouter le commentaire !');
@@ -100,12 +100,12 @@ function readComment()
 
 // Update
 // Modification d'un commentaire :
-function updateComment($id_comment, $content_comment)
+function updateComment($id_comment, $content)
 {
   $postManager = new \SM\Blog\Model\PostManager();
   $commentManager = new \SM\Blog\Model\CommentManager();
   $item = $postManager->getItem($_GET['id']);
-  $newComment = $commentManager->changeComment($id_comment, $content_comment);
+  $newComment = $commentManager->changeComment($id_comment, $content);
   if ($newComment === false) {
       throw new Exception('Impossible de modifier le commentaire !');
   }

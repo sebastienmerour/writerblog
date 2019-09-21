@@ -36,10 +36,10 @@ try {
 // Create :
         elseif ($_GET['action'] == 'createcomment') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-              if (isset($_SESSION['id_user']) && !empty($_POST['content_comment'])) {
-                  createCommentLoggedIn($_GET['id'], $_SESSION['id_user'], $_POST['author'], $_POST['content_comment']);}
-                elseif (!isset($_SESSION['id_user']) && !empty($_POST['content_comment'])) {
-                    createComment($_GET['id'], $_POST['author'], $_POST['content_comment']);
+              if (isset($_SESSION['id_user']) && !empty($_POST['content'])) {
+                  createCommentLoggedIn($_GET['id'], $_SESSION['id_user'], $_POST['author'], $_POST['content']);}
+                elseif (!isset($_SESSION['id_user']) && !empty($_POST['content'])) {
+                    createComment($_GET['id'], $_POST['author'], $_POST['content']);
                 }
                 else {
                     // Autre exception
@@ -61,8 +61,8 @@ try {
 // Update :
         elseif ($_GET['action'] == 'updatecomment') {
           if (isset($_GET['id_comment']) && $_GET['id_comment'] > 0) {
-              if (!empty($_POST['content_comment'])) {
-                  updateComment($_GET['id_comment'], $_POST['content_comment']);
+              if (!empty($_POST['content'])) {
+                  updateComment($_GET['id_comment'], $_POST['content']);
               } else {
                   throw new Exception('Tous les champs ne sont pas remplis !');
               }

@@ -27,8 +27,8 @@
                   <em>commentaire modifé le&nbsp;<?php echo $item['date_update']; ?></em>
                   <?php }?>
                 <p>&nbsp;</p>
-                <textarea class="form-control" name="content_comment" id="content_comment" placeholder="<?php print_r($comment['content_comment']); ?>"
-                title="Modifiez votre commentaire si besoin"><?php print_r($comment['content_comment']); ?></textarea>
+                <textarea class="form-control" name="content" id="content" placeholder="<?php print_r($comment['content']); ?>"
+                title="Modifiez votre commentaire si besoin"><?php print_r($comment['content']); ?></textarea>
             </div>
         </div>
         <div class="form-group">
@@ -56,7 +56,7 @@ while ($comment = $comments->fetch())
     <img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?php echo isset($comment['avatar_com']) ? $comment['avatar_com'] : $default ;?>" alt="user">
 	  <div class="media-body">
       <h6 class="mt-0"><?php echo htmlspecialchars(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author'], ENT_QUOTES, 'UTF-8');?></h6>
-			<h4><?php echo htmlspecialchars($comment['content_comment'], ENT_QUOTES, 'UTF-8'); ?></h4>
+			<h4><?php echo htmlspecialchars($comment['content'], ENT_QUOTES, 'UTF-8'); ?></h4>
 			<em>le <?php echo $comment['date_comment_fr']; ?></em><br>
 				<?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>
 						<em>commentaire modifé le&nbsp;<?php echo $item['date_update']; ?></em>
@@ -85,7 +85,7 @@ while ($comment = $comments->fetch())
               </div>
           </div>
         <div class="form-group">
-        <textarea class="form-control" id="comment" name="content_comment" rows="6" placeholder="Ecrivez ici votre commentaire"></textarea>
+        <textarea class="form-control" id="comment" name="content" rows="6" placeholder="Ecrivez ici votre commentaire"></textarea>
         </div>
               <button type="submit" class="btn btn-primary">Envoyer</button>
       </form>

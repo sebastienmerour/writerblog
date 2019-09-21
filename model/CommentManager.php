@@ -7,14 +7,14 @@ class CommentManager extends Manager
 
     // Create
     // Création d'un commentaire :
-    public function insertComment($item_id, $author, $content_comment)
+    public function insertComment($item_id, $author, $content)
     {
         $db            = $this->dbConnect();
         $comments      = $db->prepare('INSERT INTO comments(id_item, author, content, date_creation) VALUES(?, ?, ?, NOW())');
         $affectedLines = $comments->execute(array(
             $item_id,
             $author,
-            $content_comment
+            $content
         ));
         if ($affectedLines === false) {
             // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
@@ -23,7 +23,7 @@ class CommentManager extends Manager
         return $affectedLines;
     }
     // Création d'un commentaire d'un utilisateur connecté :
-    public function insertCommentLoggedIn($item_id, $user_id, $author, $content_comment)
+    public function insertCommentLoggedIn($item_id, $user_id, $author, $content)
     {
         $db            = $this->dbConnect();
         $user_id = $_SESSION['id_user'];
@@ -32,7 +32,7 @@ class CommentManager extends Manager
             $item_id,
             $user_id,
             $author,
-            $content_comment
+            $content
         ));
         if ($affectedLines === false) {
             // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
