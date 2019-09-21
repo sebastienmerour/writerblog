@@ -18,7 +18,7 @@
 
 <!-- Image du Post -->
 <figure class="figure">
-<img src="<?php echo BASE_URL; ?>public/images/item_images/';?><?php echo htmlspecialchars(strip_tags($item['item_image']));?>" class="figure-img img-fluid rounded-right"
+<img src="<?php echo BASE_URL; ?>public/images/item_images/';?><?php echo htmlspecialchars(strip_tags($item['image']));?>" class="figure-img img-fluid rounded-right"
 alt="<?php echo htmlspecialchars(strip_tags($item['title'])); ?>" title="<?php echo htmlspecialchars(strip_tags($item['title'])); ?>">
 <figcaption class="figure-caption text-right"><?php echo htmlspecialchars(strip_tags($item['title'])); ?></figcaption>
 </figure>

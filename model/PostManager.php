@@ -66,7 +66,7 @@ class PostManager extends Manager
     public function getItem($item_id)
     {
         $db  = $this->dbConnect();
-        $req = $db->prepare('SELECT items.id, items.title AS title, items.image AS item_image, items.content AS content,
+        $req = $db->prepare('SELECT items.id, items.title AS title, items.image AS image, items.content AS content,
         DATE_FORMAT(items.date_creation, \'%d/%m/%Y à %Hh%i\') AS date_creation_fr,
         DATE_FORMAT(items.date_update, \'%d/%m/%Y à %Hh%i\') AS date_update,
         users.id_user, users.firstname, users.name
