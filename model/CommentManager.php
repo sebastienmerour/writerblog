@@ -10,7 +10,7 @@ class CommentManager extends Manager
     public function insertComment($item_id, $author, $content_comment)
     {
         $db            = $this->dbConnect();
-        $comments      = $db->prepare('INSERT INTO comments(id_item, author, content_comment, date_comment) VALUES(?, ?, ?, NOW())');
+        $comments      = $db->prepare('INSERT INTO comments(id_item, author, content, date_creation) VALUES(?, ?, ?, NOW())');
         $affectedLines = $comments->execute(array(
             $item_id,
             $author,
@@ -27,7 +27,7 @@ class CommentManager extends Manager
     {
         $db            = $this->dbConnect();
         $user_id = $_SESSION['id_user'];
-        $comments      = $db->prepare('INSERT INTO comments(id_item, id_user, author, content_comment, date_comment) VALUES(?, ?, ?, ?, NOW())');
+        $comments      = $db->prepare('INSERT INTO comments(id_item, id_user, author, content, date_creation) VALUES(?, ?, ?, ?, NOW())');
         $affectedLines = $comments->execute(array(
             $item_id,
             $user_id,
@@ -65,13 +65,13 @@ class CommentManager extends Manager
         // Définir à partir de quel N° de commmentaire chaque page doit commencer :
         $start = (int) (($current_comments_page - 1) * $number_of_comments_by_page);
 
-        $request_comments = $db->query('SELECT comments.id, comments.id_user, comments.author, comments.content_comment,
-      DATE_FORMAT(comments.date_comment, \'%d/%m/%Y à %Hh%imin\') AS date_comment_fr,
+        $request_comments = $db->query('SELECT comments.id, comments.id_user, comments.author, comments.content,
+      DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_comment_fr,
       DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
        users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com FROM comments
       LEFT JOIN users
       ON comments.id_user = users.id_user
-      ORDER BY date_comment DESC LIMIT ' . $start . ', ' . $number_of_comments_by_page . '');
+      ORDER BY date_creation DESC LIMIT ' . $start . ', ' . $number_of_comments_by_page . '');
         return $request_comments;
     }
 
@@ -79,8 +79,8 @@ class CommentManager extends Manager
     public function getComment($id_comment)
     {
         $db       = $this->dbConnect();
-        $req      = $db->prepare('SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content_comment,
-          DATE_FORMAT(comments.date_comment, \'%d/%m/%Y à %Hh%imin\') AS date_comment_fr,
+        $req      = $db->prepare('SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content,
+          DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_comment_fr,
           DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
           users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
           FROM comments
@@ -120,15 +120,15 @@ class CommentManager extends Manager
 
         // Définir à partir de quel N° d'item chaque page doit commencer :
         $start = (int) (($comments_current_page - 1) * $number_of_comments_by_page);
-        $comments = $db->prepare('SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content_comment,
-          DATE_FORMAT(comments.date_comment, \'%d/%m/%Y à %Hh%imin\') AS date_comment_fr,
+        $comments = $db->prepare('SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content,
+          DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_comment_fr,
           DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
           users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
           FROM comments
           LEFT JOIN users
           ON comments.id_user = users.id_user
           WHERE id_item = ?
-          ORDER BY date_comment
+          ORDER BY date_creation
           DESC LIMIT ' . $start . ', ' . $number_of_comments_by_page . '');
         $comments->execute(array(
             $item_id
@@ -141,7 +141,7 @@ class CommentManager extends Manager
     public function changeComment($id_comment, $comment)
     {
         $db         = $this->dbConnect();
-        $req        = $db->prepare('UPDATE comments SET content_comment = ?, date_comment = NOW() WHERE id = ?');
+        $req        = $db->prepare('UPDATE comments SET content = ?, date_creation = NOW() WHERE id = ?');
         $newComment = $req->execute(array(
             $comment,
             $id_comment

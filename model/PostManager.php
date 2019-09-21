@@ -11,12 +11,12 @@ class PostManager extends Manager
         $messages  = array();
         $db        = $this->dbConnect();
         $idUser = $_SESSION['id_user_admin'];
-        $items  = $db->prepare('INSERT INTO items (id_user, title, item_image, content, date_creation)
+        $items  = $db->prepare('INSERT INTO items (id_user, title, image, content, date_creation)
                       VALUES
-                      (:id_user, :title, :item_image, :content, NOW())');
+                      (:id_user, :title, :image, :content, NOW())');
         $items->bindValue(':id_user', $idUser);
         $items->bindValue(':title', $title);
-        $items->bindValue(':item_image', $itemimagename);
+        $items->bindValue(':image', $itemimagename);
         $items->bindValue(':content', $content);
         $items->execute();
         $messages['itemcreated'] = 'Votre article a bien été ajouté !';
@@ -52,7 +52,7 @@ class PostManager extends Manager
         // Définir à partir de quel N° d'item chaque page doit commencer :
         $start = (int) (($items_current_page - 1) * $number_of_items_by_page);
 
-        $request_items = $db->query('SELECT items.id, items.title, items.item_image, items.content,
+        $request_items = $db->query('SELECT items.id, items.title, items.image, items.content,
         DATE_FORMAT(items.date_creation, \'%d/%m/%Y à %Hh%i\') AS date_creation_fr,
         DATE_FORMAT(items.date_update, \'%d/%m/%Y à %Hh%i\') AS date_update,
         users.id_user, users.firstname, users.name FROM items
@@ -66,7 +66,7 @@ class PostManager extends Manager
     public function getItem($item_id)
     {
         $db  = $this->dbConnect();
-        $req = $db->prepare('SELECT items.id, items.title AS title, items.item_image AS item_image, items.content AS content,
+        $req = $db->prepare('SELECT items.id, items.title AS title, items.image AS item_image, items.content AS content,
         DATE_FORMAT(items.date_creation, \'%d/%m/%Y à %Hh%i\') AS date_creation_fr,
         DATE_FORMAT(items.date_update, \'%d/%m/%Y à %Hh%i\') AS date_update,
         users.id_user, users.firstname, users.name
@@ -85,7 +85,7 @@ class PostManager extends Manager
     public function changeItemImage($title, $itemimagename, $content, $item_id)
     {
         $db      = $this->dbConnect();
-        $req     = $db->prepare('UPDATE items SET title = ?, item_image = ?, content = ?,
+        $req     = $db->prepare('UPDATE items SET title = ?, image = ?, content = ?,
         date_update = NOW() WHERE id = ?');
         $newItem = $req->execute(array(
             $title,
