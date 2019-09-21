@@ -33,12 +33,12 @@ if (!empty($_SESSION['messages']['itemupdated']))
 								<input class="form-control" id="title" name="title" type="text" placeholder="<?php echo $item['title'];?>" value="<?php echo $item['title'];?>"><br>
 								<hr>
 						 	<label for="itemimage"><h5>Image principale de l'article :</h5></label><br>
-							<?php if (empty($item['item_image'])) {
+							<?php if (empty($item['image'])) {
 									echo '<p>Il n\'y a pas d\'image pour cet article. Ajoutez une image ci-dessous :</p>';
 							} else {
 								?>
 								<figure class="figure">
-								<img src="<?php echo BASE_URL; ?>public/images/item_images/<?php echo htmlspecialchars(strip_tags($item['item_image']));?>" class="figure-img img-fluid rounded-right"
+								<img src="<?php echo BASE_URL; ?>public/images/item_images/<?php echo htmlspecialchars(strip_tags($item['image']));?>" class="figure-img img-fluid rounded-right"
 								alt="<?php echo htmlspecialchars(strip_tags($item['title'])); ?>" title="<?php echo htmlspecialchars(strip_tags($item['title']));?>">
 								<figcaption class="figure-caption text-right"><?php echo htmlspecialchars(strip_tags($item['title'])); ?></figcaption>
 								</figure>
