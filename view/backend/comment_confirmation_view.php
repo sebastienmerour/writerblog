@@ -28,7 +28,7 @@
         <div class="form-group">
             <div class="col-xs-6">
               <h5 class="mt-0"><?php echo htmlspecialchars($comment['author'], ENT_QUOTES, 'UTF-8'); ?></h5><em>le
-                <?php echo $comment['date_comment_fr']; ?></em>
+                <?php echo $comment['date_creation_fr']; ?></em>
                 <p>&nbsp;</p>
                 <textarea class="form-control" name="content" id="content"
                 placeholder="<?php echo $comment['content'];?>"

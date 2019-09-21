@@ -103,7 +103,7 @@ require('comment_pagination_view.php');}
       ?>
 
       <tr>
-        <td><h6 class="mt-2 text-left"><?php echo $comment['date_comment_fr']; ?></h6></td>
+        <td><h6 class="mt-2 text-left"><?php echo $comment['date_creation_fr']; ?></h6></td>
         <td><div class="media mb-4">
           <img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?php echo isset($comment['avatar_com']) ? $comment['avatar_com'] : $default ;?>" alt="user">
           <div class="media-body">

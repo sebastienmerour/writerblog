@@ -22,7 +22,7 @@
         <div class="form-group">
             <div class="col-xs-6">
               <h5 class="mt-0"><?php echo htmlspecialchars($comment['author'], ENT_QUOTES, 'UTF-8'); ?></h5><em>le
-                <?php echo $comment['date_comment_fr']; ?></em><br>
+                <?php echo $comment['date_creation_fr']; ?></em><br>
                 <?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>
                   <em>commentaire modifé le&nbsp;<?php echo $item['date_update']; ?></em>
                   <?php }?>
@@ -57,7 +57,7 @@ while ($comment = $comments->fetch())
 	  <div class="media-body">
       <h6 class="mt-0"><?php echo htmlspecialchars(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author'], ENT_QUOTES, 'UTF-8');?></h6>
 			<h4><?php echo htmlspecialchars($comment['content'], ENT_QUOTES, 'UTF-8'); ?></h4>
-			<em>le <?php echo $comment['date_comment_fr']; ?></em><br>
+			<em>le <?php echo $comment['date_creation_fr']; ?></em><br>
 				<?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>
 						<em>commentaire modifé le&nbsp;<?php echo $item['date_update']; ?></em>
 						<?php }?>

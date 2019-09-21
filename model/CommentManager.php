@@ -66,7 +66,7 @@ class CommentManager extends Manager
         $start = (int) (($current_comments_page - 1) * $number_of_comments_by_page);
 
         $request_comments = $db->query('SELECT comments.id, comments.id_user, comments.author, comments.content,
-      DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_comment_fr,
+      DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
       DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
        users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com FROM comments
       LEFT JOIN users
@@ -80,7 +80,7 @@ class CommentManager extends Manager
     {
         $db       = $this->dbConnect();
         $req      = $db->prepare('SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content,
-          DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_comment_fr,
+          DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
           DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
           users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
           FROM comments
@@ -121,7 +121,7 @@ class CommentManager extends Manager
         // Définir à partir de quel N° d'item chaque page doit commencer :
         $start = (int) (($comments_current_page - 1) * $number_of_comments_by_page);
         $comments = $db->prepare('SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content,
-          DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_comment_fr,
+          DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
           DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
           users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
           FROM comments

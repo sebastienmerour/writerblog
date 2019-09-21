@@ -135,9 +135,9 @@ $fin = $debut + $parPage;
 
 
 
-$req_comments = $db->prepare('SELECT id, author, comment, DATE_FORMAT(date_comment, \'%d/%m/%Y à %Hh%imin%ss\')
-AS date_comment_fr
-FROM comments WHERE id_item = ? ORDER BY date_comment DESC LIMIT ?, ?');
+$req_comments = $db->prepare('SELECT id, author, comment, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\')
+AS date_creation_fr
+FROM comments WHERE id_item = ? ORDER BY date_creation DESC LIMIT ?, ?');
 //$req_comments->execute(array($item_id, $debut, $parPage));
 //$comments = $req_comments->fetch();
 //return $comments;
@@ -183,7 +183,7 @@ else {
             <img class="d-flex mr-3 rounded-circle" src="public/images/default/50x50.png" alt="user">
             <div class="media-body">
               <h5 class="mt-0"><?php echo htmlspecialchars($comment['author'], ENT_QUOTES, 'UTF-8'); ?></h5><em>le
-                <?php echo $comment['date_comment_fr']; ?></em><br>
+                <?php echo $comment['date_creation_fr']; ?></em><br>
 
                 <form role="form" class="form needs-validation" action="user_update.php" method="post" id="usermodification" novalidate>
                   <p>&nbsp;</p>
