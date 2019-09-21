@@ -25,10 +25,10 @@ function createItem($idUser, $title, $itemimagename, $content)
               $extension_upload = $file_infos['extension'];
               $extensions_authorized = array('jpg', 'jpeg', 'gif', 'png');
               $user_id = $_SESSION['id_user_admin'];
-              $time = date("Y-m-d-H-i-s")."-";
-              $itemimagename = str_replace(' ','-',strtolower($_FILES['image']['name']));
+              $time = date("Y-m-d-H-i-s");
+              $newtitle = str_replace(' ','-',strtolower($title));
               $itemimagename = preg_replace("/\.[^.\s]{3,4}$/", "", $itemimagename);
-              $itemimagename = "{$time}_image.{$extension_upload}";
+              $itemimagename = "{$time}-$newtitle.{$extension_upload}";
               $destination = ROOT_PATH. 'public/images/item_images';
               if (in_array($extension_upload, $extensions_authorized))
               {

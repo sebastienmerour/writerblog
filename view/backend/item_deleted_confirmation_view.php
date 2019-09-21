@@ -55,26 +55,26 @@
   <nav class="blog-pagination">
     &nbsp; <ul class="pagination">
     <?php
-    if ($current_page > $number_of_pages) {
+    if ($items_current_page > $number_of_items_pages) {
       require __DIR__ . '/../errors/page_not_found.php';
     } // on renvoie vers une page d'erreur, pour éviter l'affichage d'un numéro de page faux
         else {
 
-          if ($current_page !=1  AND $current_page <= $number_of_pages)// Si la page active n'est pas la première page
+          if ($items_current_page !=1  AND $items_current_page <= $number_of_items_pages)// Si la page active n'est pas la première page
           {
           ?>
           <li>
-              <a class="btn btn-outline-secondary" href="?action=listitems&page=<?php echo $current_page -1 ; ?>" aria-label="Previous">
+              <a class="btn btn-outline-secondary" href="?action=listitems&page=<?php echo $items_current_page -1 ; ?>" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>&nbsp;
           </li>
           <?php
           }
 
-          for ($i = 1; $i <= $number_of_pages; $i++)
+          for ($i = 1; $i <= $number_of_items_pages; $i++)
           {
             echo '<li';
-            if($current_page == $i)
+            if($items_current_page == $i)
               {
                 echo ' class="btn btn-outline-secondary disabled">'.$i.' </li>&nbsp;';
               }
@@ -83,11 +83,11 @@
               }
           }
 
-          if ($current_page < $number_of_pages)
+          if ($items_current_page < $number_of_items_pages)
           {
           ?>
           <li>
-              <a class="btn btn-outline-secondary" href="?action=listitems&page=<?php echo $current_page + 1; ?>" aria-label="Next">
+              <a class="btn btn-outline-secondary" href="?action=listitems&page=<?php echo $items_current_page + 1; ?>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
           </li>

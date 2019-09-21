@@ -250,10 +250,10 @@ function updateAvatar($avatarname)
               $extension_upload = $file_infos['extension'];
               $extensions_authorized = array('jpg', 'jpeg', 'gif', 'png');
               $user_id = $_SESSION['id_user'];
-              $time = date("Y-m-d-H-i-s")."-";
+              $time = date("Y-m-d-H-i-s");
               $avatarname = str_replace(' ','-',strtolower($_FILES['avatar']['name']));
               $avatarname = preg_replace("/\.[^.\s]{3,4}$/", "", $avatarname);
-              $avatarname = "{$time}_{$user_id}_avatar.{$extension_upload}";
+              $avatarname = "{$time}-{$user_id}-avatar.{$extension_upload}";              
               $destination = ROOT_PATH. 'public/images/avatars';
               if (in_array($extension_upload, $extensions_authorized))
               {
