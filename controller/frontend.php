@@ -13,8 +13,9 @@ require_once __DIR__ . '/../model/UserManager.php';
 function listItems()
 {
     $postManager = new \SM\Blog\Model\PostManager();
+    $items = $postManager->count();
     $items = $postManager->getItems();
-    $number_of_items = $postManager->getNumberOfItems();
+    $number_of_items  = $postManager->getNumberOfItems();
     $items_current_page = $postManager->getCurrentPage();
     $number_of_items_pages = $postManager->getNumberOfPages();
     require __DIR__ . '/../view/frontend/item_list_view.php';
@@ -26,6 +27,7 @@ function readItem()
     $postManager = new \SM\Blog\Model\PostManager();
     $commentManager = new \SM\Blog\Model\CommentManager();
     $item = $postManager->getItem($_GET['id']);
+    $comments = $commentManager->countComments($_GET['id']);
     $comments = $commentManager->getComments($_GET['id']);
     $default= "default.png";
     $comments_current_page = $commentManager->getCommentsCurrentPageFromItem();
@@ -253,7 +255,7 @@ function updateAvatar($avatarname)
               $time = date("Y-m-d-H-i-s");
               $avatarname = str_replace(' ','-',strtolower($_FILES['avatar']['name']));
               $avatarname = preg_replace("/\.[^.\s]{3,4}$/", "", $avatarname);
-              $avatarname = "{$time}-{$user_id}-avatar.{$extension_upload}";              
+              $avatarname = "{$time}-{$user_id}-avatar.{$extension_upload}";
               $destination = ROOT_PATH. 'public/images/avatars';
               if (in_array($extension_upload, $extensions_authorized))
               {

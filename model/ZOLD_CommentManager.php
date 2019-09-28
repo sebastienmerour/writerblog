@@ -4,8 +4,6 @@ require_once __DIR__ . '/../model/Manager.php';
 
 class CommentManager extends Manager
 {
-  public $comments_count,
-         $comments_start;
 
     // Create
     // Création d'un commentaire :
@@ -44,28 +42,6 @@ class CommentManager extends Manager
     }
     // Read
     // Afficher la liste des Commentaires :
-    public function countComments($item_id)
-    {
-        $sql                     = 'SELECT COUNT(id) as counter FROM comments WHERE id_item = ?';
-        $this->comments_count       = $this->dbConnect($sql, array($item_id));
-        $number_of_comments_by_page = 5;
-        $comments                   = $this->comments_count->fetch(\PDO::FETCH_ASSOC);
-        $number_of_comments         = $comments['counter'];
-        // Calculer le nombre de pages nécessaires :
-        $number_of_comments_pages   = ceil($number_of_comments / $number_of_comments_by_page);
-
-        // Vérifier quelle est la page active :
-        if (isset($_GET['commentspage'])) {
-            $comments_current_page = (int) $_GET['commentspage'];
-        } else {
-            $comments_current_page = 1;
-        }
-
-        // Définir à partir de quel N° d'item chaque page doit commencer :
-        $this->comments_start = (int) (($comments_current_page - 1) * $number_of_comments_by_page);
-
-    }
-
     public function selectComments()
     {
         $db                         = $this->dbConnect();
@@ -123,25 +99,41 @@ class CommentManager extends Manager
     // Afficher la liste des commentaires d'un Article :
     public function getComments($item_id)
     {
+      $db                         = $this->dbConnect();
       $number_of_comments_by_page = 5;
-      $sql                     = 'SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content,
-        DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
-        DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
-        users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
-        FROM comments
-        LEFT JOIN users
-        ON comments.id_user = users.id_user
-        WHERE id_item = ?
-        ORDER BY date_creation
-        DESC LIMIT ' . $this->comments_start . ', ' . $number_of_comments_by_page . '';
-      $comments                   = $this->dbConnect($sql, array($item_id));
-      return $comments;
+      $comments_count             = $db->prepare('SELECT COUNT(id) as counter FROM comments WHERE id_item = ? ');
+      $comments_count->execute(array(
+          $_GET['id']
+      )) or die(print_r($db->errorInfo()));
+      $number_of_comments = $comments_count->fetch(\PDO::FETCH_ASSOC);
+      $counter            = $number_of_comments['counter'];
 
+      // Calculer le nombre de pages nécessaires :
+      $number_of_comments_pages = ceil($counter / $number_of_comments_by_page);
 
+        // Vérifier quelle est la page active :
+        if (isset($_GET['page'])) {
+            $comments_current_page = (int) $_GET['page'];
+        } else {
+            $comments_current_page = 1;
+        }
 
-
-
-
+        // Définir à partir de quel N° d'item chaque page doit commencer :
+        $start = (int) (($comments_current_page - 1) * $number_of_comments_by_page);
+        $comments = $db->prepare('SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content,
+          DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
+          DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
+          users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
+          FROM comments
+          LEFT JOIN users
+          ON comments.id_user = users.id_user
+          WHERE id_item = ?
+          ORDER BY date_creation
+          DESC LIMIT ' . $start . ', ' . $number_of_comments_by_page . '');
+        $comments->execute(array(
+            $item_id
+        ));
+        return $comments;
     }
 
     // Update
@@ -175,12 +167,15 @@ class CommentManager extends Manager
     // Obtenir la page courante des commentaires sur un article en particulier :
     public function getCommentsCurrentPageFromItem()
     {
-      $sql                     = 'SELECT COUNT(id) as counter FROM comments WHERE id_item = ? ';
-      $this->comments_count       = $this->dbConnect($sql, array($_GET['id'])) or die(print_r($db->errorInfo()));
-      $number_of_comments_by_page = 5;
+        $db                         = $this->dbConnect();
+        $number_of_comments_by_page = 5;
+        $comments_count             = $db->prepare('SELECT COUNT(id) as counter FROM comments WHERE id_item = ? ');
+        $comments_count->execute(array(
+            $_GET['id']
+        )) or die(print_r($db->errorInfo()));
+        $comments = $comments_count->fetch(\PDO::FETCH_ASSOC);
+        $counter  = $comments['counter'];
 
-      $comments                   = $this->comments_count->fetch(\PDO::FETCH_ASSOC);
-      $counter        = $comments['counter'];
         // Calculer le nombre de pages nécessaires :
         $number_of_pages = ceil($counter / $number_of_comments_by_page);
 
@@ -196,49 +191,57 @@ class CommentManager extends Manager
     // Obtenir le nombre de pages des commentaires sur un article en particulier :
     public function getNumberOfCommentsPagesFromItem()
     {
-      $number_of_comments_by_page = 5;
-      $sql                     = 'SELECT COUNT(id) as counter FROM comments WHERE id_item = ? ';
-      $this->comments_count   = $this->dbConnect($sql, array($_GET['id'])) or die(print_r($db->errorInfo()));
-      $comments                   = $this->comments_count->fetch(\PDO::FETCH_ASSOC);
-      $number_of_comments         = $comments['counter'];
+        $db                         = $this->dbConnect();
+        $number_of_comments_by_page = 5;
+        $comments_count             = $db->prepare('SELECT COUNT(id) as counter FROM comments WHERE id_item = ? ');
+        $comments_count->execute(array(
+            $_GET['id']
+        )) or die(print_r($db->errorInfo()));
+        $comments = $comments_count->fetch(\PDO::FETCH_ASSOC);
+        $counter  = $comments['counter'];
+
         // Calculer le nombre de pages nécessaires :
-        $number_of_comments_pages = ceil($number_of_comments / $number_of_comments_by_page);
+        $number_of_comments_pages = ceil($counter / $number_of_comments_by_page);
         return $number_of_comments_pages;
     }
 
     // Calculer le nombre de Commentaires d'un article en particulier :
     public function getNumberOfCommentsFromItem()
     {
-      $sql                     = 'SELECT COUNT(id) as counter FROM comments WHERE id_item = ? ';
-      $this->comments_count   = $this->dbConnect($sql, array($_GET['id'])) or die(print_r($db->errorInfo()));
-      $comments                   = $this->comments_count->fetch(\PDO::FETCH_ASSOC);
-      $number_of_comments         = $comments['counter'];
-      return $number_of_comments;
+        $db             = $this->dbConnect();
+        $comments_count = $db->prepare('SELECT COUNT(id) as counter FROM comments WHERE id_item = ? ');
+        $comments_count->execute(array(
+            $_GET['id']
+        )) or die(print_r($db->errorInfo()));
+        $comments           = $comments_count->fetch(\PDO::FETCH_ASSOC);
+        $number_of_comments = $comments['counter'];
+        return $number_of_comments;
     }
 
     // Calculer le nombre total de Pages de Commentaires :
     public function getNumberOfCommentsPages()
     {
-      $sql                     = 'SELECT COUNT(id) as counter FROM comments WHERE id_item = ? ';
-      $this->comments_count   = $this->dbConnect($sql, array($_GET['id'])) or die(print_r($db->errorInfo()));
-      $comments                   = $this->comments_count->fetch(\PDO::FETCH_ASSOC);
-      $number_of_comments         = $comments['counter'];
-      return $number_of_comments;
+        $db                         = $this->dbConnect();
+        $number_of_comments_by_page = 5;
+        $comments_count             = $db->prepare('SELECT COUNT(id) AS counter FROM comments');
+        $comments_count->execute();
+        $comments = $comments_count->fetch(\PDO::FETCH_ASSOC);
+        $counter  = $comments['counter'];
 
         // Calculer le nombre de pages nécessaires :
-        $number_of_comments_pages = ceil($number_of_comments / $number_of_comments_by_page);
+        $number_of_comments_pages = ceil($counter / $number_of_comments_by_page);
         return $number_of_comments_pages;
     }
 
     // Calculer le nombre total de commentaires :
     public function getNumberOfComments()
     {
-        $sql  = 'SELECT COUNT(id) as counter FROM comments';
-        $comments       = $this->dbConnect($sql);
-        $comments_count = $comments_count->fetch(\PDO::FETCH_ASSOC);
-        $total_comments_count = $comments_count['counter'];
-        return $total_comments_count;
-
+        $db             = $this->dbConnect();
+        $comments_count = $db->prepare('SELECT COUNT(id) as counter FROM comments');
+        $comments_count->execute();
+        $comments           = $comments_count->fetch(\PDO::FETCH_ASSOC);
+        $number_of_comments = $comments['counter'];
+        return $number_of_comments;
     }
 
 }

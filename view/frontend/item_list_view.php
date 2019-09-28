@@ -1,9 +1,9 @@
 <?php $title = 'Jean Forteroche | écrivain et acteur | Blog'; ?>
 <?php ob_start(); ?>
 
-<!-- Pour chaque post on met un While : -->
+<!-- Pour chaque post on met un foreach : -->
 <?php
-while ($item = $items->fetch()) {
+foreach ($items as $item):
 ?>
   <!-- Title -->
   <span class="text-body newstitle"><a href="index.php?action=readitem&amp;id=<?= $item['id'] ?>"><h1 class="mt-4 text-left"><?php echo htmlspecialchars(strip_tags($item['title'])); ?></h1></a></span>
@@ -42,7 +42,7 @@ while ($item = $items->fetch()) {
 <hr>
 
 <?php
-  }
+endforeach;
 if ($items_current_page > $number_of_items_pages) {
 	require __DIR__ . '/../errors/items_not_found.php';
 }

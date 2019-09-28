@@ -96,9 +96,12 @@ class UserManager extends Manager
     // Affichage d'un utilisateur
     public function getUser($userId)
     {
-        $sql   = 'SELECT id_user, username, firstname, name, avatar, pass, email, DATE_FORMAT(date_birth, \'%Y-%m-%d \')
-      AS date_naissance FROM users WHERE id_user = :id_user';
-        $query = $this->dbConnect($sql, array(':id_user' => $_SESSION['id_user']));
+        $db    = $this->dbConnect();
+        $query = $db->prepare('SELECT id_user, username, firstname, name, avatar, pass, email, DATE_FORMAT(date_birth, \'%Y-%m-%d \')
+      AS date_naissance FROM users WHERE id_user = :id_user');
+        $query->execute(array(
+            ':id_user' => $_SESSION['id_user']
+        ));
         $user = $query->fetch(\PDO::FETCH_ASSOC);
         return $user;
     }
@@ -246,12 +249,13 @@ class UserManager extends Manager
             $username        = !empty($_POST['username']) ? trim($_POST['username']) : null;
             $passwordAttempt = !empty($_POST['pass']) ? trim($_POST['pass']) : null;
 
-            // On prépare une requête pour aller chercher le username dans la BBD :
-            $sql ='SELECT id_user, username, pass FROM users WHERE username = :username';
-            $req = $this->dbConnect($sql, array('username' => $username));
+            // On prépare une rquête pour aller chercher le username dans la BBD :
+            $db = $this->dbConnect();
 
-
-
+            $req = $db->prepare('SELECT id_user, username, pass FROM users WHERE username = :username');
+            $req->execute(array(
+                'username' => $username
+            ));
             $resultat = $req->fetch();
 
             // On vérifie si le username existe : .
