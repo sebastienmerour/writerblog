@@ -72,6 +72,7 @@ function readItem()
 function listItems()
 {
     $postManager     = new \SM\Blog\Model\PostManager();
+    $items = $postManager->count();
     $items           = $postManager->getItems();
     $items_current_page = $postManager->getCurrentPage();
     $number_of_items = $postManager->getNumberOfItems();

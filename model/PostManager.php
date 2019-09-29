@@ -13,16 +13,19 @@ class PostManager extends Manager
     {
         $errors   = array();
         $messages = array();
-        $db       = $this->dbConnect();
         $idUser   = $_SESSION['id_user_admin'];
-        $items    = $db->prepare('INSERT INTO items (id_user, title, image, content, date_creation)
+        $sql     = 'INSERT INTO items (id_user, title, image, content, date_creation)
                     VALUES
-                    (:id_user, :title, :image, :content, NOW())');
-        $items->bindValue(':id_user', $idUser);
-        $items->bindValue(':title', $title);
-        $items->bindValue(':image', $itemimagename);
-        $items->bindValue(':content', $content);
-        $items->execute();
+                    (:id_user, :title, :image, :content, NOW())';
+        $items = $this->dbConnect($sql, array(
+          ':id_user' => $idUser,
+          ':title'=> $title,
+          ':image'=> $itemimagename,
+          ':content'=> $content
+        ));
+
+
+
         $messages['itemcreated'] = 'Votre article a bien été ajouté !';
         if (!empty($messages)) {
             $_SESSION['messages'] = $messages;
@@ -95,15 +98,15 @@ class PostManager extends Manager
     // Modification de la photo d'un article :
     public function changeItemImage($title, $itemimagename, $content, $item_id)
     {
-        $db      = $this->dbConnect();
-        $req     = $db->prepare('UPDATE items SET title = ?, image = ?, content = ?,
-      date_update = NOW() WHERE id = ?');
-        $newItem = $req->execute(array(
-            $title,
-            $itemimagename,
-            $content,
-            $item_id
-        ));
+      $sql = 'UPDATE items SET title = ?, image = ?, content = ?,
+    date_update = NOW() WHERE id = ?';
+      $newItem = $this->dbConnect($sql, array(
+      $title,
+      $itemimagename,
+      $content,
+      $item_id
+      ));
+
         if ($newItem === false) {
             // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
             throw new Exception('Impossible d\'ajouter l\'article !');
@@ -121,9 +124,8 @@ class PostManager extends Manager
     // Modification d'un article :
     public function changeItem($title, $content, $item_id)
     {
-        $db      = $this->dbConnect();
-        $req     = $db->prepare('UPDATE items SET title = ?, content = ?, date_update = NOW() WHERE id = ?');
-        $newItem = $req->execute(array(
+        $sql = 'UPDATE items SET title = ?, content = ?, date_update = NOW() WHERE id = ?';
+        $newItem = $this->dbConnect($sql, array(
             $title,
             $content,
             $item_id
@@ -146,8 +148,8 @@ class PostManager extends Manager
     // Suppression d'un article :
     public function eraseItem($item_id)
     {
-        $db  = $this->dbConnect();
-        $req = $db->prepare('DELETE FROM items WHERE id = ' . (int) $item_id);
+        $sql = 'DELETE FROM items WHERE id = ' . (int) $item_id;
+        $req = $this->dbConnect($sql);
         $req->execute();
     }
 

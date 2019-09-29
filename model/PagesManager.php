@@ -7,10 +7,9 @@ class PagesManager extends Manager
 
   public function itemsPages()
   {
-    $db                      = $this->dbConnect();
     $number_of_items_by_page = 5;
-    $items_count             = $db->prepare('SELECT COUNT(id) AS counter FROM items');
-    $items_count->execute();
+    $sql = 'SELECT COUNT(id) AS counter FROM items';
+    $items_count = $this->dbConnect($sql);
     $items   = $items_count->fetch(\PDO::FETCH_ASSOC);
     // Nombre total d'articles :
     $number_of_items = $items['counter'];

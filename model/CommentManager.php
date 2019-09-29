@@ -11,13 +11,13 @@ class CommentManager extends Manager
     // Création d'un commentaire :
     public function insertComment($item_id, $author, $content)
     {
-        $db            = $this->dbConnect();
-        $comments      = $db->prepare('INSERT INTO comments(id_item, author, content, date_creation) VALUES(?, ?, ?, NOW())');
-        $affectedLines = $comments->execute(array(
-            $item_id,
-            $author,
-            $content
-        ));
+        $sql          = 'INSERT INTO comments(id_item, author, content, date_creation) VALUES(?, ?, ?, NOW())';
+        $affectedLines      = $this->dbConnect($sql, array(
+          $item_id,
+          $author,
+          $content
+      ));
+
         if ($affectedLines === false) {
             // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
             throw new Exception('Impossible d\'ajouter le commentaire !');
@@ -27,10 +27,9 @@ class CommentManager extends Manager
     // Création d'un commentaire d'un utilisateur connecté :
     public function insertCommentLoggedIn($item_id, $user_id, $author, $content)
     {
-        $db            = $this->dbConnect();
         $user_id = $_SESSION['id_user'];
-        $comments      = $db->prepare('INSERT INTO comments(id_item, id_user, author, content, date_creation) VALUES(?, ?, ?, ?, NOW())');
-        $affectedLines = $comments->execute(array(
+        $sql = 'INSERT INTO comments(id_item, id_user, author, content, date_creation) VALUES(?, ?, ?, ?, NOW())';
+        $affectedLines = $this->dbConnect($sql, array(
             $item_id,
             $user_id,
             $author,
@@ -68,10 +67,9 @@ class CommentManager extends Manager
 
     public function selectComments()
     {
-        $db                         = $this->dbConnect();
         $number_of_comments_by_page = 5;
-        $comments_count             = $db->prepare('SELECT COUNT(id) AS countercom FROM comments');
-        $comments_count->execute();
+        $sql = 'SELECT COUNT(id) AS countercom FROM comments';
+        $comments_count = $this->dbConnect($sql);
         $comments = $comments_count->fetch(\PDO::FETCH_ASSOC);
 
         $counter_comments = $comments['countercom'];
@@ -87,23 +85,24 @@ class CommentManager extends Manager
         }
 
         // Définir à partir de quel N° de commmentaire chaque page doit commencer :
-        $start = (int) (($current_comments_page - 1) * $number_of_comments_by_page);
+        $this->comments_start = (int) (($current_comments_page - 1) * $number_of_comments_by_page);
 
-        $request_comments = $db->query('SELECT comments.id, comments.id_user, comments.author, comments.content,
+        $sql2 = 'SELECT comments.id, comments.id_user, comments.author, comments.content,
       DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
       DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
        users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com FROM comments
       LEFT JOIN users
       ON comments.id_user = users.id_user
-      ORDER BY date_creation DESC LIMIT ' . $start . ', ' . $number_of_comments_by_page . '');
+      ORDER BY date_creation DESC LIMIT ' . $this->comments_start . ', ' . $number_of_comments_by_page . '';
+      $request_comments = $this->dbConnect($sql2);
         return $request_comments;
     }
 
     // Affichage d'un commentaire pour le modifier ensuite :
     public function getComment($id_comment)
     {
-        $db       = $this->dbConnect();
-        $req      = $db->prepare('SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content,
+
+        $sql = 'SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content,
           DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
           DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
           users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
@@ -111,8 +110,8 @@ class CommentManager extends Manager
           LEFT JOIN users
           ON comments.id_user = users.id_user
           WHERE comments.id = ?
-          ');
-        $req->execute(array(
+          ';
+          $req = $this->dbConnect($sql, array(
             $id_comment
         ));
         $comment                  = $req->fetch();
@@ -134,23 +133,17 @@ class CommentManager extends Manager
         WHERE id_item = ?
         ORDER BY date_creation
         DESC LIMIT ' . $this->comments_start . ', ' . $number_of_comments_by_page . '';
-      $comments                   = $this->dbConnect($sql, array($item_id));
+      $comments                   = $this->dbConnect($sql, array(
+        $item_id));
       return $comments;
-
-
-
-
-
-
     }
 
     // Update
     // Modification d'un commentaire :
     public function changeComment($id_comment, $comment)
     {
-        $db         = $this->dbConnect();
-        $req        = $db->prepare('UPDATE comments SET content = ?, date_creation = NOW() WHERE id = ?');
-        $newComment = $req->execute(array(
+        $sql = 'UPDATE comments SET content = ?, date_creation = NOW() WHERE id = ?';
+        $newComment = $this->dbConnect($sql, array(
             $comment,
             $id_comment
         ));
@@ -166,8 +159,8 @@ class CommentManager extends Manager
     // Suppression d'un commentaire :
     public function eraseComment($id_comment)
     {
-        $db  = $this->dbConnect();
-        $req = $db->prepare('DELETE FROM comments WHERE id = ' . (int) $id_comment);
+        $sql = 'DELETE FROM comments WHERE id = ' . (int) $id_comment;
+        $req = $this->dbConnect($sql);
         $req->execute();
     }
 

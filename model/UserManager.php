@@ -8,7 +8,6 @@ class UserManager extends Manager
     // Création d'un utilisateur :
     public function insertUser($username, $pass, $email)
     {
-        $db = $this->dbConnect();
 
         // Récupération des valeurs saisies dans le formulaire :
         $errors    = array();
@@ -24,13 +23,14 @@ class UserManager extends Manager
 
         // Préparation de la reqûete SQL et déclaration de la requête :
         $sql  = 'SELECT COUNT(id_user) AS num FROM users WHERE username = :username';
-        $stmt = $db->prepare($sql);
+        $stmt = $this->dbConnect($sql, array(':username' => $username));
+
 
         // Associer le username fourni avec la déclaration :
-        $stmt->bindValue(':username', $username);
+        // $stmt->bindValue(':username', $username);
 
         // Execution :
-        $stmt->execute();
+        // $stmt->execute();
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         // Si l'identifiant est déjà pris, on affiche une erreur.
@@ -67,9 +67,9 @@ class UserManager extends Manager
         ));
 
         // OK, le formulaire est OK, on peut alors insérer le nouveau membre :
-        $userCreation = $db->prepare('INSERT INTO users (status, username, firstname, name, avatar, pass, email, date_birth, date_register)
-          VALUES (:status, :username, :firstname, :name, :avatar, :pass, :email, :date_birth, NOW())') or die(print_r($bdd->getMessage()));
-        $userLines = $userCreation->execute(array(
+        $sql2 = 'INSERT INTO users (status, username, firstname, name, avatar, pass, email, date_birth, date_register)
+          VALUES (:status, :username, :firstname, :name, :avatar, :pass, :email, :date_birth, NOW())';
+        $userLines                  = $this->dbConnect($sql2, array(
             ':status' => htmlspecialchars(0),
             ':username' => htmlspecialchars($username),
             ':firstname' => htmlspecialchars($firstname),
@@ -144,11 +144,10 @@ class UserManager extends Manager
             "cost" => 12
         ));
 
-        $db      = $this->dbConnect();
-        $newUser = $db->prepare('UPDATE users
+        $sql     = 'UPDATE users
           SET pass = :pass, email= :email, firstname= :firstname, name= :name, date_birth= :date_birth
-          WHERE id_user= :id_user');
-        $newUser->execute(array(
+          WHERE id_user= :id_user';
+        $newUser                   = $this->dbConnect($sql, array(
             ':id_user' => htmlspecialchars($identification),
             ':pass' => htmlspecialchars($passwordHash),
             ':email' => htmlspecialchars($email),
@@ -173,17 +172,18 @@ class UserManager extends Manager
         $messages       = array();
         $identification = $_SESSION['id_user'];
         $username       = !empty($_POST['username']) ? trim($_POST['username']) : null;
-        $db             = $this->dbConnect();
         $sql            = 'SELECT COUNT(id_user) AS num FROM users WHERE username = :username';
-        $stmt           = $db->prepare($sql);
+        $stmt           = $this->dbConnect($sql, array(
+            ':username' => $username
+        ));
 
         // On vérifie d'abord si l'identifiant choisi existe déjà ou non :
 
         // Associer le username fourni avec la déclaration :
-        $stmt->bindValue(':username', $username);
+        // $stmt->bindValue(':username', $username);
 
         // Execution :
-        $stmt->execute();
+        // $stmt->execute();
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
         // Si l'identifiant est déjà pris, on affiche une erreur.
         // Si row est supérieur à 0 cela veut dire que l'identifiant se trouve déjà en bdd :
@@ -196,10 +196,10 @@ class UserManager extends Manager
             die(header('Location: ?action=modifyusername'));
             exit;
         }
-        $userupdate = $db->prepare('UPDATE users
-  SET username= :username
-  WHERE id_user= :id_user');
-        $userupdate->execute(array(
+        $sql2 = 'UPDATE users
+        SET username= :username
+        WHERE id_user= :id_user';
+        $userupdate = $this->dbConnect($sql2, array(
             ':id_user' => htmlspecialchars($identification),
             ':username' => htmlspecialchars($username)
         ));
@@ -217,11 +217,10 @@ class UserManager extends Manager
     public function changeAvatar($avatarname)
     {
         $user_id        = $_SESSION['id_user'];
-        $db             = $this->dbConnect();
-        $avatarCreation = $db->prepare('UPDATE users
+        $sql            = 'UPDATE users
           SET avatar = :avatar
-          WHERE id_user = :id_user');
-        $avatarCreation->execute(array(
+          WHERE id_user = :id_user';
+        $avatarCreation = $this->dbConnect($sql, array(
             ':avatar' => htmlspecialchars($avatarname),
             ':id_user' => htmlspecialchars($user_id)
         ));
@@ -249,9 +248,6 @@ class UserManager extends Manager
             // On prépare une requête pour aller chercher le username dans la BBD :
             $sql ='SELECT id_user, username, pass FROM users WHERE username = :username';
             $req = $this->dbConnect($sql, array('username' => $username));
-
-
-
             $resultat = $req->fetch();
 
             // On vérifie si le username existe : .
@@ -305,7 +301,7 @@ class UserManager extends Manager
 
     public function logInUserAdmin($username, $passwordAttempt)
     {
-        $db = $this->dbConnect();
+
         if(isset($_POST['login'])){
 
         // On récupère les valeurs saisies dans le formulaire de login :
@@ -313,8 +309,8 @@ class UserManager extends Manager
         $passwordAttempt = !empty($_POST['pass']) ? trim($_POST['pass']) : null;
 
         // On prépare une rquête pour aller chercher le username dans la BBD :
-        $req = $db->prepare('SELECT id_user, status, username, pass FROM users WHERE username = :username');
-        $req->execute(array(
+        $sql                     = 'SELECT id_user, status, username, pass FROM users WHERE username = :username';
+        $req = $this->dbConnect($sql, array(
               'username' => $username));
         $resultat = $req->fetch();
 

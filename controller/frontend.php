@@ -43,6 +43,7 @@ function readItemLoggedIn()
     $commentManager = new \SM\Blog\Model\CommentManager();
     $userManager = new \SM\Blog\Model\UserManager();
     $item = $postManager->getItem($_GET['id']);
+    $comments = $commentManager->countComments($_GET['id']);
     $comments = $commentManager->getComments($_GET['id']);
     $user= $userManager->getUser($_SESSION['id_user']);
     $default= "default.png";
@@ -92,6 +93,7 @@ function readComment()
     $item = $postManager->getItem($_GET['id']);
     $commentManager = new \SM\Blog\Model\CommentManager();
     $comment = $commentManager->getComment($_GET['id_comment']);
+    $comments = $commentManager->countComments($_GET['id']);
     $comments = $commentManager->getComments($_GET['id']);
     $default= "default.png";
     $comments_current_page = $commentManager->getCommentsCurrentPageFromItem();
@@ -123,6 +125,7 @@ function updateCommentConfirmation()
   $postManager = new \SM\Blog\Model\PostManager();
   $item = $postManager->getItem($_GET['id']);
   $commentManager = new \SM\Blog\Model\CommentManager();
+  $comments = $commentManager->countComments($_GET['id']);
   $comment = $commentManager->getComment($_GET['id_comment']);
   $comments = $commentManager->getComments($_GET['id']);
   $default= "default.png";
