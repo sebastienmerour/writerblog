@@ -37,53 +37,13 @@
     </tbody>
   </table>
 
-<!-- Pagination des items  -->
-  <nav class="blog-pagination">
-    &nbsp; <ul class="pagination">
-    <?php
-    if ($current_page > $number_of_pages) {
-      require __DIR__ . '/../errors/page_not_found.php';
-    } // on renvoie vers une page d'erreur, pour éviter l'affichage d'un numéro de page faux
-        else {
-
-          if ($current_page !=1  AND $current_page <= $number_of_pages)// Si la page active n'est pas la première page
-          {
-          ?>
-          <li>
-              <a class="btn btn-outline-secondary" href="?action=listitems&page=<?php echo $current_page -1 ; ?>" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>&nbsp;
-          </li>
-          <?php
-          }
-
-          for ($i = 1; $i <= $number_of_pages; $i++)
-          {
-            echo '<li';
-            if($current_page == $i)
-              {
-                echo ' class="btn btn-outline-secondary disabled">'.$i.' </li>&nbsp;';
-              }
-              else {
-                echo '><a class="btn btn-outline-primary" href="?action=listitems&page=' . $i . '">' . $i . '</a>&nbsp;</li>';
-              }
-          }
-
-          if ($current_page < $number_of_pages)
-          {
-          ?>
-          <li>
-              <a class="btn btn-outline-secondary" href="?action=listitems&page=<?php echo $current_page + 1; ?>" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-          </li>
-          <?php
-          }
-        }
-        ?>
-      </ul>
-    </nav>
-<?php $items->closeCursor(); ?>
+  <?php
+  if ($items_current_page > $number_of_items_pages) {
+  	require __DIR__ . '/../errors/items_not_found.php';
+  }
+  else {
+  require('item_pagination_view.php');}
+  ?>
 
 <h2 id="tomoderate">Commentaires signalés</h2>
 <div class="table-responsive">

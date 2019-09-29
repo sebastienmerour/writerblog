@@ -23,8 +23,9 @@ class UserManager extends Manager
 
         // Préparation de la reqûete SQL et déclaration de la requête :
         $sql  = 'SELECT COUNT(id_user) AS num FROM users WHERE username = :username';
-        $stmt = $this->dbConnect($sql, array(':username' => $username));
-
+        $stmt = $this->dbConnect($sql, array(
+            ':username' => $username
+        ));
 
         // Associer le username fourni avec la déclaration :
         // $stmt->bindValue(':username', $username);
@@ -67,9 +68,9 @@ class UserManager extends Manager
         ));
 
         // OK, le formulaire est OK, on peut alors insérer le nouveau membre :
-        $sql2 = 'INSERT INTO users (status, username, firstname, name, avatar, pass, email, date_birth, date_register)
+        $sql2      = 'INSERT INTO users (status, username, firstname, name, avatar, pass, email, date_birth, date_register)
           VALUES (:status, :username, :firstname, :name, :avatar, :pass, :email, :date_birth, NOW())';
-        $userLines                  = $this->dbConnect($sql2, array(
+        $userLines = $this->dbConnect($sql2, array(
             ':status' => htmlspecialchars(0),
             ':username' => htmlspecialchars($username),
             ':firstname' => htmlspecialchars($firstname),
@@ -98,8 +99,10 @@ class UserManager extends Manager
     {
         $sql   = 'SELECT id_user, username, firstname, name, avatar, pass, email, DATE_FORMAT(date_birth, \'%Y-%m-%d \')
       AS date_naissance FROM users WHERE id_user = :id_user';
-        $query = $this->dbConnect($sql, array(':id_user' => $_SESSION['id_user']));
-        $user = $query->fetch(\PDO::FETCH_ASSOC);
+        $query = $this->dbConnect($sql, array(
+            ':id_user' => $_SESSION['id_user']
+        ));
+        $user  = $query->fetch(\PDO::FETCH_ASSOC);
         return $user;
     }
 
@@ -147,7 +150,7 @@ class UserManager extends Manager
         $sql     = 'UPDATE users
           SET pass = :pass, email= :email, firstname= :firstname, name= :name, date_birth= :date_birth
           WHERE id_user= :id_user';
-        $newUser                   = $this->dbConnect($sql, array(
+        $newUser = $this->dbConnect($sql, array(
             ':id_user' => htmlspecialchars($identification),
             ':pass' => htmlspecialchars($passwordHash),
             ':email' => htmlspecialchars($email),
@@ -196,7 +199,7 @@ class UserManager extends Manager
             die(header('Location: ?action=modifyusername'));
             exit;
         }
-        $sql2 = 'UPDATE users
+        $sql2       = 'UPDATE users
         SET username= :username
         WHERE id_user= :id_user';
         $userupdate = $this->dbConnect($sql2, array(
@@ -216,11 +219,11 @@ class UserManager extends Manager
     // Modification d'un avatar :
     public function changeAvatar($avatarname)
     {
-        $user_id        = $_SESSION['id_user'];
-        $sql            = 'UPDATE users
+        $user_id                   = $_SESSION['id_user'];
+        $sql                       = 'UPDATE users
           SET avatar = :avatar
           WHERE id_user = :id_user';
-        $avatarCreation = $this->dbConnect($sql, array(
+        $avatarCreation            = $this->dbConnect($sql, array(
             ':avatar' => htmlspecialchars($avatarname),
             ':id_user' => htmlspecialchars($user_id)
         ));
@@ -246,8 +249,10 @@ class UserManager extends Manager
             $passwordAttempt = !empty($_POST['pass']) ? trim($_POST['pass']) : null;
 
             // On prépare une requête pour aller chercher le username dans la BBD :
-            $sql ='SELECT id_user, username, pass FROM users WHERE username = :username';
-            $req = $this->dbConnect($sql, array('username' => $username));
+            $sql      = 'SELECT id_user, username, pass FROM users WHERE username = :username';
+            $req      = $this->dbConnect($sql, array(
+                'username' => $username
+            ));
             $resultat = $req->fetch();
 
             // On vérifie si le username existe : .
@@ -302,63 +307,64 @@ class UserManager extends Manager
     public function logInUserAdmin($username, $passwordAttempt)
     {
 
-        if(isset($_POST['login'])){
+        if (isset($_POST['login'])) {
 
-        // On récupère les valeurs saisies dans le formulaire de login :
-        $username= !empty($_POST['username']) ? trim($_POST['username']) : null;
-        $passwordAttempt = !empty($_POST['pass']) ? trim($_POST['pass']) : null;
+            // On récupère les valeurs saisies dans le formulaire de login :
+            $username        = !empty($_POST['username']) ? trim($_POST['username']) : null;
+            $passwordAttempt = !empty($_POST['pass']) ? trim($_POST['pass']) : null;
 
-        // On prépare une rquête pour aller chercher le username dans la BBD :
-        $sql                     = 'SELECT id_user, status, username, pass FROM users WHERE username = :username';
-        $req = $this->dbConnect($sql, array(
-              'username' => $username));
-        $resultat = $req->fetch();
+            // On prépare une rquête pour aller chercher le username dans la BBD :
+            $sql      = 'SELECT id_user, status, username, pass FROM users WHERE username = :username';
+            $req      = $this->dbConnect($sql, array(
+                'username' => $username
+            ));
+            $resultat = $req->fetch();
 
-        // On vérifie si le username existe : .
-        if (!$resultat) {          // si le resultat est False
+            // On vérifie si le username existe : .
+            if (!$resultat) { // si le resultat est False
 
-            // on indique à l'utilisateur qu'il s'est trompé de username ou de mot de passe.
-            // on ne préciser pas qu'il s'agit du username qui est faux, pour raison de sécurité :
-        $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect !";
-        header('Location: index.php');
-        } else {
-
-            // Sinon, si le username a bien été trouvé, il faut vérifier que le mot de passe est correct.
-            // On récupère le mot de passe hashé dans la base, et on le déchiffre pour le comparer :
-
-            $validPassword = password_verify($passwordAttempt, $resultat['pass']);
-            $validAdmin = $resultat['status']==5 ;
-
-            // Si $validPassword est True (donc correct), alors la connexion est réussie :
-            if($validPassword && $validAdmin){
-
-                // On déclenche alors l'ouverture d'une session :
-                $_SESSION['id_user_admin'] = $resultat['id_user'];
-                if(!empty($_POST['rememberme'])){
-
-                  setcookie("username", $_POST['username'], time() + 365 * 24 *3600, null, null, false, true);
-                  setcookie("pass", $_POST['pass'], time()+ 365 * 24 * 3600, null, null, false, true);
-                }else{
-                  if(ISSET($_COOKIE['username'])){
-                    setcookie("username", "");
-                  }
-                  if(ISSET($_COOKIE['pass'])){
-                    setcookie("pass", "");
-                  }
-                }
-
-                // On redirige l'utilisateur vers la page protégée :
-                header('Location: ../writeradmin/index.php?action=listitems');
-                exit;
-
-            } else{
-                // Dans le cas où le mot de passe est faux, on envoie un message :
-                $_SESSION['errMsg'] = "Vous n'êtes pas autorisés à accéder à l'administration !";
+                // on indique à l'utilisateur qu'il s'est trompé de username ou de mot de passe.
+                // on ne préciser pas qu'il s'agit du username qui est faux, pour raison de sécurité :
+                $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect !";
                 header('Location: index.php');
+            } else {
+
+                // Sinon, si le username a bien été trouvé, il faut vérifier que le mot de passe est correct.
+                // On récupère le mot de passe hashé dans la base, et on le déchiffre pour le comparer :
+
+                $validPassword = password_verify($passwordAttempt, $resultat['pass']);
+                $validAdmin    = $resultat['status'] == 5;
+
+                // Si $validPassword est True (donc correct), alors la connexion est réussie :
+                if ($validPassword && $validAdmin) {
+
+                    // On déclenche alors l'ouverture d'une session :
+                    $_SESSION['id_user_admin'] = $resultat['id_user'];
+                    if (!empty($_POST['rememberme'])) {
+
+                        setcookie("username", $_POST['username'], time() + 365 * 24 * 3600, null, null, false, true);
+                        setcookie("pass", $_POST['pass'], time() + 365 * 24 * 3600, null, null, false, true);
+                    } else {
+                        if (ISSET($_COOKIE['username'])) {
+                            setcookie("username", "");
+                        }
+                        if (ISSET($_COOKIE['pass'])) {
+                            setcookie("pass", "");
+                        }
+                    }
+
+                    // On redirige l'utilisateur vers la page protégée :
+                    header('Location: ../writeradmin/index.php?action=listitems');
+                    exit;
+
+                } else {
+                    // Dans le cas où le mot de passe est faux, on envoie un message :
+                    $_SESSION['errMsg'] = "Vous n'êtes pas autorisés à accéder à l'administration !";
+                    header('Location: index.php');
+                }
             }
         }
     }
-}
 
 
 }

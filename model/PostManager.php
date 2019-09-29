@@ -4,9 +4,7 @@ require_once __DIR__ . '/../model/Manager.php';
 
 class PostManager extends Manager
 {
-    public $items_count,
-           $request_items,
-           $start;
+    public $items_count, $request_items, $start;
     // Create
     // Création d'un nouvel article :
     public function insertItem($idUser, $title, $itemimagename, $content)
@@ -14,17 +12,15 @@ class PostManager extends Manager
         $errors   = array();
         $messages = array();
         $idUser   = $_SESSION['id_user_admin'];
-        $sql     = 'INSERT INTO items (id_user, title, image, content, date_creation)
-                    VALUES
-                    (:id_user, :title, :image, :content, NOW())';
-        $items = $this->dbConnect($sql, array(
-          ':id_user' => $idUser,
-          ':title'=> $title,
-          ':image'=> $itemimagename,
-          ':content'=> $content
+        $sql      = 'INSERT INTO items (id_user, title, image, content, date_creation)
+                      VALUES
+                      (:id_user, :title, :image, :content, NOW())';
+        $items    = $this->dbConnect($sql, array(
+            ':id_user' => $idUser,
+            ':title' => $title,
+            ':image' => $itemimagename,
+            ':content' => $content
         ));
-
-
 
         $messages['itemcreated'] = 'Votre article a bien été ajouté !';
         if (!empty($messages)) {
@@ -33,7 +29,6 @@ class PostManager extends Manager
             exit;
         }
     }
-
 
     // Read
 
@@ -79,7 +74,7 @@ class PostManager extends Manager
     // Affichage d'un seul article :
     public function getItem($item_id)
     {
-        $sql = 'SELECT items.id, items.title AS title, items.image AS image, items.content AS content,
+        $sql  = 'SELECT items.id, items.title AS title, items.image AS image, items.content AS content,
         DATE_FORMAT(items.date_creation, \'%d/%m/%Y à %Hh%i\') AS date_creation_fr,
         DATE_FORMAT(items.date_update, \'%d/%m/%Y à %Hh%i\') AS date_update,
         users.id_user, users.firstname, users.name
@@ -87,25 +82,27 @@ class PostManager extends Manager
         LEFT JOIN users
         ON items.id_user = users.id_user
         WHERE items.id = ? ';
-        $item = $this->dbConnect($sql, array($item_id));
+        $item = $this->dbConnect($sql, array(
+            $item_id
+        ));
 
 
         if ($item->rowCount() == 1)
-          return $item->fetch();  // Accès à la première ligne de résultat
+            return $item->fetch(); // Accès à la première ligne de résultat
         else
-          throw new Exception("Aucun article ne correspond à l'identifiant '$item_id'");
+            throw new Exception("Aucun article ne correspond à l'identifiant '$item_id'");
     }
     // Modification de la photo d'un article :
     public function changeItemImage($title, $itemimagename, $content, $item_id)
     {
-      $sql = 'UPDATE items SET title = ?, image = ?, content = ?,
+        $sql     = 'UPDATE items SET title = ?, image = ?, content = ?,
     date_update = NOW() WHERE id = ?';
-      $newItem = $this->dbConnect($sql, array(
-      $title,
-      $itemimagename,
-      $content,
-      $item_id
-      ));
+        $newItem = $this->dbConnect($sql, array(
+            $title,
+            $itemimagename,
+            $content,
+            $item_id
+        ));
 
         if ($newItem === false) {
             // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
@@ -124,7 +121,7 @@ class PostManager extends Manager
     // Modification d'un article :
     public function changeItem($title, $content, $item_id)
     {
-        $sql = 'UPDATE items SET title = ?, content = ?, date_update = NOW() WHERE id = ?';
+        $sql     = 'UPDATE items SET title = ?, content = ?, date_update = NOW() WHERE id = ?';
         $newItem = $this->dbConnect($sql, array(
             $title,
             $content,
@@ -190,11 +187,11 @@ class PostManager extends Manager
     //  Obtenir le nombre total d'articles :
     public function getNumberOfItems()
     {
-      $sql                     = 'SELECT COUNT(id) AS counter FROM items';
-      $this->items_count       = $this->dbConnect($sql);
-      $items                   = $this->items_count->fetch(\PDO::FETCH_ASSOC);
-      $number_of_items         = $items['counter'];
-      return $number_of_items;
+        $sql               = 'SELECT COUNT(id) AS counter FROM items';
+        $this->items_count = $this->dbConnect($sql);
+        $items             = $this->items_count->fetch(\PDO::FETCH_ASSOC);
+        $number_of_items   = $items['counter'];
+        return $number_of_items;
 
     }
 

@@ -30,6 +30,7 @@ function createItem($idUser, $title, $itemimagename, $content)
               $itemimagename = preg_replace("/\.[^.\s]{3,4}$/", "", $itemimagename);
               $itemimagename = "{$time}-$newtitle.{$extension_upload}";
               $destination = ROOT_PATH. 'public/images/item_images';
+              
               if (in_array($extension_upload, $extensions_authorized))
               {
                       // On peut valider le fichier et le stocker définitivement
@@ -160,6 +161,7 @@ function updateItemConfirmation()
 function removeItem($item_id)
 {
     $postManager   = new \SM\Blog\Model\PostManager();
+    $items = $postManager->count();
     $affectedLines = $postManager->eraseItem($item_id);
     if ($affectedLines === false) {
         // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
@@ -173,7 +175,9 @@ function removeItem($item_id)
 // Confirmation de la suppression d'un article
 function deleteItemConfirmation()
 {
+
     $postManager     = new \SM\Blog\Model\PostManager();
+    $items = $postManager->count();
     $items           = $postManager->getItems();
     $number_of_items = $postManager->getNumberOfItems();
     $items_current_page = $postManager->getCurrentPage();
@@ -210,7 +214,7 @@ function readComment()
     $commentManager = new \SM\Blog\Model\CommentManager();
     $default= "default.png";
     $userManager = new \SM\Blog\Model\UserManager();
-    $user= $userManager->getUser($_SESSION['id_user']);
+    // $user= $userManager->getUser($_SESSION['id_user']);
 
     $comment        = $commentManager->getComment($_GET['id_comment']);
     require __DIR__ . '/../view/backend/comment_view.php';
@@ -258,12 +262,14 @@ function removeComment($id_comment)
         header('Location: index.php?action=deletecommentconfirmation#allcomments');
     }
 
+
 }
 
 // Confirmation de la suppression d'un commentaire
 function deleteCommentConfirmation()
 {
     $postManager     = new \SM\Blog\Model\PostManager();
+    $items = $postManager->count();
     $items           = $postManager->getItems();
     $number_of_items = $postManager->getNumberOfItems();
     $items_current_page = $postManager->getCurrentPage();
