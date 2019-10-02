@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../model/PostManager.php';
 require_once __DIR__ . '/../model/CommentManager.php';
 require_once __DIR__ . '/../model/UserManager.php';
+require_once __DIR__ . '/../model/ViewManager.php';
 
 // ITEMS
 // Create :
@@ -30,7 +31,7 @@ function createItem($idUser, $title, $itemimagename, $content)
               $itemimagename = preg_replace("/\.[^.\s]{3,4}$/", "", $itemimagename);
               $itemimagename = "{$time}-$newtitle.{$extension_upload}";
               $destination = ROOT_PATH. 'public/images/item_images';
-              
+
               if (in_array($extension_upload, $extensions_authorized))
               {
                       // On peut valider le fichier et le stocker définitivement

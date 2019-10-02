@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../model/PostManager.php';
 require_once __DIR__ . '/../model/CommentManager.php';
 require_once __DIR__ . '/../model/UserManager.php';
+require_once __DIR__ . '/../model/ViewManager.php';
 
 // ITEMS
 // Create : pas de Create sur le frontend
@@ -13,12 +14,13 @@ require_once __DIR__ . '/../model/UserManager.php';
 function listItems()
 {
     $postManager = new \SM\Blog\Model\PostManager();
+    $viewManager = new \SM\Blog\Model\ViewFrontendManager();
     $items = $postManager->count();
     $items = $postManager->getItems();
     $number_of_items  = $postManager->getNumberOfItems();
     $items_current_page = $postManager->getCurrentPage();
     $number_of_items_pages = $postManager->getNumberOfPages();
-    require __DIR__ . '/../view/frontend/item_list_view.php';
+    require __DIR__ . '/../view/frontend/item_list.php';
 }
 
 // Affichage d'un seul item avec ses commentaires - pour user inconnu

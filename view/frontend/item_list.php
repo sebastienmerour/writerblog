@@ -1,5 +1,5 @@
-<?php $title = 'Jean Forteroche | écrivain et acteur | Blog'; ?>
-<?php ob_start(); ?>
+<?php $this->title = 'Jean Forteroche | écrivain et acteur | Blog'; ?>
+
 
 <!-- Pour chaque post on met un foreach : -->
 <?php
@@ -49,5 +49,3 @@ if ($items_current_page > $number_of_items_pages) {
 else {
 require('item_pagination_view.php');}
 ?>
-<?php $content = ob_get_clean(); ?>
-<?php require('view/frontend/template.php'); ?>
