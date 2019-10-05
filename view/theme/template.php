@@ -1,23 +1,29 @@
-<!doctype html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8" />
-        <base href="<?= $rootWeb ?>" >
-        <link rel="stylesheet" href="Contenu/style.css" />
-        <title><?= $title ?></title>
-    </head>
-    <body>
-        <div id="global">
-            <header>
-                <a href=""><h1 id="titreBlog">Mon Blog</h1></a>
-                <p>Je vous souhaite la bienvenue sur ce modeste blog.</p>
-            </header>
-            <div id="content">
-                <?= $content ?>
-            </div>
-            <footer id="piedBlog">
-                Blog réalisé avec PHP, HTML5 et CSS.
-            </footer>
-        </div> <!-- #global -->
-    </body>
-</html>
+<?php require('template_header.php'); ?>
+<?php require('template_nav.php'); ?>
+
+<!-- Page Content -->
+<div class="main container">
+
+  <div class="row container">
+
+    <!-- Post Content Column -->
+    <div class="col-lg-8">
+			<?= $content ?>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-md-4">
+      <?php if(!ISSET($_SESSION['id_user']))
+                {
+			     require('template_my_account_login.php'); }
+           else {
+             require('template_my_account_logout.php');
+           }?>
+			<?php require('statistiques_items_view.php')?>
+    </div><!-- Fin du div col-md-4 -->
+
+  </div><!-- Fin du div row -->
+
+
+</div><!-- Fin du div container -->
+<?php require('template_footer.php'); ?>

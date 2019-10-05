@@ -2,6 +2,7 @@
 <html lang="fr" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <base href="<?= $rootWeb ?>" >
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="Sébastien Merour">
@@ -14,6 +15,6 @@
     <link href="<?php echo BASE_URL; ?>public/css/scroll-front.css" rel="stylesheet">
     <link href="<?php echo BASE_URL; ?>public/css/blog.css" rel="stylesheet">
 
-    <title><?php echo $title; ?></title>
+    <title><?= $title ?></title>
 </head>
 <body>

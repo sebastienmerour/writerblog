@@ -78,5 +78,50 @@ class Item extends Model {
             throw new Exception("Aucun article ne correspond à l'identifiant '$item_id'");
     }
 
+    // Calculs
+    // Obtenir la page courante des articles :
+    public function getCurrentPage()
+    {
+        $sql                     = 'SELECT COUNT(id) AS counter FROM items';
+        $this->items_count       = $this->dbConnect($sql);
+        $number_of_items_by_page = 5;
+        $items                   = $this->items_count->fetch(\PDO::FETCH_ASSOC);
+        $number_of_items         = $items['counter'];
+        // Calculer le nombre de pages nécessaires :
+        $number_of_items_pages   = ceil($number_of_items / $number_of_items_by_page);
+
+        // Vérifier quelle est la page active :
+        if (isset($_GET['page'])) {
+            $items_current_page = (int) $_GET['page'];
+        } else {
+            $items_current_page = 1;
+        }
+        return $items_current_page;
+    }
+
+    // Obtenir le nombre de pages des articles :
+    public function getNumberOfPages()
+    {
+        $sql                     = 'SELECT COUNT(id) AS counter FROM items';
+        $this->items_count       = $this->dbConnect($sql);
+        $number_of_items_by_page = 5;
+        $items                   = $this->items_count->fetch(\PDO::FETCH_ASSOC);
+        $number_of_items         = $items['counter'];
+        // Calculer le nombre de pages nécessaires :
+        $number_of_items_pages   = ceil($number_of_items / $number_of_items_by_page);
+        return $number_of_items_pages;
+    }
+
+    //  Obtenir le nombre total d'articles :
+    public function getNumberOfItems()
+    {
+        $sql               = 'SELECT COUNT(id) AS counter FROM items';
+        $this->items_count = $this->dbConnect($sql);
+        $items             = $this->items_count->fetch(\PDO::FETCH_ASSOC);
+        $number_of_items   = $items['counter'];
+        return $number_of_items;
+
+    }
+
 
 }

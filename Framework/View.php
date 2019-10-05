@@ -11,6 +11,7 @@ class View {
     private $file;
     /** Titre de la vue (défini dans le fichier vue) */
     private $title;
+    private $sidebar;
     /**
      * Constructeur
      *
@@ -40,7 +41,9 @@ class View {
         $rootWeb = Configuration::get("rootWeb", "/");
         // Génération du template commun utilisant la partie spécifique
         $view = $this->generateFile('View/theme/template.php',
-                array('title' => $this->title, 'content' => $content,
+                array('title' => $this->title,
+                    'content' => $content,
+                    'sidebar' => $this->sidebar,
                     'rootWeb' => $rootWeb));
         // Renvoi de la vue générée au navigateur
         echo $view;

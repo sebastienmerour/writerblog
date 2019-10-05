@@ -1,4 +1,4 @@
-<?php $this->title = "Mon Blog - " . $this->clean($item['title']); ?>
+<?php $this->title = 'Jean Forteroche | écrivain et acteur | Blog' . $this->clean($item['title']); ?>
 
 <article>
     <header>

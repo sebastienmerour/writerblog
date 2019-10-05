@@ -17,7 +17,7 @@ class Request {
   // Renvoie la valeur du paramètre demandé
   // Lève une exception si le paramètre est introuvable
   public function getParameter($name) {
-    if ($this->existeParametre($name)) {
+    if ($this->ifParameter($name)) {
       return $this->parameters[$name];
     }
     else
