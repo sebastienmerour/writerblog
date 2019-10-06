@@ -19,7 +19,7 @@
            else {
              require('template_my_account_logout.php');
            }?>
-			<?php require('statistiques_items_view.php')?>
+			<?php require('template_statistiques_items.php')?>
     </div><!-- Fin du div col-md-4 -->
 
   </div><!-- Fin du div row -->

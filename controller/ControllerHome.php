@@ -7,7 +7,8 @@ class ControllerHome extends Controller {
     public function __construct() {
         $this->item = new Item();
     }
-    // Affiche la liste de tous les articles du blog
+
+    // Lister les articles :
     public function index() {
         $items = $this->item->count();
         $items = $this->item->getItems();
@@ -18,7 +19,6 @@ class ControllerHome extends Controller {
         'number_of_items' => $number_of_items,
         'items_current_page' => $items_current_page,
         'number_of_items_pages' => $number_of_items_pages
-
       ));
     }
 }

@@ -10,11 +10,10 @@ class Router {
     try {
       // Fusion des paramètres GET et POST de la requête
       $request = new Request(array_merge($_GET, $_POST));
-
       $controller = $this->createController($request);
       $action = $this->createAction($request);
-
-      $controller->executeAction($action);
+      $page = $this->createPage($request);
+      $controller->executeAction($action, $page);
     }
     catch (Exception $e) {
       $this->manageError($e);
@@ -50,6 +49,15 @@ class Router {
       $action = $request->getParameter('action');
     }
     return $action;
+  }
+
+  // Détermine la page à afficher de la requête reçue
+  private function createPage(Request $request) {
+    $page = 1;  // Page par défaut
+    if ($request->ifParameter('page')) {
+      $page = $request->getParameter('page');
+    }
+    return $page;
   }
 
   // Gère une erreur d'exécution (exception)

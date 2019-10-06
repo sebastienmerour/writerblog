@@ -9,6 +9,7 @@ require_once __DIR__ . '/../model/ViewManager.php';
 // Create : pas de Create sur le frontend
 
 
+
 // Read
 // Lister les articles :
 function listItems()

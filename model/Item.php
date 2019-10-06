@@ -1,7 +1,7 @@
 <?php
 require_once 'Framework/Model.php';
 /**
- * Fournit les services d'accès aux genres musicaux
+ * Fournit les fonctions liées aux articles
  *
  * @author Sébastien Merour
  */
