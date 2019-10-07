@@ -18,35 +18,63 @@ class ControllerLogin extends Controller
         $this->user = new User();
         $this->item = new Item();
     }
+
+    // Affichage de la page de connexion :
     public function index()
     {
       $items = $this->item->count();
       $number_of_items  = $this->item->getNumberOfItems();
       $number_of_items_pages = $this->item->getNumberOfPages();
       $this->generateView(array(
-      'user' => $user,
       'items' => $items,
       'number_of_items' => $number_of_items,
       'number_of_items_pages' => $number_of_items_pages
     ));
     }
+
+    // Connexion :
+
+
     public function login()
     {
-        if ($this->request->ifParameter("username") && $this->request->ifParameter("pass")) {
+        if ($this->request->ifParameter("username") && $this->request->ifParameter("pass"))
+        {
             $username = $this->request->getParameter("username");
             $passwordAttempt = $this->request->getParameter("pass");
-            $affectedLines = $user->logInUser($username, $passwordAttempt);
+            $affectedLines = $this->user->logInUser($username, $passwordAttempt);
             if ($affectedLines === false) {
-              $this->generateView(array('msgErrorr' => 'Impossible de se connecter !'),
-                      "index");}
-            else  {
-                header('Location: ../user/index.php?action=readuser');
+              // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
+              throw new Exception('Impossible de se connecter !');
             }
-        }
-        else {
-            throw new Exception("Action impossible : identifiant ou mot de passe non défini");
+            else {
+              $this->redirect("user");
+            }
           }
-    }
+}
+
+
+
+
+    // Déconnexion :
+    public function logout() {
+      $items = $this->item->count();
+      $number_of_items  = $this->item->getNumberOfItems();
+      $number_of_items_pages = $this->item->getNumberOfPages();
+      $this->requete->getSession()->destroy();
+      // Suppression des cookies de connexion automatique
+      setcookie('username', '');
+      setcookie('pass', '');
+      $this->redirect("logout");
+
+      $this->generateView(array(
+      'items' => $items,
+      'number_of_items' => $number_of_items,
+      'number_of_items_pages' => $number_of_items_pages
+    ));
+}
+
+
+
 
 
 }

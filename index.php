@@ -1,5 +1,4 @@
 <?php
-session_start();
 define("BASE_URL", "/writerblog/");
 define("ROOT_SERVER", $_SERVER["DOCUMENT_ROOT"] . "/");
 define("ROOT_PATH", $_SERVER["DOCUMENT_ROOT"] . "/writerblog/");

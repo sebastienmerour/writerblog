@@ -27,11 +27,13 @@ class View {
         }
         $this->file = $file . $action . ".php";
     }
+
     /**
      * Génère et affiche la vue
      *
-     * @param array $donnees Données nécessaires à la génération de la vue
+     * @param array $datas Données nécessaires à la génération de la vue
      */
+
     public function generate($datas) {
         // Génération de la partie spécifique de la vue
         $content = $this->generateFile($this->file, $datas);
@@ -51,11 +53,12 @@ class View {
     /**
      * Génère un fichier vue et renvoie le résultat produit
      *
-     * @param string $fichier Chemin du fichier vue à générer
-     * @param array $donnees Données nécessaires à la génération de la vue
+     * @param string $file Chemin du fichier vue à générer
+     * @param array $datas Données nécessaires à la génération de la vue
      * @return string Résultat de la génération de la vue
      * @throws Exception Si le fichier vue est introuvable
      */
+
     private function generateFile($file, $datas) {
         if (file_exists($file)) {
             // Rend les éléments du tableau $donnees accessibles dans la vue
@@ -76,8 +79,8 @@ class View {
      * Nettoie une valeur insérée dans une page HTML
      * Permet d'éviter les problèmes d'exécution de code indésirable (XSS) dans les vues générées
      *
-     * @param string $valeur Valeur à nettoyer
-     * @return string Valeur nettoyée
+     * @param string $value Valeur à nettoyer
+     * @return string Value nettoyée
      */
     private function clean($value) {
         return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);

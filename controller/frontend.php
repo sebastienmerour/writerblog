@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../model/PostManager.php';
 require_once __DIR__ . '/../model/CommentManager.php';
 require_once __DIR__ . '/../model/UserManager.php';
-require_once __DIR__ . '/../model/ViewManager.php';
+
 
 // ITEMS
 // Create : pas de Create sur le frontend

@@ -1,5 +1,7 @@
 <?php
 require_once 'Framework/Model.php';
+require_once 'Framework/Request.php';
+
 /**
  * Fournit les fonctions liées aux utilisateurs
  *
@@ -250,9 +252,9 @@ class User extends Model {
      // Connexion d'un user :
      public function logInUser($username, $passwordAttempt)
      {
-         // On vérifie que l'utilisateur a bien cliqué sur le bouton submit (nommé login) :
+       // On vérifie que l'utilisateur a bien cliqué sur le bouton submit (nommé login) :
 
-         if (isset($_POST['login'])) {
+       if (isset($_POST['login'])) {
 
              // On récupère les valeurs saisies dans le formulaire de login :
              $username        = !empty($_POST['username']) ? trim($_POST['username']) : null;
@@ -263,28 +265,28 @@ class User extends Model {
              $req      = $this->dbConnect($sql, array(
                  'username' => $username
              ));
-             $resultat = $req->fetch();
+             $result = $req->fetch();
 
              // On vérifie si le username existe : .
-             if (!$resultat) { // si le resultat est False
+             if (!$result) { // si le resultat est False
 
                  // on indique à l'utilisateur qu'il s'est trompé de username ou de mot de passe.
                  // on ne précise pas qu'il s'agit du username qui est faux, pour raison de sécurité :
                  $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect!";
-                 header('Location: index.php');
+                 $this->redirect("login");
              } else {
 
                  // Sinon, si le username a bien été trouvé, il faut vérifier que le mot de passe est correct.
                  // On récupère le mot de passe hashé dans la base, et on le déchiffre pour le comparer :
 
-                 $validPassword = password_verify($passwordAttempt, $resultat['pass']);
+                 $validPassword = password_verify($passwordAttempt, $result['pass']);
 
 
                  // Si $validPassword est True (donc correct), alors la connexion est réussie :
                  if ($validPassword) {
 
                      // On déclenche alors l'ouverture d'une session :
-                     $_SESSION['id_user'] = $resultat['id_user'];
+                     $_SESSION['id_user'] = $result['id_user'];
                      if (!empty($_POST['rememberme'])) {
 
                          setcookie("username", $_POST['username'], time() + 365 * 24 * 3600, null, null, false, true);
@@ -299,13 +301,13 @@ class User extends Model {
                      }
 
                      // On redirige l'utilisateur vers la page protégée :
-                     header('Location: ../user/index.php?action=readuser');
+                     $this->redirect("user");
                      exit;
 
                  } else {
                      // Dans le cas où le mot de passe est faux, on envoie un message :
                      $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect !";
-                     header('Location: index.php');
+                     $this->redirect("login");
                  }
              }
          }
