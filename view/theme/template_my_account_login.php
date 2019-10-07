@@ -4,7 +4,7 @@
     <div class="input-group">
       <ul class="list-unstyled mb-0">
         <li class="p-1">
-          <a href="<?php echo BASE_URL; ?>user/?action=login" role="button" class="btn btn-md btn-success">Se connecter</a>
+          <a href="login/index" role="button" class="btn btn-md btn-success">Se connecter</a>
         </li>
         <li class="p-1">
           <a href="<?php echo BASE_URL; ?>user/?action=adduser" role="button" class="btn btn-md btn-primary">Inscription</a>

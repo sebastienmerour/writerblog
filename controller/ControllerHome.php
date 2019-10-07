@@ -2,6 +2,12 @@
 require_once 'Framework/Controller.php';
 require_once 'Model/Item.php';
 
+/**
+ * Contrôleur gérant la page d'accueil
+ *
+ * @author Sébastien Merour
+ */
+
 class ControllerHome extends Controller {
     private $item;
     public function __construct() {

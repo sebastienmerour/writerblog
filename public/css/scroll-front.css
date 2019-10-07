@@ -37,7 +37,6 @@ nav ul li a {
   text-decoration: none;
 }
 nav ul li a.current {
-  background: black;
 }
 main {
   padding-bottom: 40rem;

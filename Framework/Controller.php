@@ -20,7 +20,7 @@ abstract class Controller {
   }
 
   // Exécute l'action à réaliser
-  public function executeAction($action, $page) {
+  public function executeAction($action) {
     if (method_exists($this, $action)) {
       $this->action = $action;
       $this->{$this->action}();

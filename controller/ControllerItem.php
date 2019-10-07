@@ -71,15 +71,28 @@ class ControllerItem extends Controller {
 
     }
 
-    // Ajoute un commentaire sur un billet
-    public function addcomment() {
+    // COMMENTS //
+    // Create
+    // Ajout d'un nouveau commentaire :
+    public function createcomment()
+    {
         $item_id = $this->request->getParameter("id");
         $author= $this->request->getParameter("author");
         $content = $this->request->getParameter("content");
-
-        $this->comment->addComment($author, $content, $item_id);
-
+        $this->comment->insertComment($item_id, $author, $content);
         // Exécution de l'action par défaut pour réafficher la liste des billets
         $this->executeAction("index");
     }
+
+    public function createcommentloggedin()
+    {
+        $user_id = $_SESSION['id_user'];
+        $item_id = $this->request->getParameter("id");
+        $author= $this->request->getParameter("author");
+        $content = $this->request->getParameter("content");
+        $this->comment->insertCommentLoggedIn($item_id, $user_id, $author, $content);
+        // Exécution de l'action par défaut pour réafficher la liste des billets
+        $this->executeAction("index");
+    }
+
 }
