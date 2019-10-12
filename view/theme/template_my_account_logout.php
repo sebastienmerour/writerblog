@@ -2,9 +2,10 @@
   <h5 class="card-header">Connexion</h5>
   <div class="card-body">
     <div class="input-group">
-      <a href="<?php echo BASE_URL; ?>user/?action=logout" role="button" class="btn btn-md btn-danger">Se déconnecter</a>
+      <a href="login/logout" role="button"  role="button" class="btn btn-md btn-danger">Se déconnecter</a>
     </div>
   </div>
+
 </div>
 <div class="card my-4">
   <h5 class="card-header">Menu</h5>
@@ -13,7 +14,7 @@
       <div class="col-lg-12">
         <ul class="list-unstyled mb-0">
           <li>
-            <a href="<?php echo BASE_URL; ?>user">Mon Compte</a>
+            <a href="<?php echo BASE_URL; ?>account">Mon Compte</a>
           </li>
           <li>
             <a href="<?php echo BASE_URL; ?>">Le Blog</a>

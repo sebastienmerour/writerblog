@@ -1,6 +1,8 @@
 <?php
+require_once 'Framework/Controller.php';
 require_once 'Framework/Model.php';
 require_once 'Framework/Request.php';
+
 
 /**
  * Fournit les fonctions liées aux utilisateurs
@@ -250,6 +252,7 @@ class User extends Model {
 
      // Connexion et Déconnexion
      // Connexion d'un user :
+
      public function logInUser($username, $passwordAttempt)
      {
        // On vérifie que l'utilisateur a bien cliqué sur le bouton submit (nommé login) :
@@ -270,10 +273,11 @@ class User extends Model {
              // On vérifie si le username existe : .
              if (!$result) { // si le resultat est False
 
+
                  // on indique à l'utilisateur qu'il s'est trompé de username ou de mot de passe.
                  // on ne précise pas qu'il s'agit du username qui est faux, pour raison de sécurité :
                  $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect!";
-                 $this->redirect("login");
+                 header('Location: ../login/index');
              } else {
 
                  // Sinon, si le username a bien été trouvé, il faut vérifier que le mot de passe est correct.
@@ -300,14 +304,15 @@ class User extends Model {
                          }
                      }
 
+
                      // On redirige l'utilisateur vers la page protégée :
-                     $this->redirect("user");
+                     header('Location: ../account/');
                      exit;
 
                  } else {
                      // Dans le cas où le mot de passe est faux, on envoie un message :
                      $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect !";
-                     $this->redirect("login");
+                     header('Location: ../login/index');
                  }
              }
          }

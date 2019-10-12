@@ -23,9 +23,9 @@
 								} else {
 									?>
 									<figure class="figure">
-						      <img src="<?php echo BASE_URL; ?>public/images/avatars/<?php echo htmlspecialchars(strip_tags($user['avatar']));?>" class="figure-img img-fluid rounded-right"
-						      alt="<?php echo htmlspecialchars(strip_tags($user['firstname'])); ?>" title="<?php echo htmlspecialchars(strip_tags($user['firstname']));?>">
-						      <figcaption class="figure-caption text-right"><?php echo htmlspecialchars(strip_tags($user['firstname'])); ?></figcaption>
+						      <img src="<?php echo BASE_URL; ?>public/images/avatars/<?= $this->clean($user['avatar']);?>" class="figure-img img-fluid rounded-right"
+						      alt="<?= $this->clean($user['firstname']); ?>" title="<?= $this->clean($user['firstname']);?>">
+						      <figcaption class="figure-caption text-right"><?= $this->clean($user['firstname']); ?></figcaption>
 						      </figure>
 
 							<?php

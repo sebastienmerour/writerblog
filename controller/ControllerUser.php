@@ -3,6 +3,12 @@ require_once 'Framework/Controller.php';
 require_once 'Model/User.php';
 require_once 'Model/Item.php';
 
+/**
+ * Contrôleur des actions liées au user
+ *
+ * @author Sébastien Merour
+ */
+
 class ControllerUser extends Controller {
     private $user;
     private $item;
@@ -11,6 +17,7 @@ class ControllerUser extends Controller {
         $this->item = new Item();
     }
 
+    // Read
     // Affichage du Profil d'un utilisateur :
     function index() {
       $user_id = $this->request->getParameter("id");
@@ -25,5 +32,7 @@ class ControllerUser extends Controller {
       'number_of_items_pages' => $number_of_items_pages
     ));
     }
+
+
 
 }
