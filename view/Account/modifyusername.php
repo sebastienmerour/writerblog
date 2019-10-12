@@ -168,15 +168,9 @@
                     </div>
 
         		        </form>
-
-
-
 			</div>
 
-			<div class="tab-pane fade" id="username" role="tabpanel" aria-labelledby="pills-profile-tab">
-
-
-
+      <div class="tab-pane fade" id="username" role="tabpanel" aria-labelledby="pills-profile-tab">
         <form role="form" class="form needs-validation" action="account/updateusername" method="post" id="usermodification" novalidate>
           <p>&nbsp;</p>
 					<?php

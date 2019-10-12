@@ -25,6 +25,8 @@
 										    <span aria-hidden="true">&times;</span>
 										  </button>
 										</div>
+
+
 										<?php
 									}
 		?>
@@ -55,7 +57,7 @@
 									</div><!-- fin du div col-sm-4 -->
 
 							    <div class="col-sm-8"><h6>Modifier ma photo de profil :</h6>
-									<form action="<?php echo BASE_URL; ?>user/?action=updateavatar" method="post" enctype="multipart/form-data">
+									<form action="<?php echo BASE_URL; ?>account/updateavatar" method="post" enctype="multipart/form-data">
 										                <input type="file" name="avatar" class="text-center center-block file-upload">
 																		<label for="avatar">(JPG, PNG ou GIF | max. 1 Mo)</label>
 																		<input type="hidden" name="MAX_FILE_SIZE" value="1048576">
@@ -109,7 +111,7 @@
 				    </tr>
 						<tr>
 							<th scope="row">Date de naissance</th>
-							<td><?php echo strftime('%d/%m/%Y', strtotime($user['date_naissance'])); ?></td>
+							<td><?php echo strftime('%d/%m/%Y', strtotime($user['date_birth'])); ?></td>
 						</tr>
 				  </tbody>
 				</table>
@@ -129,7 +131,7 @@
 
 										</tbody>
 									</table>
-									<a href="?action=modifyusername"><button class="btn btn-md btn-success" role="button">Modifier</button></a>
+									<a href="account/modifyuser"><button class="btn btn-md btn-success" role="button">Modifier</button></a>
 
 
 

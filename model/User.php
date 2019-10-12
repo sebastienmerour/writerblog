@@ -70,7 +70,7 @@ class User extends Model {
 
          if (!empty($errors)) {
              $_SESSION['errors'] = $errors;
-             die(header('Location: index.php?action=adduser'));
+             die(header('Location: adduser'));
              exit;
          }
 
@@ -96,10 +96,10 @@ class User extends Model {
 
          // Ici on affiche le message de confirmation :
          $messages['usercreated'] = 'Votre compte a bien été créé !';
-         header('Location: index.php?action=adduser');
+         header('Location: adduser');
          if (!empty($messages)) {
              $_SESSION['messages'] = $messages;
-             header('Location: index.php?action=adduser');
+             header('Location: adduser');
              exit;
          }
 
@@ -111,7 +111,7 @@ class User extends Model {
      public function getUser($user_id)
      {
          $sql   = 'SELECT id_user, username, firstname, name, avatar, pass, email, DATE_FORMAT(date_birth, \'%Y-%m-%d \')
-       AS date_naissance FROM users WHERE id_user = :id_user';
+       AS date_birth FROM users WHERE id_user = :id_user';
          $query = $this->dbConnect($sql, array(
              ':id_user' => $user_id
          ));
@@ -122,13 +122,12 @@ class User extends Model {
 
      // Update
      // Modification d'un utilisateur :
-     public function changeUser($username, $pass, $email, $firstname, $name, $date_naissance)
+     public function changeUser($pass, $email, $firstname, $name, $date_birth)
      {
          $errors         = array();
          $errorsmail     = array();
          $messages       = array();
          $identification = $_SESSION['id_user'];
-         $username       = !empty($_POST['username']) ? trim($_POST['username']) : null;
          $pass           = !empty($_POST['pass']) ? trim($_POST['pass']) : null;
          $email          = !empty($_POST['email']) ? trim($_POST['email']) : null;
          $firstname      = !empty($_POST['firstname']) ? trim($_POST['firstname']) : null;
@@ -147,12 +146,12 @@ class User extends Model {
          }
          if (!empty($errors)) {
              $_SESSION['errors'] = $errors;
-             die(header('Location: ?action=modifyuser'));
+             die(header('Location: ../account/'));
              exit;
          }
          if (!empty($errorsmail)) {
              $_SESSION['errorsmail'] = $errorsmail;
-             die(header('Location: ?action=modifyuser'));
+             die(header('Location: ../account/'));
              exit;
          }
          // Maintenant, on hashe le mot de passe, car on ne veut pas enregistrer
@@ -164,7 +163,7 @@ class User extends Model {
          $sql     = 'UPDATE users
            SET pass = :pass, email= :email, firstname= :firstname, name= :name, date_birth= :date_birth
            WHERE id_user= :id_user';
-         $newUser = $this->dbConnect($sql, array(
+         $user = $this->dbConnect($sql, array(
              ':id_user' => htmlspecialchars($identification),
              ':pass' => htmlspecialchars($passwordHash),
              ':email' => htmlspecialchars($email),
@@ -177,7 +176,7 @@ class User extends Model {
          $messages['userupdated'] = 'Votre compte a bien été mis à jour !';
          if (!empty($messages)) {
              $_SESSION['messages'] = $messages;
-             header('Location: ?action=readuser');
+             header('Location: ../account/');
              exit;
          }
      }
@@ -210,7 +209,8 @@ class User extends Model {
 
          if (!empty($errorsuser)) {
              $_SESSION['errorsuser'] = $errorsuser;
-             die(header('Location: ?action=modifyusername'));
+             die(header('Location: ../account/'));
+
              exit;
          }
          $sql2       = 'UPDATE users
@@ -225,7 +225,7 @@ class User extends Model {
          $messages['usernameupdated'] = 'Votre identifiant a bien été modifié !';
          if (!empty($messages)) {
              $_SESSION['messages'] = $messages;
-             header('Location: ?action=modifyusername');
+             header('Location: ../account/');
              exit;
          }
      }
@@ -233,6 +233,7 @@ class User extends Model {
      // Modification d'un avatar :
      public function changeAvatar($avatarname)
      {
+
          $user_id                   = $_SESSION['id_user'];
          $sql                       = 'UPDATE users
            SET avatar = :avatar
@@ -244,7 +245,7 @@ class User extends Model {
          $messages['avatarupdated'] = 'Votre avatar a bien été modifié !';
          if (!empty($messages)) {
              $_SESSION['messages'] = $messages;
-             header('Location: ?action=readuser');
+             header('Location: ../account/');
              exit;
          }
      }

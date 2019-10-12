@@ -53,7 +53,7 @@
         				    </tr>
         						<tr>
         							<th scope="row">Date de naissance</th>
-        							<td><?php echo $user['date_naissance'] ?></td>
+											<td><?php echo strftime('%d/%m/%Y', strtotime($user['date_birth'])); ?></td>
         						</tr>
         				  </tbody>
         				</table>
