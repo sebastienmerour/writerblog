@@ -278,7 +278,7 @@ class User extends Model {
                  // on indique à l'utilisateur qu'il s'est trompé de username ou de mot de passe.
                  // on ne précise pas qu'il s'agit du username qui est faux, pour raison de sécurité :
                  $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect!";
-                 header('Location: ../login/index');
+                 header('Location: ../login/');
              } else {
 
                  // Sinon, si le username a bien été trouvé, il faut vérifier que le mot de passe est correct.
@@ -313,7 +313,7 @@ class User extends Model {
                  } else {
                      // Dans le cas où le mot de passe est faux, on envoie un message :
                      $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect !";
-                     header('Location: ../login/index');
+                     header('Location: ../login/');
                  }
              }
          }
@@ -344,8 +344,9 @@ class User extends Model {
                  // on indique à l'utilisateur qu'il s'est trompé de username ou de mot de passe.
                  // on ne préciser pas qu'il s'agit du username qui est faux, pour raison de sécurité :
                  $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect !";
-                 header('Location: index.php');
+                 header('Location: ../writeradmin/');
              } else {
+
 
                  // Sinon, si le username a bien été trouvé, il faut vérifier que le mot de passe est correct.
                  // On récupère le mot de passe hashé dans la base, et on le déchiffre pour le comparer :
@@ -372,13 +373,13 @@ class User extends Model {
                      }
 
                      // On redirige l'utilisateur vers la page protégée :
-                     header('Location: ../writeradmin/index.php?action=listitems');
+                     header('Location: ../writeradmin/dashboard');
                      exit;
 
                  } else {
                      // Dans le cas où le mot de passe est faux, on envoie un message :
                      $_SESSION['errMsg'] = "Vous n'êtes pas autorisés à accéder à l'administration !";
-                     header('Location: index.php');
+                     header('Location: ../writeradmin/');
                  }
              }
          }

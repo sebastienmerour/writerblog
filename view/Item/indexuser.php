@@ -58,6 +58,10 @@ alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']
 				<?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>
 					<em>commentaire modifé le&nbsp;<?php echo $item['date_update']; ?></em>
 					<?php }?>
+					<?php if(ISSET($_SESSION['id_user']) AND  $_SESSION['id_user'] == $comment['user_com'])  {
+					?>
+	      (<a href="item/indexreadcomment/<?= $this->clean($item['id']) ?>/comment/<?= $this->clean($comment['id']) ;?>">modifier</a>)
+					<?php };?>
 	  </div>
 	</div>
 <?php endforeach; ?>
@@ -68,19 +72,25 @@ require('pagination_comments.php');
 ?>
 <hr>
 <!-- Ajout  de nouveaux commentaires : -->
-    <div class="card my-4">
-      <h5 class="card-header">Ajoutez un nouveau commentaire :</h5>
-        <div class="card-body">
-          <form action="item/createcomment" method="post">
-            <div class="form-group">
-							<input type="hidden" id="id" name="id" value="<?= $this->clean($item['id']); ?>">
-              <input class="form-control" id="author" name="author" type="text" placeholder="Prénom"><br>
-                  <textarea class="form-control" id="comment" name="content" rows="6" placeholder="Ecrivez ici votre commentaire"></textarea>
-            </div>
-                  <button type="submit" class="btn btn-primary">Envoyer</button>
-          </form>
-        </div>
-    </div>
+	<div class="card my-4">
+		<h5 class="card-header">Ajoutez un nouveau commentaire :</h5>
+			<div class="card-body">
+				<form action="item/createcommentloggedin" method="post">
+					<div class="form-group row">
+    				<label for="firstnamelastname" class="col-sm-5 col-form-label">Connecté en tant que :</label>
+    						<div class="col-sm-7">
+									<input type="hidden" id="id" name="id" value="<?= $this->clean($item['id']); ?>">
+									<input type="hidden" id="user_id" name="user_id" value="<?php echo $_SESSION['id_user'];?>">
+      						<input type="text" readonly class="form-control-plaintext text-left" name="author" id="author" value="<?= $this->clean($user['firstname']).' ' .$this->clean($user['name'])?>">
+								</div>
+  					</div>
+					<div class="form-group">
+					<textarea class="form-control" id="comment" name="content" rows="6" placeholder="Ecrivez ici votre commentaire"></textarea>
+					</div>
+								<button type="submit" class="btn btn-primary">Envoyer</button>
+				</form>
+			</div>
+	</div>
 <!-- Fin des commentaires -->
 <?php $this->sidebar= 'Le blog contient ' . $number_of_items .' articles<br>
 Le blog contient '. $number_of_items_pages.' pages<br>'; ?>

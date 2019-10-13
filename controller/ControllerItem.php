@@ -49,26 +49,32 @@ class ControllerItem extends Controller {
         ));
     }
     // Affichage d'un seul item avec ses commentaires - pour user connecté
-    public function readItemLoggedIn()
+    public function indexuser()
     {
-        $user= $this->user->getUser($_SESSION['id_user']);
-        $item_id = $this->request->getParameter("id");
-        $item = $this->item->getItem($item_id);
-        $comments = $this->comment->countComments($item_id);
-        $comments = $this->comment->getComments($item_id);
-        $default = "default.png";
-        $comments_current_page = $this->comment->getNumberOfItems();
-        $number_of_comments =  $this->comment->getNumberOfCommentsFromItem();
-        $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromItem();
-        $this->generateView(array(
-          'item' => $item,
-          'comments' => $comments,
-          'comments_current_page' => $comments_current_page,
-          'number_of_comments' => $number_of_comments,
-          'number_of_comments_pages' => $number_of_comments_pages
-        ));
-
-
+      $item_id = $this->request->getParameter("id");
+      $item = $this->item->getItem($item_id);
+      $number_of_items  = $this->item->getNumberOfItems();
+      $items_current_page = $this->item->getCurrentPage();
+      $number_of_items_pages = $this->item->getNumberOfPages();
+      $user = $this->user->getUser($_SESSION['id_user']);
+      $comments = $this->comment->countComments($item_id);
+      $comments = $this->comment->getComments($item_id);
+      $default = "default.png";
+      $comments_current_page = $this->comment->getNumberOfComments();
+      $number_of_comments =  $this->comment->getNumberOfCommentsFromItem();
+      $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromItem();
+      $this->generateView(array(
+        'item' => $item,
+        'number_of_items' => $number_of_items,
+        'items_current_page' => $items_current_page,
+        'number_of_items_pages' => $number_of_items_pages,
+        'user' => $user,
+        'comments' => $comments,
+        'default'=> $default,
+        'comments_current_page' => $comments_current_page,
+        'number_of_comments' => $number_of_comments,
+        'number_of_comments_pages' => $number_of_comments_pages
+      ));
     }
 
     // COMMENTS //
@@ -84,6 +90,7 @@ class ControllerItem extends Controller {
         $this->executeAction("index");
     }
 
+
     public function createcommentloggedin()
     {
         $user_id = $_SESSION['id_user'];
@@ -92,7 +99,7 @@ class ControllerItem extends Controller {
         $content = $this->request->getParameter("content");
         $this->comment->insertCommentLoggedIn($item_id, $user_id, $author, $content);
         // Exécution de l'action par défaut pour réafficher la liste des billets
-        $this->executeAction("index");
+        $this->executeAction("indexuser");
     }
 
 }
