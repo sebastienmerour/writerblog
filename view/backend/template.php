@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-
+        <div class="table-responsive">
         <?php echo $content; ?>
 
 

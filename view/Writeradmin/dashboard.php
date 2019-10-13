@@ -1,7 +1,10 @@
+<?php
+	if(!ISSET($_SESSION['id_user_admin'])){
+		header('location: ../writeradmin/logout/');
+	}
+	else {
+?>
 <?php $this->title = 'Jean Forteroche - Panneau d\'Administration'; ?>
-
-
-
   <!-- News -->
   <?php
   if (!empty($_SESSION['messages']['itemcreated']))
@@ -130,3 +133,6 @@ else {
 require('pagination_comments.php');}
 ?>
 </div>
+<?php
+};
+?>

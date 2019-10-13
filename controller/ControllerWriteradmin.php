@@ -50,6 +50,7 @@ require_once 'Model/User.php';
              throw new Exception("Action impossible : courriel ou mot de passe non défini");
 }
 
+
    // Deconnexion :
    public function logout()
    {
@@ -95,7 +96,64 @@ require_once 'Model/User.php';
        }
    }
 
+   // ITEMS
+   // Create :
 
+   // Affichage du formulaire ce création d'article
+   public function additem() {
+     $items = $this->item->count();
+     $this->generateadminView(array(
+     'items' => $items,
+   ));
+   }
+
+   public function createitem()
+   {
+       if (isset($_FILES['image']) AND $_FILES['image']['error'] == 0)
+       {
+               // Testons si le fichier n'est pas trop gros
+               if ($_FILES['image']['size'] <= 1000000)
+               {
+                 $title = $this->request->getParameter("title");
+                 $content = $this->request->getParameter("content");
+                 $file_infos = pathinfo($_FILES['image']['name']);
+                 $extension_upload = $file_infos['extension'];
+                 $extensions_authorized = array('jpg', 'jpeg', 'gif', 'png');
+                 $user_id = $_SESSION['id_user_admin'];
+                 $time = date("Y-m-d-H-i-s");
+                 $newtitle = str_replace(' ','-',strtolower($title));
+                 $itemimagename = preg_replace("/\.[^.\s]{3,4}$/", "", $itemimagename);
+                 $itemimagename = "{$time}-$newtitle.{$extension_upload}";
+                 $destination = ROOT_PATH. 'public/images/item_images';
+
+                 if (in_array($extension_upload, $extensions_authorized))
+                 {
+                         // On peut valider le fichier et le stocker définitivement
+                         move_uploaded_file($_FILES['image']['tmp_name'],$destination."/".$itemimagename);
+
+                         $affectedLines = $this->item->insertItem($idUser, $title, $itemimagename, $content);
+
+
+
+                        echo "L'image bien été envoyée !";
+                        header('Location: ../writeradmin/dashboard');
+           }
+           else {
+             echo "L'extension du fichier n'est pas autorisée.";
+             header('Location: ../writeradmin/dashboard');
+           }
+      }
+      else {
+      echo "Le fichier est trop gros.";
+      header('Location: ../writeradmin/dashboard');
+      }
+      }
+      else {
+      echo "L'envoi du fichier a échoué.";
+      header('Location: ../writeradmin/dashboard');
+      }
+
+   }
 
 
 

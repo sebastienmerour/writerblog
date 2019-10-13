@@ -8,6 +8,33 @@ require_once 'Framework/Model.php';
 class Item extends Model {
     public $items_count, $request_items, $start;
 
+    // Create
+    // Création d'un nouvel article :
+    public function insertItem($idUser, $title, $itemimagename, $content)
+    {
+        $errors   = array();
+        $messages = array();
+        $idUser   = $_SESSION['id_user_admin'];
+        $sql      = 'INSERT INTO items (id_user, title, image, content, date_creation)
+                      VALUES
+                      (:id_user, :title, :image, :content, NOW())';
+        $items    = $this->dbConnect($sql, array(
+            ':id_user' => $idUser,
+            ':title' => $title,
+            ':image' => $itemimagename,
+            ':content' => $content
+        ));
+
+        $messages['itemcreated'] = 'Votre article a bien été ajouté !';
+        if (!empty($messages)) {
+            $_SESSION['messages'] = $messages;
+            header('Location: ?action=listitems');
+            exit;
+        }
+    }
+
+
+
     /** Renvoie la liste des billets du blog
      *
      * @return PDOStatement La liste des articles

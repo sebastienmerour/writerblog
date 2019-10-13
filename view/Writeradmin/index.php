@@ -1,3 +1,9 @@
+<?php
+	if(ISSET($_SESSION['id_user_admin'])){
+    header('location: ../writeradmin/dashboard');
+	}
+	else {
+?>
 <?php $this->title = 'Connexion à l\'Administration du blog'; ?>
 
 <?php if(!empty($_SESSION['errMsg'])) : ?>
@@ -24,3 +30,6 @@
   <p>&nbsp;</p>
 </form>
 </div>
+<?php
+};
+?>

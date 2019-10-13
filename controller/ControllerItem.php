@@ -23,6 +23,7 @@ class ControllerItem extends Controller {
         $this->comment = new Comment();
         $this->user = new User();
     }
+
     // Affichage d'un seul item avec ses commentaires - pour user inconnu
     public function index() {
         $item_id = $this->request->getParameter("id");
