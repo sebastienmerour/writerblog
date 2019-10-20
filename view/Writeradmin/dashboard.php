@@ -7,10 +7,10 @@
 <?php $this->title = 'Jean Forteroche - Panneau d\'Administration'; ?>
   <!-- News -->
   <?php
-  if (!empty($_SESSION['messages']['itemcreated']))
+  if (!empty($_SESSION['messages']['confirmation']))
             {?>
               <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?php echo $_SESSION['messages']['itemcreated'];
+                <?php echo $_SESSION['messages']['confirmation'];
                 ?>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
@@ -45,7 +45,7 @@
         <td><span class="text-body newstitle"><a target="_blank" href="<?= !ISSET($_SESSION['id_user']) ? "../item/index/" . $this->clean($item['id']) : "../item/indexuser/" . $this->clean($item['id'])?>">
 				<h6 class="mt-2 text-left"><?= $this->clean($item['title']); ?></h6></a></span></td>
         <td><a href="<?= "readitem/" . $this->clean($item['id'])?>" role="button" class="btn btn-sm btn-primary">Modifier</a></td>
-        <td><a href="index.php?id=<?php echo $item['id'] ;?>&action=deleteitem" role="button" class="btn btn-sm btn-danger">Supprimer</a></td>
+        <td><a href="<?= "removeitem/" . $this->clean($item['id'])?>" role="button" class="btn btn-sm btn-danger">Supprimer</a></td>
 
       </tr>
       <?php
@@ -108,17 +108,17 @@ require('pagination_comments.php');}
       ?>
 
       <tr>
-        <td><h6 class="mt-2 text-left"><?php echo $comment['date_creation_fr']; ?></h6></td>
+        <td><h6 class="mt-2 text-left"><?= $this->clean($comment['date_creation_fr']); ?></h6></td>
         <td><div class="media mb-4">
-          <img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?php echo isset($comment['avatar_com']) ? $comment['avatar_com'] : $default ;?>" alt="user">
+          <img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?= $this->clean(isset($comment['avatar_com'])) ? $this->clean($comment['avatar_com']) : $default ;?>" alt="user">
           <div class="media-body">
-            <h6 class="mt-2 text-left"><?php echo htmlspecialchars(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com']. ' ' . $comment['name_com'] : $comment['author'], ENT_QUOTES, 'UTF-8');?></h6><br>
+            <h6 class="mt-2 text-left"><?= $this->clean(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author']);?></h6><br>
           </div>
 
         </div></td>
-        <td><h6 class="mt-2 text-left"><?php echo htmlspecialchars($comment['content'], ENT_QUOTES, 'UTF-8'); ?></h6></td>
-        <td><a href="index.php?id_comment=<?php echo $comment['id'] ;?>&action=readcomment" role="button" class="btn btn-sm btn-primary">Modifier</a></td>
-        <td><a href="index.php?id_comment=<?php echo $comment['id'] ;?>&action=deletecomment" role="button" class="btn btn-sm btn-danger">Supprimer</a></td>
+        <td><h6 class="mt-2 text-left"><?= $this->clean($comment['content']); ?></h6></td>
+        <td><a href="<?= "readcomment/" . $this->clean($comment['id']) ;?>" role="button" class="btn btn-sm btn-primary">Modifier</a></td>
+        <td><a href="<?= "removecomment/" . $this->clean($comment['id']) ;?>" role="button" class="btn btn-sm btn-danger">Supprimer</a></td>
       </tr>
             <?php
     }

@@ -74,7 +74,6 @@ require_once 'Model/User.php';
      $number_of_comments =  $this->comment->getNumberOfCommentsFromItem();
      $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromItem();
      $counter_comments         = $this->comment->getNumberOfComments();
-
      $this->generateadminView(array(
      'items' => $items,
      'comments' => $comments,
@@ -103,7 +102,7 @@ require_once 'Model/User.php';
    public function additem() {
      $items = $this->item->count();
      $this->generateadminView(array(
-     'items' => $items,
+     'items' => $items
    ));
    }
 
@@ -158,7 +157,7 @@ require_once 'Model/User.php';
    // Read :
    public function readitem()
    {
-       $items = $this->item->count();
+
        $item_id = $this->request->getParameter("id");
        $item = $this->item->getItem($item_id);
        $this->generateadminView(array(
@@ -205,84 +204,101 @@ require_once 'Model/User.php';
 
          else {
          move_uploaded_file($_FILES['image']['tmp_name'],$destination."/".$itemimagename);
-         $item = $_GET['id'];
-         $this->item->changeItemImage($title, $itemimagename, $content);
+         $item_id = $this->request->getParameter("id");
+         $this->item->changeItemImage($title, $itemimagename, $content, $item_id);
          $item = $this->item->getItem($item_id);
 
          if ($item  === false) {
              throw new Exception('Impossible de modifier l\' article !');
          }
          else {
-           $messages['itemupdated'] = 'L\'article a bien été modifié !';
+           $messages['confirmation'] = 'L\'article a bien été modifié !';
            $this->generateadminView();
          }
-         // echo "L'image bien été envoyée !";
-         //header('Location: /writeradmin/readitem/' . $this->clean($item['id']) );
          }
      }
 
      else {
-       $item = $_GET['id'];
-       $this->item->changeItem($title, $content);
+       $item_id = $this->request->getParameter("id");
+       $this->item->changeItem($title, $content, $item_id);
        $item = $this->item->getItem($item_id);
        if ($item  === false) {
            throw new Exception('Impossible de modifier l\' article !');
        }
        else {
-         $messages['itemupdated'] = 'L\'article a bien été modifié !';
+         $messages['confirmation'] = 'L\'article a bien été modifié !';
          $this->generateadminView();
        }
-       // header('Location: /writeradmin/readitem/' . $this->clean($item['id']) );
      }
    }
 
 
    // Delete :
    // Suppression d'un article
-   function removeItem($item_id)
-   {
-       $postManager   = new \SM\Blog\Model\PostManager();
-       $items = $postManager->count();
-       $affectedLines = $postManager->eraseItem($item_id);
-       if ($affectedLines === false) {
-           // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
-           throw new Exception('Impossible de supprimer l\'article !');
-       } else {
-           header('Location: index.php?action=deleteitemconfirmation');
-       }
-
-   }
-
-   // Confirmation de la suppression d'un article
-   function deleteItemConfirmation()
+   public function removeitem()
    {
 
-       $postManager     = new \SM\Blog\Model\PostManager();
-       $items = $postManager->count();
-       $items           = $postManager->getItems();
-       $number_of_items = $postManager->getNumberOfItems();
-       $items_current_page = $postManager->getCurrentPage();
-       $number_of_items_pages = $postManager->getNumberOfPages();
-       $commentManager  = new \SM\Blog\Model\CommentManager();
-       $comments        = $commentManager->selectComments();
-       // Vérifier quelle est la page active :
-       if (isset($_GET['commentspage'])) {
-           $current_comments_page = (int) $_GET['commentspage'];
-       } else {
-           $current_comments_page = 1;
+       $item_id = $this->request->getParameter("id");
+       $this->item->eraseItem($item_id);
+       if ($item_id  === false) {
+           throw new Exception('Impossible de supprimer l\' article !');
        }
-
-       $number_of_comments_pages = $commentManager->getNumberOfCommentsPages();
-       $counter_comments         = $commentManager->getNumberOfComments();
-
-       $messages                              = array();
-       $messages['itemdeleted'] = 'L\'article a bien été supprimé !';
-       if (!empty($messages)) {
-           $_SESSION['messages'] = $messages;
-
+       else {
+         $messages['confirmation'] = 'L\'article a bien été supprimé !';
+         $this->generateadminView();
        }
-       require __DIR__ . '/../view/backend/item_deleted_confirmation_view.php';
    }
+
+
+   // COMMENTS
+   // Pas de création de commentaire depuis le Backend.
+
+   // Read :
+   // Affichage d'un commentaire
+   public function readcomment()
+   {
+     $id_comment = $this->request->getParameter("id");
+     $comment = $this->comment->getComment($id_comment);
+     $default = "default.png";
+     $this->generateadminView(array(
+     'comment' => $comment,
+     'default'=> $default
+   ));
+   }
+
+   // Update :
+   // Modification d'un commentaire
+   public function updatecomment()
+   {
+     $comment = $this->request->getParameter("id");
+     $this->comment->changeComment($content);
+     $comment = $this->comment->getItem($id_comment);
+     if ($comment  === false) {
+         throw new Exception('Impossible de modifier le commentaire !');
+     }
+     else {
+       $messages['confirmation'] = 'Le commentaire a bien été modifié !';
+       $this->generateadminView();
+     }
+   }
+
+   // Delete :
+   // Suppression d'un commentaire
+   public function removecomment()
+   {
+     $id_comment = $this->request->getParameter("id");
+     $this->comment->eraseComment($id_comment);
+     if ($id_comment  === false) {
+         throw new Exception('Impossible de supprimer le commentaire !');
+     }
+     else {
+       $messages['confirmation'] = 'Le commentaire a bien été supprimé !';
+       $this->generateadminView();
+     }
+   }
+
+
+
 
 
 

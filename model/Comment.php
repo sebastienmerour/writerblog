@@ -90,8 +90,72 @@ class Comment extends Model {
       ));
       return $comments;
   }
+  // Affichage d'un commentaire pour le modifier ensuite :
+  public function getComment($id_comment)
+  {
+
+      $sql     = 'SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content,
+        DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
+        DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
+        users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
+        FROM comments
+        LEFT JOIN users
+        ON comments.id_user = users.id_user
+        WHERE comments.id = ?
+        ';
+      $req     = $this->dbConnect($sql, array(
+          $id_comment
+      ));
+      $comment = $req->fetch();
+      return $comment;
+  }
+
+
+
+
+  // Update
+  // Modification d'un commentaire :
+  public function changeComment($content)
+  {
+      $comment = $_GET['id'];
+      $content           = !empty($_POST['content']) ? trim($_POST['content']) : null;
+
+      $sql        = 'UPDATE comments SET content = :content, date_creation = NOW() WHERE id = :id';
+      $newComment = $this->dbConnect($sql, array(
+        ':id' => $comment,
+        ':content' => $content
+      ));
+    // Ici on affiche le message de confirmation :
+    $commentmessages['confirmation'] = 'Merci ! Votre commentaire a bien été modifié !';
+    if (!empty($commentmessages)) {
+        $_SESSION['messages'] = $commentmessages;
+        header('Location: ../readcomment/' . $comment);
+        exit;
+    }
+}
+
+// Delete
+// Suppression d'un commentaire :
+public function eraseComment($id_comment)
+{
+    $sql = 'DELETE FROM comments WHERE id = ' . (int) $id_comment;
+    $req = $this->dbConnect($sql);
+    $req->execute();
+
+    // Ici on affiche le message de confirmation :
+    $itemmessages['confirmation'] = 'Merci ! Le commentaire a bien été supprimé !';
+    if (!empty($itemmessages)) {
+        $_SESSION['messages'] = $itemmessages;
+        header('Location: ../');
+        exit;
+    }
+}
+
+
+
 
   // Calculs
+
   // Obtenir la page courante des commentaires sur un article en particulier :
   public function getCommentsCurrentPageFromItem()
   {

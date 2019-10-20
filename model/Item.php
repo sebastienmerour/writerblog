@@ -25,7 +25,7 @@ class Item extends Model {
             ':content' => $content
         ));
 
-        $messages['itemcreated'] = 'Votre article a bien été ajouté !';
+        $messages['confirmation'] = 'Votre article a bien été ajouté !';
         if (!empty($messages)) {
             $_SESSION['messages'] = $messages;
             header('Location: ?action=listitems');
@@ -107,9 +107,8 @@ class Item extends Model {
     }
 
     // Modification d'un article avec photo :
-    public function changeItemImage($title, $itemimagename, $content)
+    public function changeItemImage($title, $itemimagename, $content, $item_id)
     {
-        $item_id = $_GET['id'];
         $title           = !empty($_POST['title']) ? trim($_POST['title']) : null;
         $content           = !empty($_POST['content']) ? trim($_POST['content']) : null;
         $sql     = 'UPDATE items SET title = :title, image = :image, content = :content,
@@ -132,9 +131,8 @@ class Item extends Model {
     }
 
     // Modification d'un article :
-    public function changeItem($title, $content)
+    public function changeItem($title, $content, $item_id)
     {
-        $item_id = $_GET['id'];
         $title           = !empty($_POST['title']) ? trim($_POST['title']) : null;
         $content           = !empty($_POST['content']) ? trim($_POST['content']) : null;
         $sql     = 'UPDATE items SET title = :title, content = :content, date_update = NOW() WHERE id = :id';
@@ -144,18 +142,32 @@ class Item extends Model {
           ':content' => $content
 
         ));
-
-
-
         // Ici on affiche le message de confirmation :
-        $itemmessages['itemupdated'] = 'Merci ! Votre article a bien été modifié !';
+        $itemmessages['confirmation'] = 'Merci ! Votre article a bien été modifié !';
         if (!empty($itemmessages)) {
             $_SESSION['messages'] = $itemmessages;
             header('Location: ../readitem/' . $item_id);
             exit;
         }
-
     }
+
+    // Delete
+    // Suppression d'un article :
+    public function eraseItem($item_id)
+    {
+        $sql = 'DELETE FROM items WHERE id = ' . (int) $item_id;
+        $req = $this->dbConnect($sql);
+        $req->execute();
+        // Ici on affiche le message de confirmation :
+        $itemmessages['confirmation'] = 'Merci ! Votre article a bien été supprimé !';
+        if (!empty($itemmessages)) {
+            $_SESSION['messages'] = $itemmessages;
+            header('Location: ../');
+            exit;
+        }
+    }
+
+
 
 
     // Calculs
