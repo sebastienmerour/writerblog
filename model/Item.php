@@ -86,6 +86,7 @@ class Item extends Model {
      * @throws Exception Si l'identifiant du billet est inconnu
      */
 
+
     public function getItem($item_id)
     {
         $sql  = 'SELECT items.id, items.title AS title, items.image AS image, items.content AS content,
@@ -104,6 +105,58 @@ class Item extends Model {
         else
             throw new Exception("Aucun article ne correspond à l'identifiant '$item_id'");
     }
+
+    // Modification d'un article avec photo :
+    public function changeItemImage($title, $itemimagename, $content)
+    {
+        $item_id = $_GET['id'];
+        $title           = !empty($_POST['title']) ? trim($_POST['title']) : null;
+        $content           = !empty($_POST['content']) ? trim($_POST['content']) : null;
+        $sql     = 'UPDATE items SET title = :title, image = :image, content = :content,
+    date_update = NOW() WHERE id = :id';
+        $item = $this->dbConnect($sql, array(
+          ':id' => $item_id,
+          ':title' => $title,
+          ':image' => $itemimagename,
+          ':content' => $content
+        ));
+
+        // Ici on affiche le message de confirmation :
+        $messages['itemupdated'] = 'Votre article a bien été modifié !';
+        if (!empty($messages)) {
+            $_SESSION['messages'] = $messages;
+            header('Location: ../readitem/' . $item_id);
+            exit;
+        }
+
+    }
+
+    // Modification d'un article :
+    public function changeItem($title, $content)
+    {
+        $item_id = $_GET['id'];
+        $title           = !empty($_POST['title']) ? trim($_POST['title']) : null;
+        $content           = !empty($_POST['content']) ? trim($_POST['content']) : null;
+        $sql     = 'UPDATE items SET title = :title, content = :content, date_update = NOW() WHERE id = :id';
+        $item = $this->dbConnect($sql, array(
+          ':id' => $item_id,
+          ':title' => $title,
+          ':content' => $content
+
+        ));
+
+
+
+        // Ici on affiche le message de confirmation :
+        $itemmessages['itemupdated'] = 'Merci ! Votre article a bien été modifié !';
+        if (!empty($itemmessages)) {
+            $_SESSION['messages'] = $itemmessages;
+            header('Location: ../readitem/' . $item_id);
+            exit;
+        }
+
+    }
+
 
     // Calculs
     // Obtenir la page courante des articles :

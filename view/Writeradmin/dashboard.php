@@ -39,11 +39,12 @@
       while ($item = $items->fetch()) {
       ?>
       <tr>
-        <td><h6 class="mt-2 text-left"><?php echo $item['date_creation_fr']; ?></h6></td>
-        <td><h6 class="mt-2 text-left"><a target="_blank" href="<?php echo BASE_URL; ?>user/user.php?id_user=<?php echo $item['id_user']?>">
-          <?php echo htmlspecialchars(strip_tags($item['firstname'])); ?><?php echo '&nbsp;' ?><?php echo htmlspecialchars(strip_tags($item['name']));?></a></span></td>
-        <td><span class="text-body newstitle"><a target="_blank" href="<?php echo BASE_URL; ?>index.php?action=readitem&amp;id=<?= $item['id'] ?>"><h6 class="mt-2 text-left"><?php echo htmlspecialchars(strip_tags($item['title'])); ?></h6></a></span></td>
-        <td><a href="index.php?id=<?php echo $item['id'] ;?>&action=readitem" role="button" class="btn btn-sm btn-primary">Modifier</a></td>
+        <td><h6 class="mt-2 text-left"><?= $this->clean($item['date_creation_fr']); ?></h6></td>
+        <td><h6 class="mt-2 text-left"><a target="_blank" href="<?= "../user/index/" . $this->clean($item['id_user']) ?>">
+        <?= $this->clean($item['firstname']); ?>&nbsp;<?= $this->clean($item['name']);?></a></span></td>
+        <td><span class="text-body newstitle"><a target="_blank" href="<?= !ISSET($_SESSION['id_user']) ? "../item/index/" . $this->clean($item['id']) : "../item/indexuser/" . $this->clean($item['id'])?>">
+				<h6 class="mt-2 text-left"><?= $this->clean($item['title']); ?></h6></a></span></td>
+        <td><a href="<?= "readitem/" . $this->clean($item['id'])?>" role="button" class="btn btn-sm btn-primary">Modifier</a></td>
         <td><a href="index.php?id=<?php echo $item['id'] ;?>&action=deleteitem" role="button" class="btn btn-sm btn-danger">Supprimer</a></td>
 
       </tr>

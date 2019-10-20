@@ -155,6 +155,135 @@ require_once 'Model/User.php';
 
    }
 
+   // Read :
+   public function readitem()
+   {
+       $items = $this->item->count();
+       $item_id = $this->request->getParameter("id");
+       $item = $this->item->getItem($item_id);
+       $this->generateadminView(array(
+       'item' => $item
+     ));
+   }
+
+
+   // Update :
+   // Modification d'un article
+
+   public function updateitem()
+   {
+
+     $errors    = array();
+     $messages  = array();
+     $title = $this->request->getParameter("title");
+     $content = $this->request->getParameter("content");
+
+     if (isset($_FILES['image'])  AND $_FILES['image']['error'] == 0)
+     {
+       $file_infos = pathinfo($_FILES['image']['name']);
+       $extension_upload = $file_infos['extension'];
+       $extensions_authorized = array('jpg', 'jpeg', 'gif', 'png');
+       $time = date("Y-m-d-H-i-s")."-";
+       $newtitle = str_replace(' ','-',strtolower($title));
+       $itemimagename = str_replace(' ','-',strtolower($_FILES['image']['name']));
+       $itemimagename = preg_replace("/\.[^.\s]{3,4}$/", "", $itemimagename);
+       $itemimagename = "{$time}$newtitle.{$extension_upload}";
+
+       $destination = ROOT_PATH. 'public/images/item_images';
+
+         if (!$_FILES['image']['error'] == 0) {
+         $errors['uploadfailed'] = 'L\'envoi du fichier a échoué.<br>';
+         }
+
+         if (!$_FILES['image']['size'] <= 1000000) {
+           $errors['toobig'] = 'Le fichier est trop gros.<br>';
+           }
+
+         if (!in_array($extension_upload, $extensions_authorized)) {
+           $errors['ext'] = 'L\'extension du fichier n\'est pas autorisée.<br>';
+         }
+
+         else {
+         move_uploaded_file($_FILES['image']['tmp_name'],$destination."/".$itemimagename);
+         $item = $_GET['id'];
+         $this->item->changeItemImage($title, $itemimagename, $content);
+         $item = $this->item->getItem($item_id);
+
+         if ($item  === false) {
+             throw new Exception('Impossible de modifier l\' article !');
+         }
+         else {
+           $messages['itemupdated'] = 'L\'article a bien été modifié !';
+           $this->generateadminView();
+         }
+         // echo "L'image bien été envoyée !";
+         //header('Location: /writeradmin/readitem/' . $this->clean($item['id']) );
+         }
+     }
+
+     else {
+       $item = $_GET['id'];
+       $this->item->changeItem($title, $content);
+       $item = $this->item->getItem($item_id);
+       if ($item  === false) {
+           throw new Exception('Impossible de modifier l\' article !');
+       }
+       else {
+         $messages['itemupdated'] = 'L\'article a bien été modifié !';
+         $this->generateadminView();
+       }
+       // header('Location: /writeradmin/readitem/' . $this->clean($item['id']) );
+     }
+   }
+
+
+   // Delete :
+   // Suppression d'un article
+   function removeItem($item_id)
+   {
+       $postManager   = new \SM\Blog\Model\PostManager();
+       $items = $postManager->count();
+       $affectedLines = $postManager->eraseItem($item_id);
+       if ($affectedLines === false) {
+           // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
+           throw new Exception('Impossible de supprimer l\'article !');
+       } else {
+           header('Location: index.php?action=deleteitemconfirmation');
+       }
+
+   }
+
+   // Confirmation de la suppression d'un article
+   function deleteItemConfirmation()
+   {
+
+       $postManager     = new \SM\Blog\Model\PostManager();
+       $items = $postManager->count();
+       $items           = $postManager->getItems();
+       $number_of_items = $postManager->getNumberOfItems();
+       $items_current_page = $postManager->getCurrentPage();
+       $number_of_items_pages = $postManager->getNumberOfPages();
+       $commentManager  = new \SM\Blog\Model\CommentManager();
+       $comments        = $commentManager->selectComments();
+       // Vérifier quelle est la page active :
+       if (isset($_GET['commentspage'])) {
+           $current_comments_page = (int) $_GET['commentspage'];
+       } else {
+           $current_comments_page = 1;
+       }
+
+       $number_of_comments_pages = $commentManager->getNumberOfCommentsPages();
+       $counter_comments         = $commentManager->getNumberOfComments();
+
+       $messages                              = array();
+       $messages['itemdeleted'] = 'L\'article a bien été supprimé !';
+       if (!empty($messages)) {
+           $_SESSION['messages'] = $messages;
+
+       }
+       require __DIR__ . '/../view/backend/item_deleted_confirmation_view.php';
+   }
+
 
 
 }
