@@ -15,7 +15,7 @@
     <?php unset($_SESSION['errMsg']); ?>
 <?php endif; ?>
 <div>
-  <form class="form-signin" method="post" action="loginadmin">
+  <form class="form-signin" method="post" action="../login/loginadmin">
   <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
   <label for="username" class="sr-only">Identifiant</label>
   <input type="text" id="username" name="username" class="form-control" placeholder="Identifiant" value="<?php if(ISSET($_COOKIE['username'])){echo $_COOKIE['username'];}?>" required autofocus>
