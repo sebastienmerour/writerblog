@@ -108,51 +108,63 @@ require_once 'Model/User.php';
 
    public function createitem()
    {
-       if (isset($_FILES['image']) AND $_FILES['image']['error'] == 0)
-       {
-               // Testons si le fichier n'est pas trop gros
-               if ($_FILES['image']['size'] <= 1000000)
-               {
-                 $title = $this->request->getParameter("title");
-                 $content = $this->request->getParameter("content");
-                 $file_infos = pathinfo($_FILES['image']['name']);
-                 $extension_upload = $file_infos['extension'];
-                 $extensions_authorized = array('jpg', 'jpeg', 'gif', 'png');
-                 $user_id = $_SESSION['id_user_admin'];
-                 $time = date("Y-m-d-H-i-s");
-                 $newtitle = str_replace(' ','-',strtolower($title));
-                 $itemimagename = preg_replace("/\.[^.\s]{3,4}$/", "", $itemimagename);
-                 $itemimagename = "{$time}-$newtitle.{$extension_upload}";
-                 $destination = ROOT_PATH. 'public/images/item_images';
+     if (isset($_FILES['image'])) {
+        $this->uploadItemImage();
+     }
+     else {
+       $messages  = array();
+       $user_id = $_SESSION['id_user_admin'];
+       $title = $this->request->getParameter("title");
+       $content = $this->request->getParameter("content");
+       $this->item->insertItem($user_id, $title, $content);
+       $messages['confirmation'] = 'L\'article a bien été ajouté !';
+       if (!empty($messages)) {
+           $_SESSION['messages'] = $messages;
+           header('Location: ../writeradmin/dashboard');
+           exit;
+         }
+     }
 
-                 if (in_array($extension_upload, $extensions_authorized))
-                 {
-                         // On peut valider le fichier et le stocker définitivement
-                         move_uploaded_file($_FILES['image']['tmp_name'],$destination."/".$itemimagename);
+}
 
-                         $affectedLines = $this->item->insertItem($idUser, $title, $itemimagename, $content);
+public function uploadItemImage()
+{
+  $errors   = array();
+  $messages  = array();
+  $title = $this->request->getParameter("title");
+  $content = $this->request->getParameter("content");
+  $file_infos = pathinfo($_FILES['image']['name']);
+  $extension_upload = $file_infos['extension'];
+  $extensions_authorized = array('jpg', 'jpeg', 'gif', 'png');
+  $user_id = $_SESSION['id_user_admin'];
+  $time = date("Y-m-d-H-i-s");
+  $newtitle = str_replace(' ','-',strtolower($title));
+  $itemimagename = preg_replace("/\.[^.\s]{3,4}$/", "", $itemimagename);
+  $itemimagename = "{$time}-$newtitle.{$extension_upload}";
+  $destination = ROOT_PATH. 'public/images/item_images';
 
-
-
-                        echo "L'image bien été envoyée !";
-                        header('Location: ../writeradmin/dashboard');
-           }
-           else {
-             echo "L'extension du fichier n'est pas autorisée.";
-             header('Location: ../writeradmin/dashboard');
-           }
+  if (!in_array($extension_upload, $extensions_authorized)) {
+    $errors['errors'] = 'L\'extension du fichier n\'est pas autorisée !';
+    if (!empty($errors)) {
+        $_SESSION['errors'] = $errors;
+        header('Location: ../writeradmin/additem');
+        exit;
       }
-      else {
-      echo "Le fichier est trop gros.";
-      header('Location: ../writeradmin/dashboard');
-      }
-      }
-      else {
-      echo "L'envoi du fichier a échoué.";
-      header('Location: ../writeradmin/dashboard');
-      }
+  }
 
-   }
+  else {
+    // On peut valider le fichier et le stocker définitivement
+    move_uploaded_file($_FILES['image']['tmp_name'],$destination."/".$itemimagename);
+    $this->item->insertItemImage($user_id, $title, $itemimagename, $content);
+    $messages['confirmation'] = 'L\'article a bien été ajouté !';
+    if (!empty($messages)) {
+        $_SESSION['messages'] = $messages;
+        header('Location: ../writeradmin/dashboard');
+        exit;
+      }
+  }
+}
+
 
    // Read :
    public function readitem()

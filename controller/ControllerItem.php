@@ -49,6 +49,7 @@ class ControllerItem extends Controller {
           'number_of_comments_pages' => $number_of_comments_pages
         ));
     }
+
     // Affichage d'un seul item avec ses commentaires - pour user connecté
     public function indexuser()
     {
@@ -102,5 +103,41 @@ class ControllerItem extends Controller {
         // Exécution de l'action par défaut pour réafficher la liste des billets
         $this->executeAction("indexuser");
     }
+
+    // Read :
+    // Affichage d'un commentaire
+    public function readcomment()
+    {
+      $item_id = $this->request->getParameter("id");
+      $id_comment = $this->request->getParameter("id_comment");
+      $comments = $this->comment->getComments($item_id);
+      $comment = $this->comment->getComment($id_comment);
+      $default = "default.png";
+      $this->generateView(array(
+      'item' => $item,
+      'comments' => $comments,
+      'comment' => $comment,
+      'default'=> $default
+    ));
+    }
+
+    // Update :
+    // Modification d'un commentaire
+    public function updatecomment()
+    {
+      $comment = $this->request->getParameter("id");
+      $this->comment->changeComment($content);
+      $comment = $this->comment->getItem($id_comment);
+      if ($comment  === false) {
+          throw new Exception('Impossible de modifier le commentaire !');
+      }
+      else {
+        $messages['confirmation'] = 'Le commentaire a bien été modifié !';
+        $this->generateadminView();
+      }
+    }
+
+
+
 
 }

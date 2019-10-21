@@ -47,12 +47,11 @@ alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']
 <!-- Commentaires  -->
 <h2 id="comments">Commentaires</h2>
 <hr>
-
 <?php foreach ($comments as $comment): ?>
 	<div class="media mb-4">
 	  <img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?php echo isset($comment['avatar_com']) ? $comment['avatar_com'] : $default ;?>" alt="user">
 	  <div class="media-body">
-	    <h6 class="mt-0"><?= $this->clean(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author'], ENT_QUOTES, 'UTF-8');?></h6>
+	    <h6 class="mt-0"><?= $this->clean(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author']);?></h6>
 			<h4><?= $this->clean($comment['content']); ?></h4>
 			<em>le <?php echo $comment['date_creation_fr']; ?></em><br>
 				<?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>

@@ -10,16 +10,38 @@ class Item extends Model {
 
     // Create
     // Création d'un nouvel article :
-    public function insertItem($idUser, $title, $itemimagename, $content)
+    public function insertItem($user_id, $title, $content)
     {
         $errors   = array();
         $messages = array();
-        $idUser   = $_SESSION['id_user_admin'];
+        $user_id   = $_SESSION['id_user_admin'];
+        $sql      = 'INSERT INTO items (id_user, title, content, date_creation)
+                      VALUES
+                      (:id_user, :title, :content, NOW())';
+        $items    = $this->dbConnect($sql, array(
+            ':id_user' => $user_id,
+            ':title' => $title,
+            ':content' => $content
+        ));
+
+        $messages['confirmation'] = 'Votre article a bien été ajouté !';
+        if (!empty($messages)) {
+            $_SESSION['messages'] = $messages;
+            header('Location: ../writeradmin/dashboard');
+            exit;
+        }
+    }
+
+    public function insertItemImage($user_id, $title, $itemimagename, $content)
+    {
+        $errors   = array();
+        $messages = array();
+        $user_id   = $_SESSION['id_user_admin'];
         $sql      = 'INSERT INTO items (id_user, title, image, content, date_creation)
                       VALUES
                       (:id_user, :title, :image, :content, NOW())';
         $items    = $this->dbConnect($sql, array(
-            ':id_user' => $idUser,
+            ':id_user' => $user_id,
             ':title' => $title,
             ':image' => $itemimagename,
             ':content' => $content
@@ -28,10 +50,12 @@ class Item extends Model {
         $messages['confirmation'] = 'Votre article a bien été ajouté !';
         if (!empty($messages)) {
             $_SESSION['messages'] = $messages;
-            header('Location: ?action=listitems');
+            header('Location: ../writeradmin/dashboard');
             exit;
         }
     }
+
+
 
 
 

@@ -75,7 +75,7 @@ class Comment extends Model {
   public function getComments($item_id)
   {
       $number_of_comments_by_page = 5;
-      $sql                        = 'SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content,
+      $sql                        = 'SELECT comments.id AS id_comment, comments.id_user AS user_com, comments.author, comments.content,
       DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
       DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
       users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
