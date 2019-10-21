@@ -12,7 +12,7 @@
           ?>
           <li>
 
-              <a class="btn btn-outline-secondary" href="items/index/page="<?= $items_current_page -1 ;?>" aria-label="Previous">
+              <a class="btn btn-outline-secondary" href="items/page="<?= $items_current_page -1 ;?>" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>&nbsp;
           </li>
@@ -27,7 +27,7 @@
                 echo ' class="btn btn-outline-secondary disabled">'.$i.' </li>&nbsp;';
               }
               else {
-                echo '><a class="btn btn-outline-primary" href="items/index/page=' . $i . '">' . $i . '</a>&nbsp;</li>';
+                echo '><a class="btn btn-outline-primary" href="items/page=' . $i . '">' . $i . '</a>&nbsp;</li>';
               }
           }
 
@@ -35,7 +35,7 @@
           {
           ?>
           <li>
-              <a class="btn btn-outline-secondary" href="items/index/page=<?= $items_current_page + 1; ?>" aria-label="Next">
+              <a class="btn btn-outline-secondary" href="items/page=<?= $items_current_page + 1; ?>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
           </li>

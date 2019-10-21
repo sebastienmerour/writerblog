@@ -12,7 +12,7 @@
 <div class="container">
   <div class="row">
     <p>Vous avez été déconnectés. &nbsp;</p>
-    <p>Pour vous connecter, <a href="login/index">cliquez ici</a></p>
+    <p>Pour vous connecter, <a href="login">cliquez ici</a></p>
   </div>
 </div>
 <hr>

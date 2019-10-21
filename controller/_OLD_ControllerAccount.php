@@ -46,7 +46,7 @@ require_once 'Model/Item.php';
            header('Location: index.php');
        }
      }
-     
+
      // Read
      // Affichage de Mon Compte :
      function index() {
@@ -149,21 +149,21 @@ require_once 'Model/Item.php';
                             $newAvatar = $this->user->changeAvatar($avatarname);
 
                            echo "L'avatar a bien été envoyé !";
-                           $this->redirect("account");
+                           $this->redirect("user");
          			}
          			else {
          				echo "L'extension du fichier n'est pas autorisée.";
-                $this->redirect("account");
+                $this->redirect("user");
          			}
          }
          else {
          echo "Le fichier est trop gros.";
-         $this->redirect("account");
+         $this->redirect("user");
          }
          }
          else {
          echo "L'envoi du fichier a échoué.";
-         $this->redirect("account");
+         $this->redirect("user");
          }
 
       }

@@ -55,7 +55,7 @@
 									</div><!-- fin du div col-sm-4 -->
 
 							    <div class="col-sm-8"><h6>Modifier ma photo de profil :</h6>
-									<form action="<?php echo BASE_URL; ?>account/updateavatar" method="post" enctype="multipart/form-data">
+									<form action="<?php echo BASE_URL; ?>user/updateavatar" method="post" enctype="multipart/form-data">
 										                <input type="file" name="avatar" class="text-center center-block file-upload">
 																		<label for="avatar">(JPG, PNG ou GIF | max. 1 Mo)</label>
 																		<input type="hidden" name="MAX_FILE_SIZE" value="1048576">
@@ -90,7 +90,7 @@
               <div class="tab-pane fade show active" id="infos" role="tabpanel" aria-labelledby="pills-home-tab">
 
                 <!-- Infos Personnelles -->
-        				<form role="form" class="form needs-validation" action="account/updateuser" method="post" id="usermodification" novalidate>
+        				<form role="form" class="form needs-validation" action="user/updateuser" method="post" id="usermodification" novalidate>
                   <p>&nbsp;</p>
                   <?php
                   if (!empty($_SESSION['errors']['passdifferent'])){?>
@@ -155,7 +155,7 @@
         											<br>
         											<button class="btn btn-md btn-success" name="modifyuser" type="submit">Enregistrer</button>
         											<a href="#" class="btn btn-md btn-secondary" type="reset">Annuler</a>
-        											<a href="account" class="btn btn-md btn-primary" role="button">Retour</a>
+        											<a href="user" class="btn btn-md btn-primary" role="button">Retour</a>
         									</div>
         						</div>
                     <p>&nbsp;</p>
@@ -171,7 +171,7 @@
 			</div>
 
       <div class="tab-pane fade" id="username" role="tabpanel" aria-labelledby="pills-profile-tab">
-        <form role="form" class="form needs-validation" action="account/updateusername" method="post" id="usermodification" novalidate>
+        <form role="form" class="form needs-validation" action="user/updateusername" method="post" id="usermodification" novalidate>
           <p>&nbsp;</p>
 					<?php
 					if (!empty($_SESSION['errors']['username'])){?>

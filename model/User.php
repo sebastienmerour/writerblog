@@ -146,12 +146,12 @@ class User extends Model {
          }
          if (!empty($errors)) {
              $_SESSION['errors'] = $errors;
-             die(header('Location: ../account/'));
+             die(header('Location: ../user/'));
              exit;
          }
          if (!empty($errorsmail)) {
              $_SESSION['errorsmail'] = $errorsmail;
-             die(header('Location: ../account/'));
+             die(header('Location: ../user/'));
              exit;
          }
          // Maintenant, on hashe le mot de passe, car on ne veut pas enregistrer
@@ -176,7 +176,7 @@ class User extends Model {
          $messages['userupdated'] = 'Votre compte a bien été mis à jour !';
          if (!empty($messages)) {
              $_SESSION['messages'] = $messages;
-             header('Location: ../account/');
+             header('Location: ../user/');
              exit;
          }
      }
@@ -209,7 +209,7 @@ class User extends Model {
 
          if (!empty($errorsuser)) {
              $_SESSION['errorsuser'] = $errorsuser;
-             die(header('Location: ../account/'));
+             die(header('Location: ../user/'));
 
              exit;
          }
@@ -225,7 +225,7 @@ class User extends Model {
          $messages['usernameupdated'] = 'Votre identifiant a bien été modifié !';
          if (!empty($messages)) {
              $_SESSION['messages'] = $messages;
-             header('Location: ../account/');
+             header('Location: ../user/');
              exit;
          }
      }
@@ -245,7 +245,7 @@ class User extends Model {
          $messages['avatarupdated'] = 'Votre avatar a bien été modifié !';
          if (!empty($messages)) {
              $_SESSION['messages'] = $messages;
-             header('Location: ../account/');
+             header('Location: ../user/');
              exit;
          }
      }
@@ -307,7 +307,7 @@ class User extends Model {
 
 
                      // On redirige l'utilisateur vers la page protégée :
-                     header('Location: ../account/');
+                     header('Location: ../user/');
                      exit;
 
                  } else {

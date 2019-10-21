@@ -3,7 +3,7 @@
 ?>
 <?php $this->title = 'Inscription'; ?>
 
-<form class="form-signin needs-validation" method="post" action="account/createuser" novalidate>
+<form class="form-signin needs-validation" method="post" action="user/createuser" novalidate>
 
 <h1 class="h3 mb-3 font-weight-normal">Rejoignez le site</h1>
 <label for "username" class="sr-only">Identifiant :&nbsp;</label>

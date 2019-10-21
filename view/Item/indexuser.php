@@ -21,12 +21,12 @@ if (empty($item)) {
 <h1 class="mt-4 text-left"><?= $this->clean($item['title']) ?></h1>
 
 <!-- Author -->
-<span class="lead">publié par <a href="<?= "user/index/" . $this->clean($item['id_user']) ?>">
+<span class="lead">publié par <a href="<?= "user/profile/" . $this->clean($item['id_user']) ?>">
   <?= $this->clean($item['firstname']) . '&nbsp;' . $this->clean($item['name'])?></a></span>
 <br>
 
 <!-- Date et Heure de Publication -->
-<em>le <?= $this->clean($item['date_creation_fr']) ?></em>&nbsp;<em class="fas fa-comments">&nbsp;</em><em><a href="<?= "item/index/" . $this->clean($item['id']) ?>#comments">Commentaires</a></em><br>
+<em>le <?= $this->clean($item['date_creation_fr']) ?></em>&nbsp;<em class="fas fa-comments">&nbsp;</em><em><a href="<?= "item/" . $this->clean($item['id']) ?>#comments">Commentaires</a></em><br>
 <?php if (isset($item['date_update']) AND $item['date_update'] > 0 ) {?>
 	<em>article modifé le&nbsp;<?= $this->clean($item['date_update']) ?></em>
 	<?php } ?>
