@@ -28,7 +28,7 @@ class ControllerItem extends Controller {
     public function index() {
         $item_id = $this->request->getParameter("id");
         $item = $this->item->getItem($item_id);
-        $number_of_items  = $this->item->getNumberOfItems();
+        $number_of_items  = $this->item->count();
         $items_current_page = $this->item->getCurrentPage();
         $number_of_items_pages = $this->item->getNumberOfPages();
         $comments = $this->comment->countComments($item_id);
@@ -55,7 +55,7 @@ class ControllerItem extends Controller {
     {
       $item_id = $this->request->getParameter("id");
       $item = $this->item->getItem($item_id);
-      $number_of_items  = $this->item->getNumberOfItems();
+      $number_of_items  = $this->item->count();
       $items_current_page = $this->item->getCurrentPage();
       $number_of_items_pages = $this->item->getNumberOfPages();
       $user = $this->user->getUser($_SESSION['id_user']);

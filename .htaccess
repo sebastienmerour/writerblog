@@ -1,4 +1,20 @@
+#--------------------------------------------------
+#
+#--------------------------------------------------
+
+# Le serveur doit suivre les liens symboliques :
+Options +FollowSymlinks
 Options -MultiViews
-# Réécrit une URL de type xxx/yyy/zzz en index.php?controller=xxx&action=yyy&id=zzz
+
+# Activation du module de réécriture d'URL :
 RewriteEngine on
+
+#--------------------------------------------------
+# Règles de réécriture d'URL :
+#--------------------------------------------------
+
+# Réécrit une URL de type xxx/yyy/zzz en index.php?controller=xxx&action=yyy&id=zzz&id_comment=iii
 RewriteRule ^([a-zA-Z]*)/?([a-zA-Z]*)?/?([a-zA-Z0-9]*)?/?([a-zA-Z0-9]*)?/?$ index.php?controller=$1&action=$2&id=$3&id_comment=$4 [NC,L]
+
+# Réécrit une URL de type xxx/yyy/zzz en index.php?controller=xxx&action=yyy&id=zzz&pageitems=iii
+RewriteRule ^([a-zA-Z]*)/?([a-zA-Z]*)?/?([a-zA-Z0-9]*)?/?$ index.php?controller=$1&action=$2&id=$3 [NC,L]

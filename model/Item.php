@@ -6,7 +6,12 @@ require_once 'Framework/Model.php';
  * @author Sébastien Merour
  */
 class Item extends Model {
-    public $items_count, $request_items, $start;
+    public
+
+    $number_of_items,
+    $items_current_page,
+    $number_of_items_pages,
+    $number_of_items_by_page = 5;
 
     // Create
     // Création d'un nouvel article :
@@ -63,42 +68,34 @@ class Item extends Model {
      *
      * @return PDOStatement La liste des articles
      */
-
-     public function count()
+     public function getItems()
      {
-         $sql                     = 'SELECT COUNT(id) AS counter FROM items';
-         $this->items_count       = $this->dbConnect($sql);
-         $number_of_items_by_page = 5;
-         $items                   = $this->items_count->fetch(\PDO::FETCH_ASSOC);
-         $number_of_items         = $items['counter'];
-         // Calculer le nombre de pages nécessaires :
-         $number_of_items_pages   = ceil($number_of_items / $number_of_items_by_page);
-
-         // Vérifier quelle est la page active :
-         if (isset($_GET['page'])) {
-             $items_current_page = (int) $_GET['page'];
-         } else {
-             $items_current_page = 1;
-         }
-
-         // Définir à partir de quel N° d'item chaque page doit commencer :
-         $this->start = (int) (($items_current_page - 1) * $number_of_items_by_page);
-
+       // Définir à partir de quel N° d'item chaque page doit commencer :
+         $sql                     = 'SELECT items.id, items.title, items.image, items.content,
+     DATE_FORMAT(items.date_creation, \'%d/%m/%Y à %Hh%i\') AS date_creation_fr,
+     DATE_FORMAT(items.date_update, \'%d/%m/%Y à %Hh%i\') AS date_update,
+     users.id_user, users.firstname, users.name FROM items
+     LEFT JOIN users
+     ON items.id_user = users.id_user
+     ORDER BY date_creation DESC LIMIT ' . 0 . ', ' . $this->number_of_items_by_page . '';
+         $items                   = $this->dbConnect($sql);
+         return $items;
      }
 
 
-
-
-    public function getItems()
+    public function getPaginationItems($items_current_page)
     {
-        $number_of_items_by_page = 5;
+
+      // Définir à partir de quel N° d'item chaque page doit commencer :
+      $start = (int) (($items_current_page - 1) * $this->number_of_items_by_page);
+
         $sql                     = 'SELECT items.id, items.title, items.image, items.content,
     DATE_FORMAT(items.date_creation, \'%d/%m/%Y à %Hh%i\') AS date_creation_fr,
     DATE_FORMAT(items.date_update, \'%d/%m/%Y à %Hh%i\') AS date_update,
     users.id_user, users.firstname, users.name FROM items
     LEFT JOIN users
     ON items.id_user = users.id_user
-    ORDER BY date_creation DESC LIMIT ' . $this->start . ', ' . $number_of_items_by_page . '';
+    ORDER BY date_creation DESC LIMIT ' . $start . ', ' . $this->number_of_items_by_page . '';
         $items                   = $this->dbConnect($sql);
         return $items;
     }
@@ -191,24 +188,23 @@ class Item extends Model {
         }
     }
 
+    // Pagination
 
-
-
-    // Calculs
-    // Obtenir la page courante des articles :
-    public function getCurrentPage()
+    public function count()
     {
         $sql                     = 'SELECT COUNT(id) AS counter FROM items';
         $this->items_count       = $this->dbConnect($sql);
-        $number_of_items_by_page = 5;
         $items                   = $this->items_count->fetch(\PDO::FETCH_ASSOC);
         $number_of_items         = $items['counter'];
-        // Calculer le nombre de pages nécessaires :
-        $number_of_items_pages   = ceil($number_of_items / $number_of_items_by_page);
+        return $number_of_items;
+    }
 
+    // Obtenir la page courante des articles :
+    public function getCurrentPage()
+    {
         // Vérifier quelle est la page active :
-        if (isset($_GET['page'])) {
-            $items_current_page = (int) $_GET['page'];
+        if (isset($_GET['id'])) {
+            $items_current_page = (int) $_GET['id'];
         } else {
             $items_current_page = 1;
         }
@@ -218,26 +214,12 @@ class Item extends Model {
     // Obtenir le nombre de pages des articles :
     public function getNumberOfPages()
     {
-        $sql                     = 'SELECT COUNT(id) AS counter FROM items';
-        $this->items_count       = $this->dbConnect($sql);
-        $number_of_items_by_page = 5;
-        $items                   = $this->items_count->fetch(\PDO::FETCH_ASSOC);
-        $number_of_items         = $items['counter'];
-        // Calculer le nombre de pages nécessaires :
-        $number_of_items_pages   = ceil($number_of_items / $number_of_items_by_page);
-        return $number_of_items_pages;
+      $number_of_items         = $this->count();
+      // Calculer le nombre de pages nécessaires :
+      $number_of_items_pages   = ceil($number_of_items / $this->number_of_items_by_page);
+      return $number_of_items_pages;
     }
 
-    //  Obtenir le nombre total d'articles :
-    public function getNumberOfItems()
-    {
-        $sql               = 'SELECT COUNT(id) AS counter FROM items';
-        $this->items_count = $this->dbConnect($sql);
-        $items             = $this->items_count->fetch(\PDO::FETCH_ASSOC);
-        $number_of_items   = $items['counter'];
-        return $number_of_items;
-
-    }
 
 
 }

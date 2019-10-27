@@ -48,7 +48,7 @@ if ($items_current_page > $number_of_items_pages) {
 	require __DIR__ . '/../errors/items_not_found.php';
 }
 else {
-require __DIR__ . '/../Home/pagination_home.php';
+require __DIR__ . '/../Item/pagination_items.php';
 }
 ?>
 <?php $this->sidebar= 'Le blog contient ' . $number_of_items .' articles<br>

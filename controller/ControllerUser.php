@@ -23,7 +23,7 @@ class ControllerUser extends Controller {
     // Affichage du formulaire d'inscription :
     public function adduser() {
       $items = $this->item->count();
-      $number_of_items  = $this->item->getNumberOfItems();
+      $number_of_items  = $this->item->count();
       $number_of_items_pages = $this->item->getNumberOfPages();
       $this->generateView(array(
       'items' => $items,
@@ -54,7 +54,7 @@ class ControllerUser extends Controller {
       $user = $this->request->getSession()->setAttribut("user", $this->user);
       $user = $this->user->getUser($_SESSION['id_user']);
       $items = $this->item->count();
-      $number_of_items  = $this->item->getNumberOfItems();
+      $number_of_items  = $this->item->count();
       $number_of_items_pages = $this->item->getNumberOfPages();
       $this->generateView(array(
       'user' => $user,
@@ -91,7 +91,7 @@ class ControllerUser extends Controller {
     function modifyuser()
     {
         $items = $this->item->count();
-        $number_of_items  = $this->item->getNumberOfItems();
+        $number_of_items  = $this->item->count();
         $number_of_items_pages = $this->item->getNumberOfPages();
         $user = $this->request->getSession()->setAttribut("user", $this->user);
         $user = $this->user->getUser($_SESSION['id_user']);

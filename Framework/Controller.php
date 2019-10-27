@@ -15,9 +15,6 @@ abstract class Controller {
   // Action à réaliser
   private $action;
 
-  // Page à afficher
-  private $page;
-
   // Requête entrante
   protected $request;
 
@@ -56,7 +53,7 @@ abstract class Controller {
     $classController = get_class($this);
     $controller = str_replace("Controller", "", $classController);
     // Instanciation et génération de la vue
-    $view = new View($this->action, $controller, $this->page);
+    $view = new View($this->action, $controller);
     $view->generate($datasView);
   }
 
@@ -65,7 +62,7 @@ abstract class Controller {
     $classController = get_class($this);
     $controller = str_replace("Controller", "", $classController);
     // Instanciation et génération de la vue
-    $view = new View($this->action, $controller, $this->page);
+    $view = new View($this->action, $controller);
     $view->generateadmin($datasView);
   }
 

@@ -34,7 +34,7 @@ require_once 'Model/User.php';
    {
      $items = $this->item->count();
      $items = $this->item->getItems();
-     $number_of_items  = $this->item->getNumberOfItems();
+     $number_of_items  = $this->item->count();
      $items_current_page = $this->item->getCurrentPage();
      $number_of_items_pages = $this->item->getNumberOfPages();
      $comments        = $this->comment->selectComments();
