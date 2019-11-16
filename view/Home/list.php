@@ -4,7 +4,8 @@
 <?php foreach ($items as $item):?>
 
   <!-- Title -->
-  <span class="text-body newstitle"><a href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id']) : "item/indexuser/" . $this->clean($item['id'])?>"><h1 class="mt-4 text-left"><?= $this->clean($item['title']) ?>
+  <span class="text-body newstitle"><a href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id'])  . "/1/" : "item/indexuser/" . $this->clean($item['id']) . "/1/" ?>">
+    <h1 class="mt-4 text-left"><?= $this->clean($item['title']) ?>
   </h1></a></span>
 
   <!-- Author -->
@@ -22,7 +23,7 @@
 
   <!-- Image du Post -->
   <figure class="figure">
-  <a href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id']) : "item/indexuser/" . $this->clean($item['id'])?>">
+  <a href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id']) . "/1/" : "item/indexuser/" . $this->clean($item['id']) . "/1/" ?>">
     <img src="<?php echo BASE_URL; ?>public/images/item_images/<?= $this->clean($item['image'])?>" class="figure-img img-fluid rounded-right"
   alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']) ?>"></a>
   <figcaption class="figure-caption text-right"><?= $this->clean($item['title']) ?></figcaption>
@@ -37,8 +38,8 @@
 <!-- Commentaires  -->
 <!-- Affichage du lien Commentaires associé au post  : -->
 
-<em class="fas fa-book-reader"></em>&nbsp; <em><a href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id']) : "item/indexuser/" . $this->clean($item['id'])?>">Lire la suite</a> || &nbsp;<em class="fas fa-comments"></em>&nbsp;
-<a href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id']) : "item/indexuser/" . $this->clean($item['id'])?>#comments">Commentaires</a></em>
+<em class="fas fa-book-reader"></em>&nbsp; <em><a href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id'])  . "/1/" : "item/indexuser/" . $this->clean($item['id']) . "/1/"?>">Lire la suite</a> || &nbsp;<em class="fas fa-comments"></em>&nbsp;
+<a href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id']) . "/1/" : "item/indexuser/" . $this->clean($item['id']) . "/1/"?>#comments">Commentaires</a></em>
 <p>&nbsp;</p>
 <hr>
 

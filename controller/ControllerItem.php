@@ -24,27 +24,29 @@ class ControllerItem extends Controller {
         $this->user = new User();
     }
 
+
     // Affichage d'un seul item avec ses commentaires - pour user inconnu
     public function index() {
         $item_id = $this->request->getParameter("id");
         $item = $this->item->getItem($item_id);
         $number_of_items  = $this->item->count();
-        $items_current_page = $this->item->getCurrentPage();
         $number_of_items_pages = $this->item->getNumberOfPages();
-        $comments = $this->comment->countComments($item_id);
-        $comments = $this->comment->getComments($item_id);
+        $number_of_comments =  $this->comment->countComments($item_id);
+        $comments_current_page = $this->comment->getCommentsCurrentPageFromItem();
+        $page_previous_comments = $comments_current_page - 1;
+        $page_next_comments = $comments_current_page + 1;
+        $comments = $this->comment->getPaginationComments($item_id, $comments_current_page);
         $default = "default.png";
-        $comments_current_page = $this->comment->getNumberOfComments();
-        $number_of_comments =  $this->comment->getNumberOfCommentsFromItem();
-        $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromItem();
+        $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromItem($item_id);
         $this->generateView(array(
           'item' => $item,
           'number_of_items' => $number_of_items,
-          'items_current_page' => $items_current_page,
           'number_of_items_pages' => $number_of_items_pages,
           'comments' => $comments,
           'default'=> $default,
           'comments_current_page' => $comments_current_page,
+          'page_previous_comments' => $page_previous_comments,
+          'page_next_comments' => $page_next_comments,
           'number_of_comments' => $number_of_comments,
           'number_of_comments_pages' => $number_of_comments_pages
         ));
@@ -55,25 +57,26 @@ class ControllerItem extends Controller {
     {
       $item_id = $this->request->getParameter("id");
       $item = $this->item->getItem($item_id);
-      $number_of_items  = $this->item->count();
-      $items_current_page = $this->item->getCurrentPage();
-      $number_of_items_pages = $this->item->getNumberOfPages();
       $user = $this->user->getUser($_SESSION['id_user']);
-      $comments = $this->comment->countComments($item_id);
-      $comments = $this->comment->getComments($item_id);
+      $number_of_items  = $this->item->count();
+      $number_of_items_pages = $this->item->getNumberOfPages();
+      $number_of_comments =  $this->comment->countComments($item_id);
+      $comments_current_page = $this->comment->getCommentsCurrentPageFromItemUser();
+      $page_previous_comments = $comments_current_page - 1;
+      $page_next_comments = $comments_current_page + 1;
+      $comments = $this->comment->getPaginationComments($item_id, $comments_current_page);
       $default = "default.png";
-      $comments_current_page = $this->comment->getNumberOfComments();
-      $number_of_comments =  $this->comment->getNumberOfCommentsFromItem();
-      $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromItem();
+      $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromItem($item_id);
       $this->generateView(array(
         'item' => $item,
         'number_of_items' => $number_of_items,
-        'items_current_page' => $items_current_page,
         'number_of_items_pages' => $number_of_items_pages,
         'user' => $user,
         'comments' => $comments,
         'default'=> $default,
         'comments_current_page' => $comments_current_page,
+        'page_previous_comments' => $page_previous_comments,
+        'page_next_comments' => $page_next_comments,
         'number_of_comments' => $number_of_comments,
         'number_of_comments_pages' => $number_of_comments_pages
       ));

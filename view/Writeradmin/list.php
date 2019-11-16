@@ -59,7 +59,7 @@
   	require __DIR__ . '/../errors/items_not_found.php';
   }
   else {
-  require('pagination_dashboard_items.php');}
+  require('pagination_items.php');}
   ?>
 
 <h2 id="tomoderate">Commentaires signalés</h2>
@@ -88,7 +88,7 @@ if ($counter_comments < 1) {
 }
 
 else {
-require('pagination_dashboard_comments.php');}
+require('pagination_comments.php');}
 ?>
 <div class="table-responsive">
   <table class="table table-striped table-sm">
@@ -131,7 +131,7 @@ if ($counter_comments < 1) {
   require __DIR__ . '/../view/errors/comments_not_found.php';
 }
 else {
-require('pagination_dashboard_comments.php');}
+require('pagination_comments.php');}
 ?>
 </div>
 <?php

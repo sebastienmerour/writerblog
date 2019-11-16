@@ -69,7 +69,7 @@ class ControllerUser extends Controller {
       $user_id = $this->request->getParameter("id");
       $user = $this->user->getUser($user_id);
       $items = $this->item->count();
-      $number_of_items  = $this->item->getNumberOfItems();
+      $number_of_items  = $this->item->count();
       $number_of_items_pages = $this->item->getNumberOfPages();
       $this->generateView(array(
       'user' => $user,

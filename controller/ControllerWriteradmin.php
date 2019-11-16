@@ -29,20 +29,19 @@ require_once 'Model/User.php';
      $this->generateadminView();
    }
 
-
    public function dashboard()
    {
      $items = $this->item->count();
      $items = $this->item->getItems();
      $number_of_items  = $this->item->count();
-     $items_current_page = $this->item->getCurrentPage();
+     $items_current_page = 1;
      $number_of_items_pages = $this->item->getNumberOfPages();
-     $comments        = $this->comment->selectComments();
+     $comments_current_page = 1;
+     $comments        = $this->comment->selectComments($comments_current_page);
      $default= "default.png";
-     $comments_current_page = $this->comment->getNumberOfComments();
-     $number_of_comments =  $this->comment->getNumberOfCommentsFromItem();
-     $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromItem();
-     $counter_comments         = $this->comment->getNumberOfComments();
+     //$comments_current_page = $this->comment->getNumberOfComments();
+     $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromAdmin();
+     $counter_comments         = $this->comment->getTotalOfComments();
      $this->generateadminView(array(
      'items' => $items,
      'comments' => $comments,
@@ -51,18 +50,49 @@ require_once 'Model/User.php';
      'number_of_items_pages' => $number_of_items_pages,
      'default'=> $default,
      'comments_current_page' => $comments_current_page,
-     'number_of_comments' => $number_of_comments,
      'number_of_comments_pages' => $number_of_comments_pages,
      'counter_comments' => $counter_comments
    ));
-
-       // Vérifier quelle est la page active :
-       if (isset($_GET['commentspage'])) {
-           $comments_current_page = (int) $_GET['commentspage'];
-       } else {
-           $comments_current_page = 1;
-       }
    }
+
+
+   public function list()
+   {
+     $items = $this->item->count();
+     $items = $this->item->getItems();
+     $number_of_items  = $this->item->count();
+     //$items_current_page = $this->request->getParameter("id");
+     $items_current_page = $this->item->getItemsCurrentPageFromAdmin();
+     $items = $this->item->getPaginationItems($items_current_page);
+     $number_of_items_pages = $this->item->getNumberOfPages();
+     $page_previous_items = $items_current_page - 1;
+     $page_next_items = $items_current_page + 1;
+     $comments_current_page = $this->comment->getCommentsCurrentPageFromAdmin();
+     $comments        = $this->comment->selectComments($comments_current_page);
+     $default= "default.png";
+     //$comments_current_page = $this->comment->getNumberOfComments();
+     $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromAdmin();
+     $counter_comments         = $this->comment->getTotalOfComments();
+     $this->generateadminView(array(
+     'items' => $items,
+     'comments' => $comments,
+     'number_of_items' => $number_of_items,
+     'items_current_page' => $items_current_page,
+     'page_previous_items' => $page_previous_items,
+     'page_next_items' => $page_next_items,
+     'number_of_items_pages' => $number_of_items_pages,
+     'default'=> $default,
+     'comments_current_page' => $comments_current_page,
+     'number_of_comments_pages' => $number_of_comments_pages,
+     'counter_comments' => $counter_comments
+   ));
+   }
+
+
+
+
+
+
 
    // ITEMS
    // Create :

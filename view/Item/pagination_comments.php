@@ -6,9 +6,12 @@
           {
           ?>
           <li>
-              <a class="btn btn-outline-secondary" href="?action=readitem&id=<?php echo $_GET['id'];?>&page=<?php echo $comments_current_page -1 ; ?>#comments" aria-label="Previous">
+
+              <a class="btn btn-outline-secondary" href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id']) . "/" . $page_previous_comments : "item/indexuser/" . $this->clean($item['id']).
+              "/" . $page_previous_comments ?>#comments" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>&nbsp;
+
           </li>
           <?php
           }
@@ -21,15 +24,22 @@
                 echo ' class="btn btn-outline-secondary disabled">'.$i.' </li>&nbsp;';
               }
               else {
-                echo '><a class="btn btn-outline-primary" href="?action=readitem&id='.$_GET['id'].'&page=' . $i . '#comments">' . $i . '</a>&nbsp;</li>';
+                  if (!ISSET($_SESSION['id_user'])) {
+
+                  echo '><a class="btn btn-outline-primary" href="item/' .$this->clean($item['id']). '/'. $i . '/#comments">' . $i . '</a>&nbsp;</li>';
+                  }
+                  else {
+                  echo '><a class="btn btn-outline-primary" href="item/indexuser/' .$this->clean($item['id']). '/'. $i . '/#comments">' . $i . '</a>&nbsp;</li>';
+
               }
           }
-
+        }
           if ($comments_current_page < $number_of_comments_pages)
           {
           ?>
           <li>
-              <a class="btn btn-outline-secondary" href="?action=readitem&id=<?php echo $_GET['id']; ?>&page=<?php echo $comments_current_page + 1; ?>" aria-label="Next">
+              <a class="btn btn-outline-secondary" href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id']) . "/" . $page_next_comments  : "item/indexuser/" . $this->clean($item['id']).
+              "/" . $page_next_comments ?>#comments" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
           </li>

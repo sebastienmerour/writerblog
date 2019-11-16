@@ -65,7 +65,7 @@ public function loginadmin()
     public function logout()
     {
         $items = $this->item->count();
-        $number_of_items  = $this->item->getNumberOfItems();
+        $number_of_items  = $this->item->count();
         $number_of_items_pages = $this->item->getNumberOfPages();
         if(ISSET($_SESSION['id_user'])) {
           $this->request->getSession()->destroy();

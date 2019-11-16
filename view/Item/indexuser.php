@@ -26,7 +26,7 @@ if (empty($item)) {
 <br>
 
 <!-- Date et Heure de Publication -->
-<em>le <?= $this->clean($item['date_creation_fr']) ?></em>&nbsp;<em class="fas fa-comments">&nbsp;</em><em><a href="<?= "item/" . $this->clean($item['id']) ?>#comments">Commentaires</a></em><br>
+<em>le <?= $this->clean($item['date_creation_fr']) ?></em>&nbsp;<em class="fas fa-comments">&nbsp;</em><em><a href="<?= "item/indexuser/" . $this->clean($item['id']). "/1/"  ?>#comments">Commentaires (<?php echo $number_of_comments ;?>)</a></em><br>
 <?php if (isset($item['date_update']) AND $item['date_update'] > 0 ) {?>
 	<em>article modifé le&nbsp;<?= $this->clean($item['date_update']) ?></em>
 	<?php } ?>

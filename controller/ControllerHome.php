@@ -16,7 +16,7 @@ class ControllerHome extends Controller {
 
     // Lister les articles :
     public function index() {
-          $items = $this->item->count();
+          //$items = $this->item->count();
           $items = $this->item->getItems();
           $number_of_items  = $this->item->count();
           $items_current_page = 1;
@@ -32,11 +32,10 @@ class ControllerHome extends Controller {
 
 
     public function list() {
-      $items = $this->item->count();
+      //$items = $this->item->count();
       $number_of_items  = $this->item->count();
       $items_current_page = $this->request->getParameter("id");
       $items = $this->item->getPaginationItems($items_current_page);
-      $items_current_page = $this->item->getCurrentPage();
       $number_of_items_pages = $this->item->getNumberOfPages();
       $this->generateView(array(
       'items' => $items,

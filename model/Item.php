@@ -220,6 +220,16 @@ class Item extends Model {
       return $number_of_items_pages;
     }
 
+    // Obtenir la page courante des items sur la page Admin :
+    public function getItemsCurrentPageFromAdmin()
+    {
+      $q = explode("/", $_SERVER['REQUEST_URI']);
+      $value = $q[4];
+      $items_current_page = (int)$value;
+      return $items_current_page;
+    }
+
+
 
 
 }
