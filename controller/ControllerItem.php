@@ -185,6 +185,41 @@ class ControllerItem extends Controller {
     }
 
 
+    // Signaler un commentaire
+    public function reportcomment()
+    {
+      $item_id = $this->item->getItemId();
+      $item = $this->item->getItem($item_id);
+      $number_of_items  = $this->item->count();
+      $number_of_items_pages = $this->item->getNumberOfPages();
+      $number_of_comments =  $this->comment->countComments($item_id);
+      $comments_current_page = 1;
+      $page_previous_comments = $comments_current_page - 1;
+      $page_next_comments = $comments_current_page + 1;
+      $comments = $this->comment->getPaginationComments($item_id, $comments_current_page);
+      $id_comment = $this->comment->getCommentId();
+      $comment = $this->comment->getComment($id_comment);
+      $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromItem($item_id);
+      $this->comment->reportBadComment($id_comment);
+      $default = "default.png";
+      $this->generateView(array(
+      'comment' => $comment,
+      'item' => $item,
+      'number_of_items' => $number_of_items,
+      'number_of_items_pages' => $number_of_items_pages,
+      'comments_current_page' => $comments_current_page,
+      'comments' => $comments,
+      'default'=> $default,
+      'page_previous_comments' => $page_previous_comments,
+      'page_next_comments' => $page_next_comments,
+      'number_of_comments' => $number_of_comments,
+      'number_of_comments_pages' => $number_of_comments_pages
+    ));
+    }
+
+
+
+
 
 
 }

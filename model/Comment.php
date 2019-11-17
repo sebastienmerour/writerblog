@@ -10,7 +10,9 @@ class Comment extends Model {
   $number_of_comments,
   $comments_current_page,
   //$comments_count,
-  $number_of_comments_by_page = 5;
+  $number_of_comments_by_page = 5,
+  $number_of_comments_reported_by_page = 5;
+
 
     public function start()
     {
@@ -79,8 +81,8 @@ class Comment extends Model {
   {
       $comments_start = (int) (($comments_current_page - 1) * $this->number_of_comments_by_page);
       $sql                        = 'SELECT comments.id AS id_comment, comments.id_user AS user_com, comments.author, comments.content,
-      DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
-      DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
+      DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%i\') AS date_creation_fr,
+      DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%i\') AS date_update,
       users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
       FROM comments
       LEFT JOIN users
@@ -99,8 +101,8 @@ class Comment extends Model {
   {
       $comments_start = (int) (($comments_current_page - 1) * $this->number_of_comments_by_page);
       $sql                        = 'SELECT comments.id AS id_comment, comments.id_user AS user_com, comments.author, comments.content,
-      DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
-      DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
+      DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%i\') AS date_creation_fr,
+      DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%i\') AS date_update,
       users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
       FROM comments
       LEFT JOIN users
@@ -120,8 +122,8 @@ class Comment extends Model {
   public function getComment($id_comment)
   {
       $sql     = 'SELECT comments.id, comments.id_user AS user_com, comments.author, comments.content,
-        DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
-        DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
+        DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%i\') AS date_creation_fr,
+        DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%i\') AS date_update,
         users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com
         FROM comments
         LEFT JOIN users
@@ -144,7 +146,7 @@ class Comment extends Model {
       $item = (int)$valuei;
       $comment= (int)$valuec;
       $content           = !empty($_POST['content']) ? trim($_POST['content']) : null;
-      $sql        = 'UPDATE comments SET content = :content, date_creation = NOW() WHERE id = :id';
+      $sql        = 'UPDATE comments SET content = :content, date_update = NOW() WHERE id = :id';
       $newComment = $this->dbConnect($sql, array(
         ':id' => $comment,
         ':content' => $content
@@ -162,7 +164,7 @@ class Comment extends Model {
   {
       $comment = $_GET['id'];
       $content           = !empty($_POST['content']) ? trim($_POST['content']) : null;
-      $sql        = 'UPDATE comments SET content = :content, date_creation = NOW() WHERE id = :id';
+      $sql        = 'UPDATE comments SET content = :content, date_update = NOW() WHERE id = :id';
       $newComment = $this->dbConnect($sql, array(
         ':id' => $comment,
         ':content' => $content
@@ -175,6 +177,42 @@ class Comment extends Model {
         exit;
     }
 }
+
+// Signaler des commentaires :
+public function reportBadComment($id_comment)
+{
+    $q = explode("/", $_SERVER['REQUEST_URI']);
+    $valuei = $q[4];
+    $valuec = $q[5];
+    $item = (int)$valuei;
+    $comment= (int)$valuec;
+    //$content           = !empty($_POST['content']) ? trim($_POST['content']) : null;
+    $sql        = 'UPDATE comments SET report = :report WHERE id = :id';
+    $newComment = $this->dbConnect($sql, array(
+      ':id' => $comment,
+      ':report' => "yes"
+    ));
+  // Ici on affiche le message de confirmation :
+    $commentmessages['confirmation'] = 'Merci ! Le commentaire a bien été signalé auprès de l\'administrateur du site !';
+    if (!empty($commentmessages)) {
+      $_SESSION['messages'] = $commentmessages;
+       if (ISSET($_SESSION['id_user'])) {
+         header('Location: /writerblog/item/indexuser/' . $item . '/1/#comments');
+         exit;
+       }
+       else {
+         header('Location: /writerblog/item/index/' . $item . '/1/#comments');
+         exit;
+       }
+  }
+}
+
+
+
+
+
+
+
 // Delete
 // Suppression d'un commentaire :
 public function eraseComment($id_comment)
@@ -218,6 +256,15 @@ public function eraseComment($id_comment)
     $value = $q[5];
     $comments_current_page = (int)$value;
     return $comments_current_page;
+  }
+
+  // Obtenir la page courante des commentaires :
+  public function getCommentsReportedCurrentPage()
+  {
+    $q = explode("/", $_SERVER['REQUEST_URI']);
+    $value = $q[5];
+    $comments_reported_current_page = (int)$value;
+    return $comments_reported_current_page;
   }
 
   // Obtenir la page courante des commentaires sur un article en particulier avec user connecté :
@@ -264,8 +311,8 @@ public function eraseComment($id_comment)
   {
       $comments_start = (int) (($comments_current_page - 1) * $this->number_of_comments_by_page);
       $sql            = 'SELECT comments.id, comments.id_user, comments.author, comments.content,
-    DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%imin\') AS date_creation_fr,
-    DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%imin\') AS date_update,
+    DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%i\') AS date_creation_fr,
+    DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%i\') AS date_update,
      users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com FROM comments
     LEFT JOIN users
     ON comments.id_user = users.id_user
@@ -273,4 +320,47 @@ public function eraseComment($id_comment)
       $comments = $this->dbConnect($sql);
       return $comments;
   }
+
+  // Afficher la liste complète de tous les commentaires signalés en Admin :
+  public function selectCommentsReported($comments_reported_current_page)
+  {
+      $comments_start = (int) (($comments_reported_current_page - 1) * $this->number_of_comments_reported_by_page);
+      $sql            = 'SELECT comments.id, comments.id_user, comments.author, comments.content,
+    DATE_FORMAT(comments.date_creation, \'%d/%m/%Y à %Hh%i\') AS date_creation_fr,
+    DATE_FORMAT(comments.date_update, \'%d/%m/%Y à %Hh%i\') AS date_update,
+     users.id_user, users.firstname AS firstname_com, users.name AS name_com, users.avatar AS avatar_com FROM comments
+    LEFT JOIN users
+    ON comments.id_user = users.id_user
+    WHERE report = :report
+    ORDER BY date_creation DESC LIMIT ' . $comments_start . ', ' . $this->number_of_comments_reported_by_page . '';
+      $comments_reported = $this->dbConnect($sql, array(
+        ':report' => "yes"
+      ));
+      return $comments_reported;
+  }
+
+
+  // Calculer le nombre total de Pages de Commentaires pour l'admin :
+  public function getNumberOfCommentsReportedPagesFromAdmin()
+  {
+      $total_comments_reported_count   = $this->getTotalOfCommentsReported();
+      // Calculer le nombre de pages nécessaires :
+      $number_of_comments_reported_pages = ceil($total_comments_reported_count /  $this->number_of_comments_reported_by_page);
+      return $number_of_comments_reported_pages;
+
+  }
+
+  // Calculer le nombre total de commentaires signalés pour l'admin :
+  public function getTotalOfCommentsReported()
+  {
+      $sql                  = 'SELECT COUNT(id) as counter FROM comments WHERE report = :report ';
+      $comments_reported_count             = $this->dbConnect($sql, array(
+        ':report' => "yes"
+      ));
+
+      $this->comments_reported_count = $comments_reported_count->fetch(\PDO::FETCH_ASSOC);
+      $total_comments_reported_count = $this->comments_reported_count['counter'];
+      return $total_comments_reported_count;
+  }
+
 }

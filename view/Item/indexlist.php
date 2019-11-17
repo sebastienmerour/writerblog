@@ -1,21 +1,7 @@
 <?php $this->title = 'Jean Forteroche | écrivain et acteur | Blog' . $this->clean($item['title']); ?>
-<!-- Message de confirmation -->
-<?php
-if (empty($item)) {
-	require __DIR__ . '/../errors/item_not_found.php';
-			    } else {
-						if (!empty($_SESSION['messages']['commentupdated']))
-					            {?>
-					              <div class="alert alert-success alert-dismissible fade show" role="alert">
-					                <?php echo $_SESSION['messages']['commentupdated'];
-					                ?>
-					                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					                  <span aria-hidden="true">&times;</span>
-					                </button>
-					              </div>
-					              <?php
-					            }
-?>
+<!-- Vérification de l'existence de l'item -->
+<?php if (empty($item)) { require __DIR__ . '/../errors/item_not_found.php';} ?>
+
 <?php unset($_SESSION['messages']); ?>
 <!-- Title -->
 <h1 class="mt-4 text-left"><?= $this->clean($item['title']) ?></h1>
@@ -47,6 +33,21 @@ alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']
 <!-- Commentaires  -->
 <h2 id="comments">Commentaires</h2>
 <hr>
+<!-- Message de confirmation -->
+<?php
+if (!empty($_SESSION['messages']['confirmation']))
+					            {?>
+					              <div class="alert alert-success alert-dismissible fade show" role="alert">
+					                <?php echo $_SESSION['messages']['confirmation'];
+					                ?>
+					                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					                  <span aria-hidden="true">&times;</span>
+					                </button>
+					              </div>
+					              <?php
+ }
+?>
+<?php unset($_SESSION['messages']); ?>
 <?php require('pagination_comments.php');?>
 <?php foreach ($comments as $comment): ?>
 	<div class="media mb-4">
@@ -55,17 +56,19 @@ alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']
 	    <h6 class="mt-0"><?= $this->clean(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author']);?></h6>
 			<h4><?= $this->clean($comment['content']); ?></h4>
 			<em>le <?php echo $comment['date_creation_fr']; ?></em><br>
-				<?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>
-					<em>commentaire modifé le&nbsp;<?php echo $item['date_update']; ?></em>
-					<?php }?>
-	  </div>
-	</div>
-<?php endforeach; ?>
-<?php
-}
-require('pagination_comments.php');
 
-?>
+			<?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>
+				<em class="fas fa-history"></em>&nbsp;<em>commentaire modifé le&nbsp;<?php echo $comment['date_update']; ?></em><br>
+				<?php }?>
+				<em class="fas fa-flag"></em>&nbsp;<a href="item/reportcomment/<?= $this->clean($item['id']) ?>/<?= $this->clean($comment['id_comment']) ;?>/">signaler le commentaire</a>&nbsp;
+				<?php if(ISSET($_SESSION['id_user']) AND  $_SESSION['id_user'] == $comment['user_com'])  {
+				?>
+				|&nbsp;<em class="fas fa-edit"></em>&nbsp;<a href="item/readcomment/<?= $this->clean($item['id']) ?>/<?= $this->clean($comment['id_comment']) ;?>/">modifier</a>
+					<?php };?>
+	</div>
+</div>
+<?php endforeach; ?>
+<?php require('pagination_comments.php');?>
 <hr>
 <!-- Ajout  de nouveaux commentaires : -->
     <div class="card my-4">
