@@ -43,33 +43,36 @@ class Comment extends Model {
   public function insertComment($item_id, $author, $content)
   {
       $sql           = 'INSERT INTO comments(id_item, author, content, date_creation) VALUES(?, ?, ?, NOW())';
-      $affectedLines = $this->dbConnect($sql, array(
+      $comment = $this->dbConnect($sql, array(
           $item_id,
           $author,
           $content
       ));
-      if ($affectedLines === false) {
-          // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
-          throw new Exception('Impossible d\'ajouter le commentaire !');
+
+      $messages['confirmation'] = 'Votre commentaire a bien été ajouté !';
+      if (!empty($messages)) {
+          $_SESSION['messages'] = $messages;
+          header('Location: ../item/'.$item_id .'#comments');
+          exit;
       }
-      return $affectedLines;
   }
   // Création d'un commentaire d'un utilisateur connecté :
   public function insertCommentLoggedIn($item_id, $user_id, $author, $content)
   {
       $user_id       = $_SESSION['id_user'];
       $sql           = 'INSERT INTO comments(id_item, id_user, author, content, date_creation) VALUES(?, ?, ?, ?, NOW())';
-      $affectedLines = $this->dbConnect($sql, array(
+      $comment = $this->dbConnect($sql, array(
           $item_id,
           $user_id,
           $author,
           $content
       ));
-      if ($affectedLines === false) {
-          // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
-          throw new Exception('Impossible d\'ajouter le commentaire !');
+      $messages['confirmation'] = 'Votre commentaire a bien été ajouté !';
+      if (!empty($messages)) {
+          $_SESSION['messages'] = $messages;
+          header('Location: ../item/indexuser/'.$item_id .'/1#comments');
+          exit;
       }
-      return $affectedLines;
   }
   // Afficher la liste des commentaires d'un Article :
   public function getComments($item_id)
@@ -132,8 +135,30 @@ class Comment extends Model {
       return $comment;
   }
   // Update
-  // Modification d'un commentaire :
+  // Modification d'un commentaire depuis le Front
   public function changeComment($content)
+  {
+      $q = explode("/", $_SERVER['REQUEST_URI']);
+      $valuei = $q[4];
+      $valuec = $q[5];
+      $item = (int)$valuei;
+      $comment= (int)$valuec;
+      $content           = !empty($_POST['content']) ? trim($_POST['content']) : null;
+      $sql        = 'UPDATE comments SET content = :content, date_creation = NOW() WHERE id = :id';
+      $newComment = $this->dbConnect($sql, array(
+        ':id' => $comment,
+        ':content' => $content
+      ));
+    // Ici on affiche le message de confirmation :
+    $commentmessages['confirmation'] = 'Merci ! Le commentaire a bien été modifié !';
+    if (!empty($commentmessages)) {
+        $_SESSION['messages'] = $commentmessages;
+        header('Location: /writerblog/item/readcomment/' . $item . '/'.  $comment);
+        exit;
+    }
+}
+  // Modification d'un commentaire depuis l'Admin
+  public function changeCommentAdmin($content)
   {
       $comment = $_GET['id'];
       $content           = !empty($_POST['content']) ? trim($_POST['content']) : null;
@@ -167,6 +192,16 @@ public function eraseComment($id_comment)
 }
 
   // Calculs
+  // Obtenir l'ID du commentaire pour une modification du commentaire en Front :
+  public function getCommentId()
+  {
+    $q = explode("/", $_SERVER['REQUEST_URI']);
+    $value = $q[5];
+    $id_comment = (int)$value;
+    return $id_comment;
+  }
+
+
   // Obtenir la page courante des commentaires sur un article en particulier :
   public function getCommentsCurrentPageFromItem()
   {
@@ -176,24 +211,23 @@ public function eraseComment($id_comment)
     return $comments_current_page;
   }
 
+  // Obtenir la page courante des commentaires :
+  public function getCommentsCurrentPage()
+  {
+    $q = explode("/", $_SERVER['REQUEST_URI']);
+    $value = $q[5];
+    $comments_current_page = (int)$value;
+    return $comments_current_page;
+  }
+
   // Obtenir la page courante des commentaires sur un article en particulier avec user connecté :
   public function getCommentsCurrentPageFromItemUser()
   {
     $q = explode("/", $_SERVER['REQUEST_URI']);
-    $value = $q[5];
+    $value = $q[6];
     $comments_current_page = (int)$value;
     return $comments_current_page;
   }
-
-  // Obtenir la page courante des commentaires sur la page Admin :
-  public function getCommentsCurrentPageFromAdmin()
-  {
-    $q = explode("/", $_SERVER['REQUEST_URI']);
-    $value = $q[5];
-    $comments_current_page = (int)$value;
-    return $comments_current_page;
-  }
-
 
   // Obtenir le nombre de pages des commentaires sur un article en particulier :
   public function getNumberOfCommentsPagesFromItem($item_id)

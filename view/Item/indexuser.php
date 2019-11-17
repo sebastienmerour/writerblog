@@ -47,7 +47,7 @@ alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']
 <!-- Commentaires  -->
 <h2 id="comments">Commentaires</h2>
 <hr>
-
+<?php require('pagination_comments.php');?>
 <?php foreach ($comments as $comment): ?>
 	<div class="media mb-4">
 	  <img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?php echo isset($comment['avatar_com']) ? $comment['avatar_com'] : $default ;?>" alt="user">
@@ -60,8 +60,8 @@ alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']
 					<?php }?>
 					<?php if(ISSET($_SESSION['id_user']) AND  $_SESSION['id_user'] == $comment['user_com'])  {
 					?>
-				(<a href="item/readcomment/<?= $this->clean($item['id']) ?>/<?= $this->clean($comment['id_comment']) ;?>">modifier</a>)
-					<?php };?>
+					(<a href="item/readcomment/<?= $this->clean($item['id']) ?>/<?= $this->clean($comment['id_comment']) ;?>/">modifier</a>)
+						<?php };?>
 	  </div>
 	</div>
 <?php endforeach; ?>

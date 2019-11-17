@@ -39,7 +39,6 @@ require_once 'Model/User.php';
      $comments_current_page = 1;
      $comments        = $this->comment->selectComments($comments_current_page);
      $default= "default.png";
-     //$comments_current_page = $this->comment->getNumberOfComments();
      $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromAdmin();
      $counter_comments         = $this->comment->getTotalOfComments();
      $this->generateadminView(array(
@@ -61,16 +60,14 @@ require_once 'Model/User.php';
      $items = $this->item->count();
      $items = $this->item->getItems();
      $number_of_items  = $this->item->count();
-     //$items_current_page = $this->request->getParameter("id");
-     $items_current_page = $this->item->getItemsCurrentPageFromAdmin();
+     $items_current_page = $this->request->getParameter("id");
      $items = $this->item->getPaginationItems($items_current_page);
      $number_of_items_pages = $this->item->getNumberOfPages();
      $page_previous_items = $items_current_page - 1;
      $page_next_items = $items_current_page + 1;
-     $comments_current_page = $this->comment->getCommentsCurrentPageFromAdmin();
+     $comments_current_page = $this->comment->getCommentsCurrentPage();
      $comments        = $this->comment->selectComments($comments_current_page);
      $default= "default.png";
-     //$comments_current_page = $this->comment->getNumberOfComments();
      $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromAdmin();
      $counter_comments         = $this->comment->getTotalOfComments();
      $this->generateadminView(array(
@@ -282,7 +279,7 @@ public function uploadItemImage()
    public function updatecomment()
    {
      $comment = $this->request->getParameter("id");
-     $this->comment->changeComment($content);
+     $this->comment->changeCommentAdmin($content);
      $comment = $this->comment->getItem($id_comment);
      if ($comment  === false) {
          throw new Exception('Impossible de modifier le commentaire !');

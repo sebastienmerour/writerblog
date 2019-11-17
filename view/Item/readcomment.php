@@ -1,4 +1,5 @@
 <?php $this->title = 'Jean Forteroche | écrivain et acteur | Blog - Modification de commentaire'; ?>
+<p>&nbsp;</p>
 <?php
 
 if (empty($comment)) {
@@ -17,50 +18,45 @@ if (empty($comment)) {
 					            }
 					?>
 <?php unset($_SESSION['messages']); ?>
-
-
 <h2 id="comments">Modifier le Commentaire : </h2>
 <hr>
+
+<!-- Modification d'un commentaire -->
 <div class="media mb-4">
-	<img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?php echo isset($comment['avatar_com']) ? $comment['avatar_com'] : $default ;?>" alt="user">
+	<img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?= $this->clean(isset($comment['avatar_com']) ? $comment['avatar_com'] : $default );?>" alt="user">
   <div class="media-body">
-		<form role="form" class="form needs-validation" action="index.php?id=<?php echo $_GET['id'] ;?>&amp;action=updatecomment&amp;id_comment=<?= $comment['id'] ?>" method="post"
-        id="usermodification" novalidate>
+      <form role="form" class="form needs-validation" action="<?php echo BASE_URL; ?>item/updatecomment/<?= $this->clean($item['id']) ?>/<?= $this->clean($comment['id']) ;?>/" method="post" id="commentmodification" novalidate>
         <div class="form-group">
             <div class="col-xs-6">
-              <h5 class="mt-0"><?php echo htmlspecialchars($comment['author'], ENT_QUOTES, 'UTF-8'); ?></h5><em>le
-                <?php echo $comment['date_creation_fr']; ?></em><br>
-								<?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>
-									<em>commentaire modifé le&nbsp;<?php echo $item['date_update']; ?></em>
-									<?php }?>
+							<h6 class="mt-0"><?= $this->clean(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author']);?></h6>
+							<em>le <?= $this->clean($comment['date_creation_fr']); ?></em>
                 <p>&nbsp;</p>
                 <textarea class="form-control" name="content" id="content"
-                placeholder="<?php echo $comment['content'];?>"
-                title="Modifiez votre commentaire si besoin"><?php echo $comment['content'];?></textarea>
+                placeholder="<?= $this->clean($comment['content']);?>"
+                title="Modifiez le commentaire si besoin"><?= $this->clean($comment['content']);?></textarea>
             </div>
         </div>
         <div class="form-group">
              <div class="col-xs-12">
                   <br>
-                  <button class="btn btn-md btn-success" name="modify" type="submit"> Enregistrer</button>
-                  <a href="#"><button class="btn btn-md btn-secondary" type="reset"> Annuler</button></a>
-                  <a href="index.php?action=readitem&id=<?php echo $_GET['id'] ;?>"><button class="btn btn-md btn-primary" type="button"> Retour</button></a>
+                  <button class="btn btn-md btn-success" name="modify" type="submit">Enregistrer</button>
+                  <a href="#"><button class="btn btn-md btn-secondary" type="reset">Annuler</button></a>
+                  <a href="<?php echo $_SERVER['HTTP_REFERER']; ?>"><button class="btn btn-md btn-primary" type="button">Retour</button></a>
               </div>
         </div>
-
       </form>
-
   </div>
 </div>
+
+
+
 <?php } ;?>
 <!-- Commentaires  -->
+
 <h2 id="comments">Commentaires</h2>
 <hr>
 <?php require('pagination_comments.php'); ?>
-<?php
-while ($comment = $comments->fetch())
-{
-  ?>
+<?php foreach ($comments as $comment): ?>
 	<div class="media mb-4">
 		<img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?php echo isset($comment['avatar_com']) ? $comment['avatar_com'] : $default ;?>" alt="user">
 	  <div class="media-body">
@@ -72,14 +68,13 @@ while ($comment = $comments->fetch())
 						<?php }?>
 						<?php if(ISSET($_SESSION['id_user']) AND  $_SESSION['id_user'] == $comment['user_com'])  {
 							?>
-	      		(<a href="index.php?id=<?php echo $_GET['id'] ;?>&action=readcomment&amp;id_comment=<?php echo $comment['id'] ;?>">modifier</a>)
-						<?php };?>
+							(<a href="item/readcomment/<?= $this->clean($item['id']) ?>/<?= $this->clean($comment['id_comment']) ;?>/">modifier</a>)
+								<?php };?>
 	  </div>
 	</div>
-<?php
-}
-?>
-<?php require('comment_pagination_view.php'); ?>
+<?php endforeach; ?>
+
+<?php require('pagination_comments.php'); ?>
 <!-- Ajout  de nouveaux commentaires : -->
 <hr>
 <div class="card my-4">

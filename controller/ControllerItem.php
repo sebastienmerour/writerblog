@@ -32,7 +32,7 @@ class ControllerItem extends Controller {
         $number_of_items  = $this->item->count();
         $number_of_items_pages = $this->item->getNumberOfPages();
         $number_of_comments =  $this->comment->countComments($item_id);
-        $comments_current_page = $this->comment->getCommentsCurrentPageFromItem();
+        $comments_current_page = 1;
         $page_previous_comments = $comments_current_page - 1;
         $page_next_comments = $comments_current_page + 1;
         $comments = $this->comment->getPaginationComments($item_id, $comments_current_page);
@@ -52,6 +52,36 @@ class ControllerItem extends Controller {
         ));
     }
 
+    // Affichage d'un seul item avec ses commentaires - pour user inconnu
+    public function indexlist() {
+        $item_id = $this->request->getParameter("id");
+        $item = $this->item->getItem($item_id);
+        $number_of_items  = $this->item->count();
+        $number_of_items_pages = $this->item->getNumberOfPages();
+        $number_of_comments =  $this->comment->countComments($item_id);
+        $comments_current_page = $this->comment->getCommentsCurrentPage();
+        $page_previous_comments = $comments_current_page - 1;
+        $page_next_comments = $comments_current_page + 1;
+        $comments = $this->comment->getPaginationComments($item_id, $comments_current_page);
+        $default = "default.png";
+        $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromItem($item_id);
+        $this->generateView(array(
+          'item' => $item,
+          'number_of_items' => $number_of_items,
+          'number_of_items_pages' => $number_of_items_pages,
+          'comments' => $comments,
+          'default'=> $default,
+          'comments_current_page' => $comments_current_page,
+          'page_previous_comments' => $page_previous_comments,
+          'page_next_comments' => $page_next_comments,
+          'number_of_comments' => $number_of_comments,
+          'number_of_comments_pages' => $number_of_comments_pages
+        ));
+    }
+
+
+
+
     // Affichage d'un seul item avec ses commentaires - pour user connecté
     public function indexuser()
     {
@@ -61,7 +91,7 @@ class ControllerItem extends Controller {
       $number_of_items  = $this->item->count();
       $number_of_items_pages = $this->item->getNumberOfPages();
       $number_of_comments =  $this->comment->countComments($item_id);
-      $comments_current_page = $this->comment->getCommentsCurrentPageFromItemUser();
+      $comments_current_page = $this->comment->getCommentsCurrentPage();
       $page_previous_comments = $comments_current_page - 1;
       $page_next_comments = $comments_current_page + 1;
       $comments = $this->comment->getPaginationComments($item_id, $comments_current_page);
@@ -91,8 +121,6 @@ class ControllerItem extends Controller {
         $author= $this->request->getParameter("author");
         $content = $this->request->getParameter("content");
         $this->comment->insertComment($item_id, $author, $content);
-        // Exécution de l'action par défaut pour réafficher la liste des billets
-        $this->executeAction("index");
     }
 
 
@@ -103,32 +131,48 @@ class ControllerItem extends Controller {
         $author= $this->request->getParameter("author");
         $content = $this->request->getParameter("content");
         $this->comment->insertCommentLoggedIn($item_id, $user_id, $author, $content);
-        // Exécution de l'action par défaut pour réafficher la liste des billets
-        $this->executeAction("indexuser");
     }
 
     // Read :
     // Affichage d'un commentaire
     public function readcomment()
     {
-      $item_id = $this->request->getParameter("id");
-      $id_comment = $this->request->getParameter("id_comment");
-      $comments = $this->comment->getComments($item_id);
+      $item_id = $this->item->getItemId();
+      $item = $this->item->getItem($item_id);
+      $number_of_items  = $this->item->count();
+      $number_of_items_pages = $this->item->getNumberOfPages();
+      $number_of_comments =  $this->comment->countComments($item_id);
+      $comments_current_page = 1;
+      $page_previous_comments = $comments_current_page - 1;
+      $page_next_comments = $comments_current_page + 1;
+      $comments = $this->comment->getPaginationComments($item_id, $comments_current_page);
+      $id_comment = $this->comment->getCommentId();
       $comment = $this->comment->getComment($id_comment);
+      $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromItem($item_id);
       $default = "default.png";
       $this->generateView(array(
-      'item' => $item,
-      'comments' => $comments,
       'comment' => $comment,
-      'default'=> $default
+      'item' => $item,
+      'number_of_items' => $number_of_items,
+      'number_of_items_pages' => $number_of_items_pages,
+      'comments_current_page' => $comments_current_page,
+      'comments' => $comments,
+      'default'=> $default,
+      'page_previous_comments' => $page_previous_comments,
+      'page_next_comments' => $page_next_comments,
+      'number_of_comments' => $number_of_comments,
+      'number_of_comments_pages' => $number_of_comments_pages
     ));
     }
+
 
     // Update :
     // Modification d'un commentaire
     public function updatecomment()
     {
-      $comment = $this->request->getParameter("id");
+      $id_comment = $this->comment->getCommentId();
+      $comment = $this->comment->getComment($id_comment);
+      $content = $comment['content'];
       $this->comment->changeComment($content);
       $comment = $this->comment->getItem($id_comment);
       if ($comment  === false) {
@@ -136,7 +180,7 @@ class ControllerItem extends Controller {
       }
       else {
         $messages['confirmation'] = 'Le commentaire a bien été modifié !';
-        $this->generateadminView();
+        $this->generateView();
       }
     }
 

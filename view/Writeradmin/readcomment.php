@@ -21,6 +21,7 @@ if (!empty($_SESSION['messages']['confirmation']))
 					}
 ?>
 
+
 <?php unset($_SESSION['messages']); ?>
 <!-- Modification d'un commentaire -->
 <div class="media mb-4">
