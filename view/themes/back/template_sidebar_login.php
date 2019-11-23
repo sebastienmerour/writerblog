@@ -20,13 +20,13 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo BASE_URL; ?>writeradmin/#tomoderate">
+        <a class="nav-link" href="<?php echo BASE_URL; ?>writeradmin/tomoderate">
           <span data-feather="filter"></span>
           Commentaires signalés
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<?php echo BASE_URL; ?>writeradmin/#allcomments">
+        <a class="nav-link" href="<?php echo BASE_URL; ?>writeradmin/allcomments">
           <span data-feather="message-square"></span>
           Tous les commentaires
         </a>

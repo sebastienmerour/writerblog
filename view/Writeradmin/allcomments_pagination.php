@@ -7,7 +7,7 @@
   {
   ?>
   <li>
-      <a class="btn btn-outline-secondary" href="list/1/<?php echo $comments_current_page -1 ; ?>#allcomments" aria-label="Previous">
+      <a class="btn btn-outline-secondary" href="listallcomments/1/<?php echo $comments_current_page -1 ; ?>" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>&nbsp;
   </li>
@@ -23,7 +23,7 @@
       }
       else {
 
-        echo '><a class="btn btn-outline-primary" href="list/1/' . $i . '#allcomments">' . $i . '</a>&nbsp;</li>';
+        echo '><a class="btn btn-outline-primary" href="listallcomments/1/' . $i . '">' . $i . '</a>&nbsp;</li>';
       }
   }
 
@@ -31,7 +31,7 @@
   {
   ?>
   <li>
-      <a class="btn btn-outline-secondary" href="list/1/<?php echo $comments_current_page + 1; ?>#allcomments" aria-label="Next">
+      <a class="btn btn-outline-secondary" href="listallcomments/1/<?php echo $comments_current_page + 1; ?>" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
   </li>

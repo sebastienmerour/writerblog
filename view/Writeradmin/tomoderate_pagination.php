@@ -7,7 +7,7 @@
   {
   ?>
   <li>
-      <a class="btn btn-outline-secondary" href="list/1/<?php echo $comments_reported_current_page -1 ; ?>#tomoderate" aria-label="Previous">
+      <a class="btn btn-outline-secondary" href="listtomoderate/1/<?php echo $comments_reported_current_page -1 ; ?>/#tomoderate" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>&nbsp;
   </li>
@@ -23,7 +23,7 @@
       }
       else {
 
-        echo '><a class="btn btn-outline-primary" href="list/1/' . $i . '#tomoderate">' . $i . '</a>&nbsp;</li>';
+        echo '><a class="btn btn-outline-primary" href="listtomoderate/1/' . $i . '/#tomoderate">' . $i . '</a>&nbsp;</li>';
       }
   }
 
@@ -31,7 +31,7 @@
   {
   ?>
   <li>
-      <a class="btn btn-outline-secondary" href="list/1/<?php echo $comments_reported_current_page + 1; ?>#tomoderate" aria-label="Next">
+      <a class="btn btn-outline-secondary" href="listtomoderate/1/<?php echo $comments_reported_current_page + 1; ?>/#tomoderate" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
   </li>

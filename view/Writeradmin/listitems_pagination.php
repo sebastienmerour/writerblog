@@ -9,9 +9,8 @@
           if ($items_current_page !=1  AND $items_current_page <= $number_of_items_pages)// Si la page active n'est pas la première page
           {
           ?>
-
           <li>
-              <a class="btn btn-outline-secondary" href="list/<?= $items_current_page -1 ;?>/1" aria-label="Previous">
+              <a class="btn btn-outline-secondary" href="../../listitems/<?php echo $items_current_page -1 ;?>/1" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>&nbsp;
           </li>
@@ -26,7 +25,7 @@
                 echo ' class="btn btn-outline-secondary disabled">'.$i.' </li>&nbsp;';
               }
               else {
-                echo '><a class="btn btn-outline-primary" href="list/' . $i . '/1">' . $i . '</a>&nbsp;</li>';
+                echo '><a class="btn btn-outline-primary" href="../../listitems/' . $i . '/1">' . $i . '</a>&nbsp;</li>';
               }
           }
 
@@ -34,7 +33,7 @@
           {
           ?>
           <li>
-              <a class="btn btn-outline-secondary" href="list/<?= $items_current_page + 1; ?>/1" aria-label="Next">
+              <a class="btn btn-outline-secondary" href="../../listitems/<?php echo $items_current_page + 1; ?>/1" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
           </li>

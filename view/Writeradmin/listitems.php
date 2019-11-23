@@ -59,14 +59,12 @@
   	require __DIR__ . '/../errors/items_not_found.php';
   }
   else {
-  require('dashboard_pagination_items.php');}
+  require('listitems_pagination.php');}
   ?>
 
 
 
 </div>
-
-
 <?php
 };
 ?>
