@@ -338,15 +338,26 @@ public function uploadItemImage()
    {
      $id_comment = $this->request->getParameter("id");
      $this->comment->eraseComment($id_comment);
-     if ($id_comment  === false) {
-         throw new Exception('Impossible de supprimer le commentaire !');
-     }
-     else {
-       $messages['confirmation'] = 'Le commentaire a bien été supprimé !';
-       $this->generateadminView();
-     }
+     // Ici on affiche le message de confirmation :
+     $itemmessages['confirmation'] = 'Merci ! Le commentaire a bien été supprimé !';
+     if (!empty($itemmessages)) {
+         $_SESSION['messages'] = $itemmessages;
+         header('Location: ../allcomments');
+         exit;
+       }
    }
-
+   public function removecommentreported()
+   {
+     $id_comment = $this->request->getParameter("id");
+     $this->comment->eraseComment($id_comment);
+     // Ici on affiche le message de confirmation :
+     $itemmessages['confirmation'] = 'Merci ! Le commentaire a bien été supprimé !';
+     if (!empty($itemmessages)) {
+         $_SESSION['messages'] = $itemmessages;
+         header('Location: ../tomoderate');
+         exit;
+       }
+   }
 
 
 

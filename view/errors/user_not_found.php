@@ -1,3 +1,4 @@
 <!-- Not Found -->
-<h1 class="mt-4 text-left"><?php echo '<p>L\'utilisateur ' . $_GET['user_id'] . ' n\'existe pas</p>'; ?></h1>
+<hr>
+<h4 class="mt-4 text-left"><p>Cet utilisateur n'existe pas</p></h4>
 <hr>

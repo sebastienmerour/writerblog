@@ -1,4 +1,7 @@
 <?php $this->title = 'Profil de '.$this->clean($user['firstname']). ' '. $this->clean($user['name']).'' ?>
+<!-- Vérification de l'existence de l'utilisateur -->
+<?php if (empty($user)) { require __DIR__ . '/../errors/user_not_found.php';}
+else {?>
 
 				<!-- Username -->
 
@@ -59,5 +62,6 @@
         				</table>
 
         				<hr>
+<?php };?>
 <?php $this->sidebar= 'Le blog contient ' . $number_of_items .' articles<br>
 Le blog contient '. $number_of_items_pages.' pages<br>'; ?>

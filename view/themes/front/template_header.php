@@ -14,7 +14,7 @@
 
     <link href="<?php echo BASE_URL; ?>public/css/scroll-front.css" rel="stylesheet">
     <link href="<?php echo BASE_URL; ?>public/css/blog.css" rel="stylesheet">
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title><?= $title ?></title>
 </head>
 <body>

@@ -127,7 +127,9 @@ footer {
 	border-top-right-radius: 0;
 }
 /* Validation de Formulaires : */
-
+.g-recaptcha {
+	margin-bottom: 10px;
+}
 /* The message box is shown when the user clicks on the password field */
 
 #feedback {

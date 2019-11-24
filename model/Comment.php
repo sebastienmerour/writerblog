@@ -193,7 +193,7 @@ public function reportBadComment($id_comment)
       ':report' => "yes"
     ));
   // Ici on affiche le message de confirmation :
-    $commentmessages['confirmation'] = 'Merci ! Le commentaire a bien été signalé auprès de l\'administrateur du site !';
+    $commentmessages['confirmation'] = 'Merci ! Le commentaire a bien été signalé auprès de l\'administrateur!';
     if (!empty($commentmessages)) {
       $_SESSION['messages'] = $commentmessages;
        if (ISSET($_SESSION['id_user'])) {
@@ -220,13 +220,6 @@ public function eraseComment($id_comment)
     $sql = 'DELETE FROM comments WHERE id = ' . (int) $id_comment;
     $req = $this->dbConnect($sql);
     $req->execute();
-    // Ici on affiche le message de confirmation :
-    $itemmessages['confirmation'] = 'Merci ! Le commentaire a bien été supprimé !';
-    if (!empty($itemmessages)) {
-        $_SESSION['messages'] = $itemmessages;
-        header('Location: ../allcomments');
-        exit;
-    }
 }
 
   // Calculs

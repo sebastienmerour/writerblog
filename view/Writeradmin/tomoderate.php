@@ -58,7 +58,7 @@
 	        </div></td>
 	        <td><h6 class="mt-2 text-left"><?= $this->cleantinymce($comment_reported['content']); ?></h6></td>
 	        <td><a href="<?= "readcomment/" . $this->clean($comment_reported['id']) ;?>" role="button" class="btn btn-sm btn-primary">Modifier</a></td>
-	        <td><a href="<?= "removecomment/" . $this->clean($comment_reported['id']) ;?>" role="button" class="btn btn-sm btn-danger">Supprimer</a></td>
+	        <td><a href="<?= "removecommentreported/" . $this->clean($comment_reported['id']) ;?>" role="button" class="btn btn-sm btn-danger">Supprimer</a></td>
 	      </tr>
 	            <?php
 	    }

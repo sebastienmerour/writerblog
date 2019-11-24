@@ -90,6 +90,7 @@ if (!empty($_SESSION['messages']['confirmation']))
 					<div class="form-group">
 					<textarea class="form-control" id="comment" name="content" rows="6" placeholder="Ecrivez ici votre commentaire"></textarea>
 					</div>
+          <div class="g-recaptcha" data-sitekey="6LerX8QUAAAAAAEdU0JZMW5e9-7UNFVF4VumMHcz"></div>
 								<button type="submit" class="btn btn-primary">Envoyer</button>
 				</form>
 			</div>

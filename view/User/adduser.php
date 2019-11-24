@@ -16,6 +16,7 @@ placeholder="Mot de passe" data-placement="right" required>
 <input type="password" class="form-control" id="passcheck" name="passcheck" placeholder="Confirmez le Mot de passe" required><br>
 <label for "email" class="sr-only">E-mail :&nbsp;</label>
 <input type="text" class="form-control" id="email" name="email" placeholder="E-mail" required><br>
+<div class="g-recaptcha" data-sitekey="6LerX8QUAAAAAAEdU0JZMW5e9-7UNFVF4VumMHcz"></div>
 <button class="btn btn-lg btn-primary btn-block" type="submit" name="register">Envoyer</button>
 <p>&nbsp;</p>
 <div id="feedback" class="text-left">
