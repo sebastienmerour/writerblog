@@ -36,21 +36,11 @@ require_once 'Model/User.php';
      $number_of_items  = $this->item->count();
      $items_current_page = 1;
      $number_of_items_pages = $this->item->getNumberOfPages();
-     $comments_reported_current_page = 1;
-     $comments_reported        = $this->comment->selectCommentsReported($comments_reported_current_page);
-     $default= "default.png";
-     $number_of_comments_reported_pages = $this->comment->getNumberOfCommentsReportedPagesFromAdmin();
-     $counter_comments_reported       = $this->comment->getTotalOfCommentsReported();
      $this->generateadminView(array(
      'items' => $items,
-     'comments_reported' => $comments_reported,
      'number_of_items' => $number_of_items,
      'items_current_page' => $items_current_page,
-     'number_of_items_pages' => $number_of_items_pages,
-     'default'=> $default,
-     'comments_reported_current_page' => $comments_reported_current_page,
-     'number_of_comments_reported_pages' => $number_of_comments_reported_pages,
-     'counter_comments_reported' => $counter_comments_reported
+     'number_of_items_pages' => $number_of_items_pages
    ));
    }
 
@@ -65,23 +55,13 @@ require_once 'Model/User.php';
      $number_of_items_pages = $this->item->getNumberOfPages();
      $page_previous_items = $items_current_page - 1;
      $page_next_items = $items_current_page + 1;
-     $comments_reported_current_page = $this->comment->getCommentsReportedCurrentPage();
-     $comments_reported        = $this->comment->selectCommentsReported($comments_reported_current_page);
-     $default= "default.png";
-     $number_of_comments_reported_pages = $this->comment->getNumberOfCommentsReportedPagesFromAdmin();
-     $counter_comments_reported       = $this->comment->getTotalOfCommentsReported();
      $this->generateadminView(array(
      'items' => $items,
-     'comments_reported' => $comments_reported,
      'number_of_items' => $number_of_items,
      'items_current_page' => $items_current_page,
      'page_previous_items' => $page_previous_items,
      'page_next_items' => $page_next_items,
-     'number_of_items_pages' => $number_of_items_pages,
-     'default'=> $default,
-     'comments_reported_current_page' => $comments_reported_current_page,
-     'number_of_comments_reported_pages' => $number_of_comments_reported_pages,
-     'counter_comments_reported' => $counter_comments_reported
+     'number_of_items_pages' => $number_of_items_pages
    ));
    }
 
@@ -165,10 +145,7 @@ require_once 'Model/User.php';
 
    public function createitem()
    {
-     if (isset($_FILES['image'])) {
-        $this->uploadItemImage();
-     }
-     else {
+     if(!isset($_FILES['image']) || $_FILES['image']['error'] == UPLOAD_ERR_NO_FILE) {
        $messages  = array();
        $user_id = $_SESSION['id_user_admin'];
        $title = $this->request->getParameter("title");
@@ -179,10 +156,14 @@ require_once 'Model/User.php';
            $_SESSION['messages'] = $messages;
            header('Location: ../writeradmin/dashboard');
            exit;
+     }
+   }
+     else {
+       $this->uploadItemImage();
          }
      }
 
-}
+
 
 public function uploadItemImage()
 {

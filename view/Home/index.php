@@ -31,7 +31,7 @@
   <hr>
 
   <!-- Post  -->
-  <p class="lead"><?= $this->clean($item['content']) ?></p>
+  <p class="lead"><?= $this->cleantinymce($item['content']) ?></p>
 
 
 <!-- Commentaires  -->

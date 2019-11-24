@@ -1,6 +1,6 @@
 <?php
 	if(!ISSET($_SESSION['id_user_admin'])){
-		header('location: ../writeradmin/logout/');
+		header('location: ../writeradmin/');
 	}
 	else {
 ?>
@@ -57,7 +57,7 @@ require('allcomments_pagination.php');}
           </div>
 
         </div></td>
-        <td><h6 class="mt-2 text-left"><?= $this->clean($comment['content']); ?></h6></td>
+        <td><h6 class="mt-2 text-left"><?= $this->cleantinymce($comment['content']); ?></h6></td>
         <td><a href="<?= "readcomment/" . $this->clean($comment['id']) ;?>" role="button" class="btn btn-sm btn-primary">Modifier</a></td>
         <td><a href="<?= "removecomment/" . $this->clean($comment['id']) ;?>" role="button" class="btn btn-sm btn-danger">Supprimer</a></td>
       </tr>

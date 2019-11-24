@@ -118,13 +118,11 @@ class Item extends Model {
         LEFT JOIN users
         ON items.id_user = users.id_user
         WHERE items.id = ? ';
-        $item = $this->dbConnect($sql, array(
+        $req = $this->dbConnect($sql, array(
             $item_id
         ));
-        if ($item->rowCount() > 0)
-            return $item->fetch(); // Accès à la première ligne de résultat
-        else
-            throw new Exception("Aucun article ne correspond à l'identifiant '$item_id'");
+        $item = $req->fetch();
+        return $item;
     }
 
     // Modification d'un article avec photo :

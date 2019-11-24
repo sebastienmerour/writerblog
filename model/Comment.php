@@ -224,7 +224,7 @@ public function eraseComment($id_comment)
     $itemmessages['confirmation'] = 'Merci ! Le commentaire a bien été supprimé !';
     if (!empty($itemmessages)) {
         $_SESSION['messages'] = $itemmessages;
-        header('Location: ../');
+        header('Location: ../allcomments');
         exit;
     }
 }

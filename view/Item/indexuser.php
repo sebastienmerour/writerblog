@@ -1,6 +1,7 @@
 <?php $this->title = 'Jean Forteroche | écrivain et acteur | Blog' . $this->clean($item['title']); ?>
 <!-- Vérification de l'existence de l'item -->
-<?php if (empty($item)) { require __DIR__ . '/../errors/item_not_found.php';} ?>
+<?php if (empty($item)) { require __DIR__ . '/../errors/item_not_found.php';}
+else {?>
 
 <!-- Title -->
 <h1 class="mt-4 text-left"><?= $this->clean($item['title']) ?></h1>
@@ -27,11 +28,16 @@ alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']
 <hr>
 
 <!-- Post  -->
-<p class="lead"><?= $this->clean($item['content']) ?></p>
+<p class="lead"><?= $this->cleantinymce($item['content']) ?></p>
 
 <!-- Commentaires  -->
 <h2 id="comments">Commentaires</h2>
 <hr>
+<?php
+if ($comments_current_page > $number_of_comments_pages) {
+	require __DIR__ . '/../errors/comments_not_found.php';
+}
+?>
 <!-- Message de confirmation -->
 <?php
 if (!empty($_SESSION['messages']['confirmation']))
@@ -88,6 +94,7 @@ if (!empty($_SESSION['messages']['confirmation']))
 				</form>
 			</div>
 	</div>
+<?php };?>
 <!-- Fin des commentaires -->
 <?php $this->sidebar= 'Le blog contient ' . $number_of_items .' articles<br>
 Le blog contient '. $number_of_items_pages.' pages<br>'; ?>

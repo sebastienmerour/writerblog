@@ -1,10 +1,15 @@
 <?php
 	if(!ISSET($_SESSION['id_user_admin'])){
-		header('location: ../writeradmin/logout/');
+		header('location: ../../writeradmin/');
 	}
 	else {
 ?>
 <?php $this->title = 'Modification d\'un article'; ?>
+<?php if (empty($item)) {
+							require __DIR__ . '/../errors/item_not_found.php';
+			    }
+					else {;
+?>
 <!-- Modification d'un article -->
 <?php
 if (!empty($_SESSION['messages']['confirmation']))
@@ -67,5 +72,6 @@ if (!empty($_SESSION['messages']['confirmation']))
 </div>
 
 <?php
+};
 };
 ?>
