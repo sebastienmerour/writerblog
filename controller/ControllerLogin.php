@@ -101,11 +101,9 @@ public function loginadmin()
 
     public function invite()
     {
-      $items = $this->item->count();
-      $number_of_items  = $this->item->getNumberOfItems();
+      $number_of_items  = $this->item->count();
       $number_of_items_pages = $this->item->getNumberOfPages();
       $this->generateView(array(
-      'items' => $items,
       'number_of_items' => $number_of_items,
       'number_of_items_pages' => $number_of_items_pages
     ));

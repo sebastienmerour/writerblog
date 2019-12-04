@@ -225,7 +225,7 @@ public function eraseComment($id_comment)
 
 
   // Obtenir la page courante des commentaires sur un article en particulier :
-  public function getCommentsCurrentPageFromItem()
+  public function getCommentsCurrentPage()
   {
     $q = explode("/", $_SERVER['REQUEST_URI']);
     $value = $q[4];
@@ -233,8 +233,8 @@ public function eraseComment($id_comment)
     return $comments_current_page;
   }
 
-  // Obtenir la page courante des commentaires :
-  public function getCommentsCurrentPage()
+  // Obtenir la page courante des commentaires sur un article en particulier avec user connecté :
+  public function getCommentsCurrentPageUser()
   {
     $q = explode("/", $_SERVER['REQUEST_URI']);
     $value = $q[5];

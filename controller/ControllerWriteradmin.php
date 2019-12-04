@@ -132,7 +132,7 @@ require_once 'Model/User.php';
 
    public function listallcomments()
    {
-     $comments_current_page = $this->comment->getCommentsCurrentPage();
+     $comments_current_page = $this->comment->getCommentsCurrentPageUser();
      $comments_previous_page = $comments_current_page -1;
      $comments_next_page = $comments_current_page +1;
      $comments        = $this->comment->selectComments($comments_current_page);
