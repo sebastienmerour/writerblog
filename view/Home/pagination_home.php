@@ -12,7 +12,7 @@
           ?>
           <li>
 
-              <a class="btn btn-outline-secondary" href="home/list/<?= $items_current_page -1 ;?>" aria-label="Previous">
+              <a class="btn btn-outline-secondary" href="home/list/<?= $previous_page ;?>" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>&nbsp;
           </li>
@@ -37,7 +37,7 @@
           {
           ?>
           <li>
-              <a class="btn btn-outline-secondary" href="home/list/<?= $items_current_page + 1; ?>" aria-label="Next">
+              <a class="btn btn-outline-secondary" href="home/list/<?= $next_page; ?>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
           </li>

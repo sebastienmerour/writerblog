@@ -1,10 +1,13 @@
 <?php
 require_once 'Framework/Model.php';
+
 /**
  * Fournit les fonctions liées aux commentaires
  *
+ * @version 1.0
  * @author Sébastien Merour
  */
+
 class Comment extends Model {
   public
   $number_of_comments,
@@ -14,19 +17,7 @@ class Comment extends Model {
   $number_of_comments_reported_by_page = 5;
 
 
-    public function start()
-    {
-    $url =  $_SERVER['REQUEST_URI'];
-    $urlcontent = parse_url($url, PHP_URL_QUERY);
-    preg_match_all("/\d+/", $urlcontent, $number);
-    $first_comment = (int) end($number[0]);
-    if (!empty($comments_start)) {
-        $comments_start = (int) $first_comment;
-    } else {
-        $comments_start = 0;
-    }
-    return $comments_start;
-    }
+
 
 
   // Calculer le nombre de Commentaires d'un article en particulier :

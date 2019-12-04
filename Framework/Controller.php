@@ -7,6 +7,7 @@ require_once 'Configuration.php';
  * Classe abstraite contrôleur.
  * Fournit des services communs aux classes contrôleurs dérivées.
  *
+ * @version 1.0
  * @author Sébastien Merour
  */
 
@@ -78,8 +79,5 @@ abstract class Controller {
       // Redirection vers l'URL /racine_site/controleur/action
       header("Location:" . $rootWeb . $controller . "/" . $action);
   }
-
-
-
 
 }

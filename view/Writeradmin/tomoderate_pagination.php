@@ -7,7 +7,7 @@
   {
   ?>
   <li>
-      <a class="btn btn-outline-secondary" href="listtomoderate/1/<?php echo $comments_reported_current_page -1 ; ?>/#tomoderate" aria-label="Previous">
+      <a class="btn btn-outline-secondary" href="listtomoderate/1/<?= $comments_reported_previous_page; ?>/#tomoderate" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>&nbsp;
   </li>
@@ -31,7 +31,7 @@
   {
   ?>
   <li>
-      <a class="btn btn-outline-secondary" href="listtomoderate/1/<?php echo $comments_reported_current_page + 1; ?>/#tomoderate" aria-label="Next">
+      <a class="btn btn-outline-secondary" href="listtomoderate/1/<?php $comments_reported_next_page; ?>/#tomoderate" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
   </li>

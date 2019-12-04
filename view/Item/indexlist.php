@@ -28,7 +28,7 @@ alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']
 <hr>
 
 <!-- Post  -->
-<p class="lead"><?= $this->clean($item['content']) ?></p>
+<p class="lead"><?= $this->cleantinymce($item['content']) ?></p>
 
 <!-- Commentaires  -->
 <h2 id="comments">Commentaires</h2>

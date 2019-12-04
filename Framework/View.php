@@ -1,11 +1,13 @@
 <?php
 require_once 'Configuration.php';
+
 /**
  * Classe modélisant une vue
  *
  * @version 1.0
  * @author Sébastien Merour
  */
+ 
 class View {
     /** Nom du fichier associé à la vue */
     private $file;
@@ -106,8 +108,5 @@ class View {
     private function cleantinymce($value) {
         return htmlspecialchars_decode($value, ENT_QUOTES);
     }
-
-
-
 
 }

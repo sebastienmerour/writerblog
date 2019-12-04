@@ -35,11 +35,15 @@ require_once 'Model/User.php';
      $items = $this->item->getItems();
      $number_of_items  = $this->item->count();
      $items_current_page = 1;
+     $page_previous_items = $items_current_page - 1;
+     $page_next_items = $items_current_page + 1;
      $number_of_items_pages = $this->item->getNumberOfPages();
      $this->generateadminView(array(
      'items' => $items,
      'number_of_items' => $number_of_items,
      'items_current_page' => $items_current_page,
+     'page_previous_items' => $page_previous_items,
+     'page_next_items' => $page_next_items,
      'number_of_items_pages' => $number_of_items_pages
    ));
    }
@@ -68,6 +72,8 @@ require_once 'Model/User.php';
    public function tomoderate()
    {
      $comments_reported_current_page = 1;
+     $comments_reported_previous_page = $comments_reported_current_page -1;
+     $comments_reported_next_page = $comments_reported_current_page -1;
      $comments_reported        = $this->comment->selectCommentsReported($comments_reported_current_page);
      $default= "default.png";
      $number_of_comments_reported_pages = $this->comment->getNumberOfCommentsReportedPagesFromAdmin();
@@ -76,6 +82,8 @@ require_once 'Model/User.php';
      'comments_reported' => $comments_reported,
      'default'=> $default,
      'comments_reported_current_page' => $comments_reported_current_page,
+     'comments_reported_previous_page' => $comments_reported_previous_page,
+     'comments_reported_next_page' => $comments_reported_next_page,
      'number_of_comments_reported_pages' => $number_of_comments_reported_pages,
      'counter_comments_reported' => $counter_comments_reported
    ));
@@ -84,6 +92,8 @@ require_once 'Model/User.php';
    public function listtomoderate()
    {
      $comments_reported_current_page = $this->comment->getCommentsReportedCurrentPage();
+     $comments_reported_previous_page = $comments_reported_current_page -1;
+     $comments_reported_next_page = $comments_reported_current_page -1;
      $comments_reported        = $this->comment->selectCommentsReported($comments_reported_current_page);
      $default= "default.png";
      $number_of_comments_reported_pages = $this->comment->getNumberOfCommentsReportedPagesFromAdmin();
@@ -92,6 +102,8 @@ require_once 'Model/User.php';
      'comments_reported' => $comments_reported,
      'default'=> $default,
      'comments_reported_current_page' => $comments_reported_current_page,
+     'comments_reported_previous_page' => $comments_reported_previous_page,
+     'comments_reported_next_page' => $comments_reported_next_page,
      'number_of_comments_reported_pages' => $number_of_comments_reported_pages,
      'counter_comments_reported' => $counter_comments_reported
    ));
@@ -101,6 +113,8 @@ require_once 'Model/User.php';
    public function allcomments()
    {
      $comments_current_page = 1;
+     $comments_previous_page = $comments_current_page -1;
+     $comments_next_page = $comments_current_page +1;
      $comments        = $this->comment->selectComments($comments_current_page);
      $default= "default.png";
      $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromAdmin();
@@ -109,6 +123,8 @@ require_once 'Model/User.php';
      'comments' => $comments,
      'default'=> $default,
      'comments_current_page' => $comments_current_page,
+     'comments_previous_page' => $comments_previous_page,
+     'comments_next_page' => $comments_next_page,
      'number_of_comments_pages' => $number_of_comments_pages,
      'counter_comments' => $counter_comments
    ));
@@ -117,6 +133,8 @@ require_once 'Model/User.php';
    public function listallcomments()
    {
      $comments_current_page = $this->comment->getCommentsCurrentPage();
+     $comments_previous_page = $comments_current_page -1;
+     $comments_next_page = $comments_current_page +1;
      $comments        = $this->comment->selectComments($comments_current_page);
      $default= "default.png";
      $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromAdmin();
@@ -125,6 +143,8 @@ require_once 'Model/User.php';
      'comments' => $comments,
      'default'=> $default,
      'comments_current_page' => $comments_current_page,
+     'comments_previous_page' => $comments_previous_page,
+     'comments_next_page' => $comments_next_page,
      'number_of_comments_pages' => $number_of_comments_pages,
      'counter_comments' => $counter_comments
    ));

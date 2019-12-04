@@ -7,7 +7,7 @@
   {
   ?>
   <li>
-      <a class="btn btn-outline-secondary" href="listallcomments/1/<?php echo $comments_current_page -1 ; ?>" aria-label="Previous">
+      <a class="btn btn-outline-secondary" href="listallcomments/1/<?= $comments_previous_page; ?>" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>&nbsp;
   </li>
@@ -31,7 +31,7 @@
   {
   ?>
   <li>
-      <a class="btn btn-outline-secondary" href="listallcomments/1/<?php echo $comments_current_page + 1; ?>" aria-label="Next">
+      <a class="btn btn-outline-secondary" href="listallcomments/1/<?= $comments_next_page; ?>" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
   </li>

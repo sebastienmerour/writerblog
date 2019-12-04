@@ -1,5 +1,12 @@
 <?php
 
+/**
+ *  Configuration
+ *
+ * @version 1.0
+ * @author Sébastien Merour
+ */
+
 class Configuration {
 
   private static $parameters;

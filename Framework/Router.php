@@ -3,6 +3,13 @@ require_once 'Controller.php';
 require_once 'Request.php';
 require_once 'View.php';
 
+/**
+ * Classe pour le Routeur
+ *
+ * @version 1.0
+ * @author Sébastien Merour
+ */
+
 class Router {
 
   // Route une requête entrante : exécute l'action associée

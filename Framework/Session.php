@@ -1,10 +1,13 @@
 <?php
+
 /**
  * Classe modélisant la session.
  * Encapsule la superglobale PHP $_SESSION.
  *
+ * @version 1.0
  * @author Sébastien Merour
  */
+ 
 class Session
 {
     /**

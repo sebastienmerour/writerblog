@@ -1,5 +1,4 @@
 <?php
-
 require_once 'Configuration.php';
 
 /**
@@ -10,6 +9,7 @@ require_once 'Configuration.php';
  * @version 1.0
  * @author Sébastien Merour
  */
+
 abstract class Model {
 
     /** Objet PDO d'accès à la BD Statique donc partagé par toutes les instances des classes dérivées */
@@ -32,7 +32,6 @@ abstract class Model {
         }
         return $result;
     }
-
 
     /**
      * Renvoie un objet de connexion à la BDD en initialisant la connexion au besoin

@@ -1,10 +1,13 @@
 <?php
 require_once 'Session.php';
+
 /**
  * Classe modélisant une requête HTTP entrante.
  *
+ * @version 1.0
  * @author Sébastien Merour
  */
+
 class Request {
 
   // paramètres de la requête
