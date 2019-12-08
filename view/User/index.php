@@ -1,6 +1,6 @@
 <?php
 	if(!ISSET($_SESSION['id_user'])){
-		header('location: ../');
+		header('location: ../writerblog/login/invite');
 	}
 	else {
 ?>
