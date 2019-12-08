@@ -17,9 +17,6 @@ class Comment extends Model {
   $number_of_comments_reported_by_page = 5;
 
 
-
-
-
   // Calculer le nombre de Commentaires d'un article en particulier :
   public function countComments($item_id)
   {
@@ -35,6 +32,7 @@ class Comment extends Model {
   // Création d'un commentaire :
   public function insertComment($item_id, $author, $content)
   {
+      $item_id;
       $sql           = 'INSERT INTO comments(id_item, author, content, date_creation) VALUES(?, ?, ?, NOW())';
       $comment = $this->dbConnect($sql, array(
           $item_id,
@@ -45,13 +43,14 @@ class Comment extends Model {
       $messages['confirmation'] = 'Votre commentaire a bien été ajouté !';
       if (!empty($messages)) {
           $_SESSION['messages'] = $messages;
-          header('Location: ../item/'.$item_id .'#comments');
+          header('Location: ../item/'.$item_id .'/1/#comments');
           exit;
       }
   }
   // Création d'un commentaire d'un utilisateur connecté :
   public function insertCommentLoggedIn($item_id, $user_id, $author, $content)
   {
+      $item_id;
       $user_id       = $_SESSION['id_user'];
       $sql           = 'INSERT INTO comments(id_item, id_user, author, content, date_creation) VALUES(?, ?, ?, ?, NOW())';
       $comment = $this->dbConnect($sql, array(
@@ -63,7 +62,7 @@ class Comment extends Model {
       $messages['confirmation'] = 'Votre commentaire a bien été ajouté !';
       if (!empty($messages)) {
           $_SESSION['messages'] = $messages;
-          header('Location: ../item/indexuser/'.$item_id .'/1#comments');
+          header('Location: ../item/indexuser/'.$item_id.'/1/#comments');
           exit;
       }
   }
@@ -142,10 +141,9 @@ class Comment extends Model {
         ':id' => $comment,
         ':content' => $content
       ));
-    // Ici on affiche le message de confirmation :
-    $commentmessages['confirmation'] = 'Merci ! Le commentaire a bien été modifié !';
-    if (!empty($commentmessages)) {
-        $_SESSION['messages'] = $commentmessages;
+      $messages['confirmation'] = 'Merci ! Le commentaire a bien été modifié !';
+      if (!empty($messages)) {
+        $_SESSION['messages'] = $messages;
         header('Location: /writerblog/item/readcomment/' . $item . '/'.  $comment);
         exit;
     }
@@ -161,9 +159,9 @@ class Comment extends Model {
         ':content' => $content
       ));
     // Ici on affiche le message de confirmation :
-    $commentmessages['confirmation'] = 'Merci ! Votre commentaire a bien été modifié !';
+    $messages['confirmation'] = 'Merci ! Votre commentaire a bien été modifié !';
     if (!empty($commentmessages)) {
-        $_SESSION['messages'] = $commentmessages;
+        $_SESSION['messages'] = $messages;
         header('Location: ../readcomment/' . $comment);
         exit;
     }
@@ -184,9 +182,9 @@ public function reportBadComment($id_comment)
       ':report' => "yes"
     ));
   // Ici on affiche le message de confirmation :
-    $commentmessages['confirmation'] = 'Merci ! Le commentaire a bien été signalé auprès de l\'administrateur!';
-    if (!empty($commentmessages)) {
-      $_SESSION['messages'] = $commentmessages;
+    $messages['confirmation'] = 'Merci ! Le commentaire a bien été signalé auprès de l\'administrateur!';
+    if (!empty($messages)) {
+      $_SESSION['messages'] = $messages;
        if (ISSET($_SESSION['id_user'])) {
          header('Location: /writerblog/item/indexuser/' . $item . '/1/#comments');
          exit;

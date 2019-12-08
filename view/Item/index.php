@@ -69,6 +69,8 @@ if (!empty($_SESSION['messages']['confirmation']))
 <?php endforeach; ?>
 <?php require('pagination_comments.php');?>
 <hr>
+<div id="addcomment"></div>
+<?php require __DIR__ . '/../errors/errors.php'; ?>
 <!-- Ajout  de nouveaux commentaires : -->
     <div class="card my-4">
       <h5 class="card-header">Ajoutez un nouveau commentaire :</h5>

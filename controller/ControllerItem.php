@@ -85,28 +85,96 @@ class ControllerItem extends Controller {
     }
 
 
-
-
-
     // COMMENTS //
     // Create
     // Ajout d'un nouveau commentaire :
     public function createcomment()
     {
         $item_id = $this->request->getParameter("id");
-        $author= $this->request->getParameter("author");
-        $content = $this->request->getParameter("content");
-        $this->comment->insertComment($item_id, $author, $content);
+        if(!empty($_POST['content']) && !empty($_POST['author'])) {
+          // Validate reCAPTCHA box
+                if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])){
+                    // Google reCAPTCHA API secret key
+                    $secretKey = '6LerX8QUAAAAAOxzR50kzN9yY9nCObsi2vz1FmcR';
+                    // Verify the reCAPTCHA response
+                    $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$_POST['g-recaptcha-response']);
+                    // Decode json data
+                    $responseData = json_decode($verifyResponse);
+                    $author= $this->request->getParameter("author");
+                    $content = $this->request->getParameter("content");
+
+                    // If reCAPTCHA response is valid
+                    if($responseData->success){
+                      $this->comment->insertComment($item_id, $author, $content);
+                    }
+                    else{
+                        $errors['errors'] = 'La vérification a échoué. Merci de re-essayer plus tard.';
+                        if (!empty($errors)) {
+                            $_SESSION['errors'] = $errors;
+                            header('Location: ../item/' . $item_id . '/1/#addcomment');
+                            exit;
+                          }
+                      }
+                    }
+                    else{
+                        $errors['errors'] = 'Merci de cocher la case reCAPTCHA.';
+                        $_SESSION['errors'] = $errors;
+                        header('Location: ../item/' . $item_id . '/1/#addcomment');
+                        exit;
+                      }
+                    }
+                else{
+                  $errors['errors'] = 'Merci de renseigner tous les champs';
+                  $_SESSION['errors'] = $errors;
+                  header('Location: ../item/' . $item_id . '/1/#addcomment');
+                  exit;
+                }
     }
 
 
     public function createcommentloggedin()
     {
-        $user_id = $_SESSION['id_user'];
-        $item_id = $this->request->getParameter("id");
-        $author= $this->request->getParameter("author");
-        $content = $this->request->getParameter("content");
-        $this->comment->insertCommentLoggedIn($item_id, $user_id, $author, $content);
+      $item_id = $this->request->getParameter("id");
+
+        if(!empty($_POST['content'])) {
+          // Validate reCAPTCHA box
+                if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])){
+                    // Google reCAPTCHA API secret key
+                    $secretKey = '6LerX8QUAAAAAOxzR50kzN9yY9nCObsi2vz1FmcR';
+                    // Verify the reCAPTCHA response
+                    $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$_POST['g-recaptcha-response']);
+                    // Decode json data
+                    $responseData = json_decode($verifyResponse);
+                    $user_id = $_SESSION['id_user'];
+                    $author= $this->request->getParameter("author");
+                    $content = $this->request->getParameter("content");
+
+                    // If reCAPTCHA response is valid
+                    if($responseData->success){
+                    $this->comment->insertCommentLoggedIn($item_id, $user_id, $author, $content);
+                    }
+                    else{
+                        $errors['errors'] = 'La vérification a échoué. Merci de re-essayer plus tard.';
+                        if (!empty($errors)) {
+                            $_SESSION['errors'] = $errors;
+                            header('Location: ../item/indexuser/' . $item_id . '/1/#addcomment');
+                            exit;
+                          }
+                      }
+                    }
+                    else{
+                        $errors['errors'] = 'Merci de cocher la case reCAPTCHA.';
+                        $_SESSION['errors'] = $errors;
+                        header('Location: ../item/indexuser/' . $item_id . '/1/#addcomment');
+                        exit;
+                      }
+                    }
+                else{
+                  $errors['errors'] = 'Merci de renseigner tous les champs';
+                  $_SESSION['errors'] = $errors;
+                  header('Location: ../item/indexuser/' . $item_id . '/1/#addcomment');
+                  exit;
+                }
     }
 
     // Read :
@@ -150,14 +218,6 @@ class ControllerItem extends Controller {
       $comment = $this->comment->getComment($id_comment);
       $content = $comment['content'];
       $this->comment->changeComment($content);
-      $comment = $this->comment->getItem($id_comment);
-      if ($comment  === false) {
-          throw new Exception('Impossible de modifier le commentaire !');
-      }
-      else {
-        $messages['confirmation'] = 'Le commentaire a bien été modifié !';
-        $this->generateView();
-      }
     }
 
 
@@ -192,10 +252,5 @@ class ControllerItem extends Controller {
       'number_of_comments_pages' => $number_of_comments_pages
     ));
     }
-
-
-
-
-
 
 }

@@ -15,20 +15,8 @@
 
 				<!-- Date/Time -->
 				<p>Mon Profil</p>
-				<?php
-				if (!empty($_SESSION['messages']['avatarupdated']))
-									{?>
-										<div class="alert alert-success alert-dismissible fade show" role="alert">
-											<?php echo $_SESSION['messages']['avatarupdated'];
-											?>
-										  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										    <span aria-hidden="true">&times;</span>
-										  </button>
-										</div>
-										<?php
-									}
-		?>
-		<?php unset($_SESSION['messages']); ?>				<hr>
+				<?php require __DIR__ . '/../errors/confirmation.php'; ?>
+				<hr>
 
               <!-- Avatar-->
       				<div class="container">
@@ -150,7 +138,6 @@
                             <input type="date" class="form-control" name="date_birth" id="date_birth" value="<?php echo strftime('%Y-%m-%d', strtotime($user['date_birth'])); ?>" title="Modifiez votre date de naissance si besoin">
                         </div>
                     </div>
-										<div class="g-recaptcha" data-sitekey="6LerX8QUAAAAAAEdU0JZMW5e9-7UNFVF4VumMHcz"></div>
         						<div class="form-group">
         								 <div class="col-xs-12">
         											<br>
@@ -201,7 +188,6 @@
               </div>
           </div>
 
-					  <div class="g-recaptcha" data-sitekey="6LerX8QUAAAAAAEdU0JZMW5e9-7UNFVF4VumMHcz"></div>
             <div class="form-group">
                  <div class="col-xs-12">
                       <br>

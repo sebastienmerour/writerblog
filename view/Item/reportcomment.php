@@ -1,22 +1,12 @@
+require __DIR__ . '/../errors/confirmation.php';
 <?php $this->title = 'Jean Forteroche | écrivain et acteur | Blog - Modification de commentaire'; ?>
 <p>&nbsp;</p>
 <?php
 if (empty($comment)) {
 							require __DIR__ . '/../errors/comment_not_found.php';
-			    } else {;
-					  if (!empty($_SESSION['messages']['confirmation']))
-					            {?>
-					              <div class="alert alert-success alert-dismissible fade show" role="alert">
-					                <?php echo $_SESSION['messages']['confirmation'];
-					                ?>
-					                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					                  <span aria-hidden="true">&times;</span>
-					                </button>
-					              </div>
-					              <?php
-					            }
-					?>
-<?php unset($_SESSION['messages']); ?>
+			    } else {
+						require __DIR__ . '/../errors/confirmation.php';
+ ?>
 <!-- Commentaires  -->
 <h2 id="comments">Commentaires</h2>
 <hr>

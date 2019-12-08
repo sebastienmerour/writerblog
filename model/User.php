@@ -22,6 +22,7 @@ class User extends Model {
      public function insertUser($username, $pass, $email)
      {
 
+
          // Récupération des valeurs saisies dans le formulaire :
          $errors    = array();
          $messages  = array();
@@ -173,7 +174,7 @@ class User extends Model {
          ));
 
          // Ici on affiche le message de confirmation :
-         $messages['userupdated'] = 'Votre compte a bien été mis à jour !';
+         $messages['confirmation'] = 'Votre compte a bien été mis à jour !';
          if (!empty($messages)) {
              $_SESSION['messages'] = $messages;
              header('Location: ../user/');
@@ -222,7 +223,7 @@ class User extends Model {
          ));
 
          // Ici on affiche le message de confirmation :
-         $messages['usernameupdated'] = 'Votre identifiant a bien été modifié !';
+         $messages['confirmation'] = 'Votre identifiant a bien été modifié !';
          if (!empty($messages)) {
              $_SESSION['messages'] = $messages;
              header('Location: ../user/');
@@ -242,7 +243,7 @@ class User extends Model {
              ':avatar' => htmlspecialchars($avatarname),
              ':id_user' => htmlspecialchars($user_id)
          ));
-         $messages['avatarupdated'] = 'Votre avatar a bien été modifié !';
+         $messages['confirmation'] = 'Votre avatar a bien été modifié !';
          if (!empty($messages)) {
              $_SESSION['messages'] = $messages;
              header('Location: ../user/');
@@ -277,7 +278,7 @@ class User extends Model {
 
                  // on indique à l'utilisateur qu'il s'est trompé de username ou de mot de passe.
                  // on ne précise pas qu'il s'agit du username qui est faux, pour raison de sécurité :
-                 $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect!";
+                 $_SESSION['errors'] = "Identifiant ou Mot de passe incorrect!";
                  header('Location: ../login/');
              } else {
 
@@ -312,7 +313,7 @@ class User extends Model {
 
                  } else {
                      // Dans le cas où le mot de passe est faux, on envoie un message :
-                     $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect !";
+                     $_SESSION['errors'] = "Identifiant ou Mot de passe incorrect !";
                      header('Location: ../login/');
                  }
              }
@@ -343,7 +344,7 @@ class User extends Model {
 
                  // on indique à l'utilisateur qu'il s'est trompé de username ou de mot de passe.
                  // on ne préciser pas qu'il s'agit du username qui est faux, pour raison de sécurité :
-                 $_SESSION['errMsg'] = "Identifiant ou Mot de passe incorrect !";
+                 $_SESSION['errors'] = "Identifiant ou Mot de passe incorrect !";
                  header('Location: ../writeradmin/');
              } else {
 
@@ -378,7 +379,7 @@ class User extends Model {
 
                  } else {
                      // Dans le cas où le mot de passe est faux, on envoie un message :
-                     $_SESSION['errMsg'] = "Vous n'êtes pas autorisés à accéder à l'administration !";
+                     $_SESSION['errors'] = "Vous n'êtes pas autorisés à accéder à l'administration !";
                      header('Location: ../writeradmin/');
                  }
              }

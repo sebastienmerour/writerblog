@@ -14,23 +14,12 @@
 				<hr>
 
 				<!-- Date/Time -->
+
 				<p>Mon Profil</p>
-				<?php
-				if (!empty($_SESSION['messages']['avatarupdated']))
-									{?>
-										<div class="alert alert-success alert-dismissible fade show" role="alert">
-											<?php echo $_SESSION['messages']['avatarupdated'];
-											?>
-										  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-										    <span aria-hidden="true">&times;</span>
-										  </button>
-										</div>
+				<hr>
 
-
-										<?php
-									}
-		?>
-		<?php unset($_SESSION['messages']); ?>				<hr>
+				<?php require __DIR__ . '/../errors/errors.php'; ?>
+				<?php require __DIR__ . '/../errors/confirmation.php'; ?>
 
               <!-- Avatar-->
       				<div class="container">

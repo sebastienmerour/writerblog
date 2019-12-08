@@ -39,20 +39,7 @@ if ($comments_current_page > $number_of_comments_pages) {
 }
 ?>
 <!-- Message de confirmation -->
-<?php
-if (!empty($_SESSION['messages']['confirmation']))
-					            {?>
-					              <div class="alert alert-success alert-dismissible fade show" role="alert">
-					                <?php echo $_SESSION['messages']['confirmation'];
-					                ?>
-					                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					                  <span aria-hidden="true">&times;</span>
-					                </button>
-					              </div>
-					              <?php
- }
-?>
-<?php unset($_SESSION['messages']); ?>
+<?php require __DIR__ . '/../errors/confirmation.php'; ?>
 <?php require('pagination_comments.php');?>
 <?php foreach ($comments as $comment): ?>
 	<div class="media mb-4">
@@ -74,6 +61,8 @@ if (!empty($_SESSION['messages']['confirmation']))
 <?php endforeach; ?>
 <?php require('pagination_comments.php');?>
 <hr>
+<div id="addcomment"></div>
+<?php require __DIR__ . '/../errors/errors.php'; ?>
 <!-- Ajout  de nouveaux commentaires : -->
 	<div class="card my-4">
 		<h5 class="card-header">Ajoutez un nouveau commentaire :</h5>

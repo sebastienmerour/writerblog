@@ -32,8 +32,6 @@ class ControllerHome extends Controller {
         ));
         }
 
-
-
     public function list() {
       $number_of_items  = $this->item->count();
       $items_current_page = $this->request->getParameter("id");
@@ -51,8 +49,5 @@ class ControllerHome extends Controller {
       'number_of_items_pages' => $number_of_items_pages
     ));
     }
-
-
-
 
 }

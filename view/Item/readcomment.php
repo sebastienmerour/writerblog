@@ -4,20 +4,9 @@
 
 if (empty($comment)) {
 							require __DIR__ . '/../errors/comment_not_found.php';
-			    } else {;
-					  if (!empty($_SESSION['messages']['confirmation']))
-					            {?>
-					              <div class="alert alert-success alert-dismissible fade show" role="alert">
-					                <?php echo $_SESSION['messages']['confirmation'];
-					                ?>
-					                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					                  <span aria-hidden="true">&times;</span>
-					                </button>
-					              </div>
-					              <?php
-					            }
-					?>
-<?php unset($_SESSION['messages']); ?>
+			    } else {
+					  require __DIR__ . '/../errors/confirmation.php';
+ ?>
 <h2 id="comments">Modifier le Commentaire : </h2>
 <hr>
 

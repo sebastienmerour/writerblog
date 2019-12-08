@@ -8,25 +8,9 @@
 <?php if (empty($comment)) {
 							require __DIR__ . '/../errors/comment_not_found.php';
 			    }
-					else {;
-?>
-<!-- Modification d'un commentaire -->
-<?php
-if (!empty($_SESSION['messages']['confirmation']))
-					{?>
-						<div class="alert alert-success alert-dismissible fade show" role="alert">
-							<?php echo $_SESSION['messages']['confirmation'];
-							?>
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<?php
-					}
-?>
+					else {
+					require __DIR__ . '/../errors/confirmation.php'; ?>
 
-
-<?php unset($_SESSION['messages']); ?>
 <!-- Modification d'un commentaire -->
 <div class="media mb-4">
 	<img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?= $this->clean(isset($comment['avatar_com']) ? $comment['avatar_com'] : $default );?>" alt="user">

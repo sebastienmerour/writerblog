@@ -8,23 +8,9 @@
 <?php if (empty($item)) {
 							require __DIR__ . '/../errors/item_not_found.php';
 			    }
-					else {;
-?>
-<!-- Modification d'un article -->
-<?php
-if (!empty($_SESSION['messages']['confirmation']))
-					{?>
-						<div class="alert alert-success alert-dismissible fade show" role="alert">
-							<?php echo $_SESSION['messages']['confirmation'];
-							?>
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<?php
-					}
-?>
-<?php unset($_SESSION['messages']); ?>
+					else {
+					require __DIR__ . '/../errors/errors.php'; ?>
+<?php require __DIR__ . '/../errors/confirmation.php'; ?>
 <div class="card my-4">
   <h5 class="card-header">Modification de l'article</h5>
     <div class="card-body">

@@ -6,14 +6,8 @@
 ?>
 <?php $this->title = 'Connexion à l\'Administration du blog'; ?>
 
-<?php if(!empty($_SESSION['errMsg'])) : ?>
-    <div class="space-l"></div>
-    <div class="alert alert-danger alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>Erreur !</strong> <?= $_SESSION['errMsg']; ?>
-    </div>
-    <?php unset($_SESSION['errMsg']); ?>
-<?php endif; ?>
+<?php require __DIR__ . '/../errors/errors.php'; ?>
+
 <div>
   <form class="form-signin" method="post" action="../login/loginadmin">
   <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>

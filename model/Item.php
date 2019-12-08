@@ -140,7 +140,7 @@ class Item extends Model {
         ));
 
         // Ici on affiche le message de confirmation :
-        $messages['itemupdated'] = 'Votre article a bien été modifié !';
+        $messages['confirmation'] = 'Votre article a bien été modifié !';
         if (!empty($messages)) {
             $_SESSION['messages'] = $messages;
             header('Location: ../readitem/' . $item_id);
@@ -162,9 +162,9 @@ class Item extends Model {
 
         ));
         // Ici on affiche le message de confirmation :
-        $itemmessages['confirmation'] = 'Merci ! Votre article a bien été modifié !';
-        if (!empty($itemmessages)) {
-            $_SESSION['messages'] = $itemmessages;
+        $messages['confirmation'] = 'Merci ! Votre article a bien été modifié !';
+        if (!empty($messages)) {
+            $_SESSION['messages'] = $messages;
             header('Location: ../readitem/' . $item_id);
             exit;
         }
@@ -178,9 +178,9 @@ class Item extends Model {
         $req = $this->dbConnect($sql);
         $req->execute();
         // Ici on affiche le message de confirmation :
-        $itemmessages['confirmation'] = 'Merci ! Votre article a bien été supprimé !';
-        if (!empty($itemmessages)) {
-            $_SESSION['messages'] = $itemmessages;
+        $messages['confirmation'] = 'Merci ! Votre article a bien été supprimé !';
+        if (!empty($messages)) {
+            $_SESSION['messages'] = $messages;
             header('Location: ../');
             exit;
         }

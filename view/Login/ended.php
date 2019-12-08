@@ -5,7 +5,6 @@
 <h1 class="mt-4">A bientôt !</h1>
 
 <!-- Date/Time -->
-
 <hr>
 
 <!-- Confirmation -->

@@ -9,10 +9,12 @@ require_once 'Model/Item.php';
  * @author Sébastien Merour
  */
 
-class ControllerUser extends Controller {
+class ControllerUser extends Controller
+{
     private $user;
     private $item;
-    public function __construct() {
+    public function __construct()
+    {
         $this->user = new User();
         $this->item = new Item();
     }
@@ -21,62 +23,94 @@ class ControllerUser extends Controller {
 
     // Inscription d'un nouveau user :
     // Affichage du formulaire d'inscription :
-    public function adduser() {
-      $items = $this->item->count();
-      $number_of_items  = $this->item->count();
-      $number_of_items_pages = $this->item->getNumberOfPages();
-      $this->generateView(array(
-      'items' => $items,
-      'number_of_items' => $number_of_items,
-      'number_of_items_pages' => $number_of_items_pages
-    ));
+    public function adduser()
+    {
+        $items                 = $this->item->count();
+        $number_of_items       = $this->item->count();
+        $number_of_items_pages = $this->item->getNumberOfPages();
+        $this->generateView(array(
+            'items' => $items,
+            'number_of_items' => $number_of_items,
+            'number_of_items_pages' => $number_of_items_pages
+        ));
     }
 
     // Création du user :
     public function createuser()
     {
-        $username = $this->request->getParameter("username");
-        $pass = $this->request->getParameter("pass");
-        $email = $this->request->getParameter("email");
-        $userLines = $this->user->insertUser($username, $pass, $email);
-        if ($userLines === false) {
+        if(!empty($_POST['username']) && !empty($_POST['pass']) && !empty($_POST['email'])) {
+          // Validate reCAPTCHA box
+                if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])){
+                    // Google reCAPTCHA API secret key
+                    $secretKey = '6LerX8QUAAAAAOxzR50kzN9yY9nCObsi2vz1FmcR';
+                    // Verify the reCAPTCHA response
+                    $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$_POST['g-recaptcha-response']);
+                    // Decode json data
+                    $responseData = json_decode($verifyResponse);
+                    $username  = $this->request->getParameter("username");
+                    $pass      = $this->request->getParameter("pass");
+                    $email     = $this->request->getParameter("email");
 
-          // Erreur gérée. Elle sera remontée jusqu'au bloc try du routeur !
-          throw new Exception('Impossible d\'ajouter l\'article !');
-      } else {
-          header('Location: index.php');
-      }
+                    // If reCAPTCHA response is valid
+                    if($responseData->success){
+                      $this->user->insertUser($username, $pass, $email);
+                    }
+                    else{
+                        $errors['errors'] = 'La vérification a échoué. Merci de re-essayer plus tard.';
+                        if (!empty($errors)) {
+                            $_SESSION['errors'] = $errors;
+                            header('Location: adduser');
+                            exit;
+                          }
+                      }
+                    }
+                    else{
+                        $errors['errors'] = 'Merci de cocher la case reCAPTCHA.';
+                        $_SESSION['errors'] = $errors;
+                        header('Location: adduser');
+                        exit;
+                      }
+                    }
+                else{
+                  $errors['errors'] = 'Merci de renseigner tous les champs';
+                  $_SESSION['errors'] = $errors;
+                  header('Location: adduser');
+                  exit;
+                }
+
     }
 
     // Read
     // Affichage de Mon Compte :
-    function index() {
-      $user = $this->request->getSession()->setAttribut("user", $this->user);
-      $user = $this->user->getUser($_SESSION['id_user']);
-      $items = $this->item->count();
-      $number_of_items  = $this->item->count();
-      $number_of_items_pages = $this->item->getNumberOfPages();
-      $this->generateView(array(
-      'user' => $user,
-      'items' => $items,
-      'number_of_items' => $number_of_items,
-      'number_of_items_pages' => $number_of_items_pages
-    ));
+    function index()
+    {
+        $user                  = $this->request->getSession()->setAttribut("user", $this->user);
+        $user                  = $this->user->getUser($_SESSION['id_user']);
+        $items                 = $this->item->count();
+        $number_of_items       = $this->item->count();
+        $number_of_items_pages = $this->item->getNumberOfPages();
+        $this->generateView(array(
+            'user' => $user,
+            'items' => $items,
+            'number_of_items' => $number_of_items,
+            'number_of_items_pages' => $number_of_items_pages
+        ));
     }
 
     // Affichage du Profil d'un utilisateur :
-    function profile() {
-      $user_id = $this->request->getParameter("id");
-      $user = $this->user->getUser($user_id);
-      $items = $this->item->count();
-      $number_of_items  = $this->item->count();
-      $number_of_items_pages = $this->item->getNumberOfPages();
-      $this->generateView(array(
-      'user' => $user,
-      'items' => $items,
-      'number_of_items' => $number_of_items,
-      'number_of_items_pages' => $number_of_items_pages
-    ));
+    function profile()
+    {
+        $user_id               = $this->request->getParameter("id");
+        $user                  = $this->user->getUser($user_id);
+        $items                 = $this->item->count();
+        $number_of_items       = $this->item->count();
+        $number_of_items_pages = $this->item->getNumberOfPages();
+        $this->generateView(array(
+            'user' => $user,
+            'items' => $items,
+            'number_of_items' => $number_of_items,
+            'number_of_items_pages' => $number_of_items_pages
+        ));
     }
 
     // Update
@@ -87,101 +121,110 @@ class ControllerUser extends Controller {
      * @throws Exception S'il manque des infos sur le user
      */
 
-     // Affichage de la page de modification de user :
+    // Affichage de la page de modification de user :
     function modifyuser()
     {
-        $items = $this->item->count();
-        $number_of_items  = $this->item->count();
+        $items                 = $this->item->count();
+        $number_of_items       = $this->item->count();
         $number_of_items_pages = $this->item->getNumberOfPages();
-        $user = $this->request->getSession()->setAttribut("user", $this->user);
-        $user = $this->user->getUser($_SESSION['id_user']);
+        $user                  = $this->request->getSession()->setAttribut("user", $this->user);
+        $user                  = $this->user->getUser($_SESSION['id_user']);
         $this->generateView(array(
-        'items' => $items,
-        'user' => $user,
-        'number_of_items' => $number_of_items,
-        'number_of_items_pages' => $number_of_items_pages
-      ));
+            'items' => $items,
+            'user' => $user,
+            'number_of_items' => $number_of_items,
+            'number_of_items_pages' => $number_of_items_pages
+        ));
     }
 
-     // Modification d'utilisateur :
-     public function updateuser()
-     {
-         $pass = $this->request->getParameter("pass");
-         $email = $this->request->getParameter("email");
-         $firstname = $this->request->getParameter("firstname");
-         $name = $this->request->getParameter("name");
-         $date_birth = $this->request->getParameter("date_birth");
-         $user = $this->request->getSession()->getAttribut("user");
-         $this->user->changeUser($pass, $email, $firstname, $name, $date_birth);
-         $user = $this->user->getUser($user_id);
-         if ($user  === false) {
-             throw new Exception('Impossible de modifier l\' utilisateur !');
-         }
-         else {
-           $this->request->getSession()->setAttribut("user", $user);
-           $this->generateView();
-         }
-     }
-
-     // Modification d'identifiant :
-     public function updateusername()
-     {
-         $username = $this->request->getParameter("username");
-         $user = $this->request->getSession()->getAttribut("user");
-         $this->user->changeUsername($username);
-         $user = $this->user->getUser($user_id);
-         if ($user  === false) {
-             throw new Exception('Impossible de modifier l\' utilisateur !');
-         }
-         else {
-           $this->request->getSession()->setAttribut("user", $user);
-           $this->generateView();
-         }
-     }
-     // Modification de l'avatar :
-     public function updateAvatar()
-     {
-
-         $user = $this->request->getSession()->getAttribut("user");
-         if (isset($_FILES['avatar']) AND $_FILES['avatar']['error'] == 0)
-         {
-                 // Testons si le fichier n'est pas trop gros
-                 if ($_FILES['avatar']['size'] <= 1000000)
-                 {
-                   $file_infos = pathinfo($_FILES['avatar']['name']);
-                   $extension_upload = $file_infos['extension'];
-                   $extensions_authorized = array('jpg', 'jpeg', 'gif', 'png');
-                   $user_id = $_SESSION['id_user'];
-                   $time = date("Y-m-d-H-i-s");
-                   $avatarname = str_replace(' ','-',strtolower($_FILES['avatar']['name']));
-                   $avatarname = preg_replace("/\.[^.\s]{3,4}$/", "", $avatarname);
-                   $avatarname = "{$time}-{$user_id}-avatar.{$extension_upload}";
-                   $destination = ROOT_PATH. 'public/images/avatars';
-                   if (in_array($extension_upload, $extensions_authorized))
-                   {
-                           // On peut valider le fichier et le stocker définitivement
-                           move_uploaded_file($_FILES['avatar']['tmp_name'],$destination."/".$avatarname);
-                           $newAvatar = $this->user->changeAvatar($avatarname);
-
-                          echo "L'avatar a bien été envoyé !";
-                          $this->redirect("user");
-             }
-             else {
-               echo "L'extension du fichier n'est pas autorisée.";
-               $this->redirect("user");
-             }
+    // Modification d'utilisateur :
+    public function updateuser()
+    {
+        $pass       = $this->request->getParameter("pass");
+        $email      = $this->request->getParameter("email");
+        $firstname  = $this->request->getParameter("firstname");
+        $name       = $this->request->getParameter("name");
+        $date_birth = $this->request->getParameter("date_birth");
+        $user       = $this->request->getSession()->getAttribut("user");
+        $this->user->changeUser($pass, $email, $firstname, $name, $date_birth);
+        $user = $this->user->getUser($user_id);
+        if ($user === false) {
+            throw new Exception('Impossible de modifier l\' utilisateur !');
+        } else {
+            $this->request->getSession()->setAttribut("user", $user);
+            $this->generateView();
         }
-        else {
-        echo "Le fichier est trop gros.";
-        $this->redirect("user");
-        }
-        }
-        else {
-        echo "L'envoi du fichier a échoué.";
-        $this->redirect("user");
-        }
+    }
 
-     }
+    // Modification d'identifiant :
+    public function updateusername()
+    {
+        $username = $this->request->getParameter("username");
+        $user     = $this->request->getSession()->getAttribut("user");
+        $this->user->changeUsername($username);
+        $user = $this->user->getUser($user_id);
+        if ($user === false) {
+            throw new Exception('Impossible de modifier l\' utilisateur !');
+        } else {
+            $this->request->getSession()->setAttribut("user", $user);
+            $this->generateView();
+        }
+    }
 
+    // Modification de l'avatar :
+    public function updateavatar()
+    {
+        $user = $this->request->getSession()->getAttribut("user");
+
+        if (isset($_POST["modifyavatar"])) {
+          $errors   = array();
+          $messages = array();
+          $fileinfo = @getimagesize($_FILES["avatar"]["tmp_name"]);
+          $width = $fileinfo[0];
+          $height = $fileinfo[1];
+          $extension_upload = pathinfo($_FILES["avatar"]["name"], PATHINFO_EXTENSION);
+          $extensions_authorized = array(
+              'jpg',
+              'jpeg',
+              'gif',
+              'png'
+          );
+          $user_id               = $_SESSION['id_user'];
+          $time                  = date("Y-m-d-H-i-s");
+          $avatarname            = str_replace(' ', '-', strtolower($_FILES['avatar']['name']));
+          $avatarname            = preg_replace("/\.[^.\s]{3,4}$/", "", $avatarname);
+          $avatarname            = "{$time}-{$user_id}-avatar.{$extension_upload}";
+          $destination           = ROOT_PATH . 'public/images/avatars';
+
+          if (! in_array($extension_upload, $extensions_authorized)) {
+            $errors['errors'] = 'L\'extension du fichier n\'est pas autorisée.';
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header('Location: ../user/');
+                exit;
+              }
+          }
+          else if (($_FILES["avatar"]["size"] > 1000000)) {
+            $errors['errors'] = 'Le fichier est trop lourd.';
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header('Location: ../user/');
+                exit;
+              }
+          }
+          else if ($width < "300" || $height < "200") {
+            $errors['errors'] = 'Le fichier n\'a pas les bonnes dimensions';
+            if (!empty($errors)) {
+                $_SESSION['errors'] = $errors;
+                header('Location: ../user/');
+                exit;
+              }
+            }
+            else {
+              move_uploaded_file($_FILES['avatar']['tmp_name'], $destination . "/" . $avatarname);
+              $newAvatar = $this->user->changeAvatar($avatarname);
+              }
+          }
+      }
 
 }

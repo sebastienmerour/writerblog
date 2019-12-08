@@ -2,10 +2,9 @@
 	if(!ISSET($_SESSION['id_user'])){
 ?>
 <?php $this->title = 'Inscription'; ?>
-
 <form class="form-signin needs-validation" method="post" action="user/createuser" novalidate>
-
 <h1 class="h3 mb-3 font-weight-normal">Rejoignez le site</h1>
+<?php require __DIR__ . '/../errors/errors.php'; ?>
 <label for "username" class="sr-only">Identifiant :&nbsp;</label>
 <input type="text" class="form-control" id="username" name="username" placeholder="Identifiant" required autofocus><br>
 <label for "password" class="sr-only">Mot de Passe :&nbsp;</label>
@@ -29,20 +28,20 @@ placeholder="Mot de passe" data-placement="right" required>
 	<?php
 		if (!empty($_SESSION['errors']['username']))
 		{?>
-			<div class="bg-danger text-white rounded p-3">
+			<div class="bg-danger text-white rounded p-3 mb-3">
   			<?php echo $_SESSION['errors']['username'];?>
 			</div>
 	<?php
 		}
 		if (!empty($_SESSION['errors']['passdifferent']))
 		{?>
-			<div class="bg-danger text-white rounded p-3">
+			<div class="bg-danger text-white rounded p-3 mb-3">
   			<?php echo $_SESSION['errors']['passdifferent'];?>
 			</div>
 	<?php }
 		if (!empty($_SESSION['errors']['email']))
 		{?>
-			<div class="bg-danger text-white rounded p-3">
+			<div class="bg-danger text-white rounded p-3 mb-3">
   			<?php echo $_SESSION['errors']['email'];?>
 			</div>
 	 <?php
