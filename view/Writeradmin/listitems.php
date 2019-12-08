@@ -20,7 +20,6 @@
         <th>Titre</th>
         <th>Modification</th>
         <th>Suppression</th>
-
       </tr>
     </thead>
     <tbody>
@@ -38,7 +37,6 @@
 				<h6 class="mt-2 text-left"><?= $this->clean($item['title']); ?></h6></a></span></td>
         <td><a href="<?= "../../readitem/" . $this->clean($item['id'])?>" role="button" class="btn btn-sm btn-primary">Modifier</a></td>
         <td><a href="<?= "../../removeitem/" . $this->clean($item['id'])?>" role="button" class="btn btn-sm btn-danger">Supprimer</a></td>
-
       </tr>
       <?php
         }
@@ -53,9 +51,6 @@
   else {
   require('listitems_pagination.php');}
   ?>
-
-
-
 </div>
 <?php
 };

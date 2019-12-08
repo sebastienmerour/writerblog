@@ -10,7 +10,6 @@
          else {
          }?>
 
-
 <div class="main container">
   <div class="row container">
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -30,8 +29,6 @@
     </main>
   </div>
 </div>
-
-
 </div>
 </div>
 

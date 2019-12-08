@@ -5,7 +5,6 @@
       <a href="login/logout" role="button"  role="button" class="btn btn-md btn-danger">Se déconnecter</a>
     </div>
   </div>
-
 </div>
 <div class="card my-4">
   <h5 class="card-header">Menu</h5>

@@ -4,13 +4,11 @@
     <?php
     if ($items_current_page > $number_of_items_pages) {
       require __DIR__ . '/../errors/page_not_found.php';
-    } // on renvoie vers une page d'erreur, pour éviter l'affichage d'un numéro de page faux
+    } 
         else {
           if ($items_current_page !=1  AND $items_current_page <= $number_of_items_pages)// Si la page active n'est pas la première page
           {
           ?>
-
-
           <li>
               <a class="btn btn-outline-secondary" href="listitems/<?= $page_previous_items ;?>/1" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
@@ -30,7 +28,6 @@
                 echo '><a class="btn btn-outline-primary" href="listitems/' . $i . '/1">' . $i . '</a>&nbsp;</li>';
               }
           }
-
           if ($items_current_page < $number_of_items_pages)
           {
           ?>

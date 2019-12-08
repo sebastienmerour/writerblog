@@ -7,6 +7,7 @@ require_once 'Model/User.php';
 /**
  * Contrôleur gérant la page d'accueil de l'administration du site
  *
+ * @version 1.0
  * @author Sébastien Merour
  */
 
@@ -16,7 +17,6 @@ class ControllerWriteradmin extends Controller
     private $item;
     private $comment;
 
-
     public function __construct()
     {
         $this->user    = new User();
@@ -24,12 +24,97 @@ class ControllerWriteradmin extends Controller
         $this->comment = new Comment();
     }
 
+    // CREATE
+    // ITEMS
+
+    // Affichage du formulaire ce création d'article
+    public function additem()
+    {
+        $items = $this->item->count();
+        $this->generateadminView(array(
+            'items' => $items
+        ));
+    }
+
+    // Processus de création d'un article :
+    public function createitem()
+    {
+        if (isset($_POST["modify"])) {
+            $errors                = array();
+            $messages              = array();
+            $user_id               = $_SESSION['id_user_admin'];
+            $title                 = $_POST['title'];
+            $content               = $_POST['content'];
+            $fileinfo              = @getimagesize($_FILES["image"]["tmp_name"]);
+            $width                 = $fileinfo[0];
+            $height                = $fileinfo[1];
+            $extensions_authorized = array(
+                "gif",
+                "png",
+                "jpg",
+                "jpeg"
+            );
+            $extension_upload      = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+            $time                  = date("Y-m-d-H-i-s") . "-";
+            $newtitle              = str_replace(' ', '-', strtolower($title));
+            $itemimagename         = str_replace(' ', '-', strtolower($_FILES['image']['name']));
+            $itemimagename         = preg_replace("/\.[^.\s]{3,4}$/", "", $itemimagename);
+            $itemimagename         = "{$time}$newtitle.{$extension_upload}";
+            $destination           = ROOT_PATH . 'public/images/item_images';
+
+            if (empty($title) || empty($content)) {
+                $errors['errors'] = 'Veuillez remplir tous les champs';
+                if (!empty($errors)) {
+                    $_SESSION['errors'] = $errors;
+                    header('Location: additem/');
+                    exit;
+                }
+            }
+
+            else if (!file_exists($_FILES["image"]["tmp_name"])) {
+                $this->item->insertItem($user_id, $title, $content);
+            }
+
+            else if (!in_array($extension_upload, $extensions_authorized)) {
+                $errors['errors'] = 'L\'extension du fichier n\'est pas autorisée.';
+                if (!empty($errors)) {
+                    $_SESSION['errors'] = $errors;
+                    header('Location: additem/');
+                    exit;
+                }
+            } else if (($_FILES["image"]["size"] > 1000000)) {
+                $errors['errors'] = 'Le fichier est trop lourd.';
+                if (!empty($errors)) {
+                    $_SESSION['errors'] = $errors;
+                    header('Location: additem/');
+                    exit;
+                }
+            } else if ($width < "300" || $height < "200") {
+                $errors['errors'] = 'Le fichier n\'a pas les bonnes dimensions';
+                if (!empty($errors)) {
+                    $_SESSION['errors'] = $errors;
+                    header('Location: additem/');
+                    exit;
+                }
+            }
+
+            else {
+                move_uploaded_file($_FILES['image']['tmp_name'], $destination . "/" . $itemimagename);
+                $this->item->insertItemImage($user_id, $title, $itemimagename, $content);
+            }
+        }
+    }
+
+    // READ
+    // ITEMS
+
     // Affichage de la page de connexion :
     public function index()
     {
         $this->generateadminView();
     }
 
+    // Affichage de la page d'accueil après connexion :
     public function dashboard()
     {
         $items                 = $this->item->count();
@@ -49,7 +134,7 @@ class ControllerWriteradmin extends Controller
         ));
     }
 
-
+    // Pagination des articles :
     public function listitems()
     {
         $items                 = $this->item->count();
@@ -70,6 +155,101 @@ class ControllerWriteradmin extends Controller
         ));
     }
 
+    // Affichage d'un article seul :
+    public function readitem()
+    {
+
+        $item_id = $this->request->getParameter("id");
+        $item    = $this->item->getItem($item_id);
+        $this->generateadminView(array(
+            'item' => $item
+        ));
+    }
+
+    // UPDATE
+    // ITEMS
+
+    // Modification d'un article :
+    public function updateitem()
+    {
+        if (isset($_POST["modify"])) {
+            $errors                = array();
+            $messages              = array();
+            $item_id               = $this->request->getParameter("id");
+            $title                 = $this->request->getParameter("title");
+            $content               = $this->request->getParameter("content");
+            $fileinfo              = @getimagesize($_FILES["image"]["tmp_name"]);
+            $width                 = $fileinfo[0];
+            $height                = $fileinfo[1];
+            $extensions_authorized = array(
+                "gif",
+                "png",
+                "jpg",
+                "jpeg"
+            );
+            $extension_upload      = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+            $time                  = date("Y-m-d-H-i-s") . "-";
+            $newtitle              = str_replace(' ', '-', strtolower($title));
+            $itemimagename         = str_replace(' ', '-', strtolower($_FILES['image']['name']));
+            $itemimagename         = preg_replace("/\.[^.\s]{3,4}$/", "", $itemimagename);
+            $itemimagename         = "{$time}$newtitle.{$extension_upload}";
+            $destination           = ROOT_PATH . 'public/images/item_images';
+
+            if (!file_exists($_FILES["image"]["tmp_name"])) {
+                $messages = array();
+                $item_id  = $this->request->getParameter("id");
+                $title    = $this->request->getParameter("title");
+                $content  = $this->request->getParameter("content");
+                $this->item->changeItem($title, $content, $item_id);
+            } else if (!in_array($extension_upload, $extensions_authorized)) {
+                $errors['errors'] = 'L\'extension du fichier n\'est pas autorisée.';
+                if (!empty($errors)) {
+                    $_SESSION['errors'] = $errors;
+                    header('Location: ../readitem/' . $item_id);
+                    exit;
+                }
+            } else if (($_FILES["image"]["size"] > 1000000)) {
+                $errors['errors'] = 'Le fichier est trop lourd.';
+                if (!empty($errors)) {
+                    $_SESSION['errors'] = $errors;
+                    header('Location: ../readitem/' . $item_id);
+                    exit;
+                }
+            } else if ($width < "300" || $height < "200") {
+                $errors['errors'] = 'Le fichier n\'a pas les bonnes dimensions';
+                if (!empty($errors)) {
+                    $_SESSION['errors'] = $errors;
+                    header('Location: ../readitem/' . $item_id);
+                    exit;
+                }
+            } else {
+                move_uploaded_file($_FILES['image']['tmp_name'], $destination . "/" . $itemimagename);
+                $this->item->changeItemImage($title, $itemimagename, $content, $item_id);
+            }
+        }
+    }
+
+    // DELETE
+    // ITEMS
+
+    // Suppression d'un article :
+    public function removeitem()
+    {
+        $item_id = $this->request->getParameter("id");
+        $this->item->eraseItem($item_id);
+        if ($item_id === false) {
+            throw new Exception('Impossible de supprimer l\' article !');
+        } else {
+            $messages['confirmation'] = 'L\'article a bien été supprimé !';
+            $this->generateadminView();
+        }
+    }
+
+
+    // READ
+    // COMMENTS
+
+    // Affichage des commentaires à modérer :
     public function tomoderate()
     {
         $comments_reported_current_page    = 1;
@@ -90,6 +270,7 @@ class ControllerWriteradmin extends Controller
         ));
     }
 
+    // Pagination des commentaires à modérer :
     public function listtomoderate()
     {
         $comments_reported_current_page    = $this->comment->getCommentsReportedCurrentPage();
@@ -110,7 +291,7 @@ class ControllerWriteradmin extends Controller
         ));
     }
 
-
+    // Affichage de l'ensemble des commentaires :
     public function allcomments()
     {
         $comments_current_page    = 1;
@@ -131,6 +312,7 @@ class ControllerWriteradmin extends Controller
         ));
     }
 
+    // Pagination de tous les commentaires :
     public function listallcomments()
     {
         $comments_current_page    = $this->comment->getCommentsCurrentPageUser();
@@ -151,192 +333,6 @@ class ControllerWriteradmin extends Controller
         ));
     }
 
-
-    // ITEMS
-    // Create :
-
-    // Affichage du formulaire ce création d'article
-    public function additem()
-    {
-        $items = $this->item->count();
-        $this->generateadminView(array(
-            'items' => $items
-        ));
-    }
-
-    public function createitem()
-    {
-      if (isset($_POST["modify"])) {
-          $errors   = array();
-          $messages = array();
-          $user_id  = $_SESSION['id_user_admin'];
-          $title    = $_POST['title'];
-          $content    = $_POST['content'];
-          $fileinfo = @getimagesize($_FILES["image"]["tmp_name"]);
-          $width = $fileinfo[0];
-          $height = $fileinfo[1];
-          $extensions_authorized = array(
-              "gif",
-              "png",
-              "jpg",
-              "jpeg"
-          );
-          $extension_upload = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
-          $time                  = date("Y-m-d-H-i-s") . "-";
-          $newtitle              = str_replace(' ', '-', strtolower($title));
-          $itemimagename         = str_replace(' ', '-', strtolower($_FILES['image']['name']));
-          $itemimagename         = preg_replace("/\.[^.\s]{3,4}$/", "", $itemimagename);
-          $itemimagename         = "{$time}$newtitle.{$extension_upload}";
-          $destination           = ROOT_PATH . 'public/images/item_images';
-
-          if (empty($title) || empty($content)) {
-            $errors['errors'] = 'Veuillez remplir tous les champs';
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: additem/');
-                exit;
-              }
-          }
-
-          else if (! file_exists($_FILES["image"]["tmp_name"])) {
-            $this->item->insertItem($user_id, $title, $content);
-            }
-
-          else if (! in_array($extension_upload, $extensions_authorized)) {
-            $errors['errors'] = 'L\'extension du fichier n\'est pas autorisée.';
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: additem/');
-                exit;
-              }
-          }
-          else if (($_FILES["image"]["size"] > 1000000)) {
-            $errors['errors'] = 'Le fichier est trop lourd.';
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: additem/');
-                exit;
-              }
-          }
-          else if ($width < "300" || $height < "200") {
-            $errors['errors'] = 'Le fichier n\'a pas les bonnes dimensions';
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: additem/');
-                exit;
-              }
-            }
-
-            else {
-              move_uploaded_file($_FILES['image']['tmp_name'], $destination . "/" . $itemimagename);
-              $this->item->insertItemImage($user_id, $title, $itemimagename, $content);
-              }
-          }
-      }
-
-
-
-    // Read :
-    public function readitem()
-    {
-
-        $item_id = $this->request->getParameter("id");
-        $item    = $this->item->getItem($item_id);
-        $this->generateadminView(array(
-            'item' => $item
-        ));
-    }
-
-
-    // Update :
-    // Modification d'un article
-
-  public function updateitem()
-   {
-
-     if (isset($_POST["modify"])) {
-         $errors   = array();
-         $messages = array();
-         $item_id  = $this->request->getParameter("id");
-         $title    = $this->request->getParameter("title");
-         $content  = $this->request->getParameter("content");
-         $fileinfo = @getimagesize($_FILES["image"]["tmp_name"]);
-         $width = $fileinfo[0];
-         $height = $fileinfo[1];
-         $extensions_authorized = array(
-             "gif",
-             "png",
-             "jpg",
-             "jpeg"
-         );
-         $extension_upload = pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
-         $time                  = date("Y-m-d-H-i-s") . "-";
-         $newtitle              = str_replace(' ', '-', strtolower($title));
-         $itemimagename         = str_replace(' ', '-', strtolower($_FILES['image']['name']));
-         $itemimagename         = preg_replace("/\.[^.\s]{3,4}$/", "", $itemimagename);
-         $itemimagename         = "{$time}$newtitle.{$extension_upload}";
-         $destination           = ROOT_PATH . 'public/images/item_images';
-
-         if (! file_exists($_FILES["image"]["tmp_name"])) {
-           $messages = array();
-           $item_id  = $this->request->getParameter("id");
-           $title    = $this->request->getParameter("title");
-           $content  = $this->request->getParameter("content");
-           $this->item->changeItem($title, $content, $item_id);
-           }
-         else if (! in_array($extension_upload, $extensions_authorized)) {
-           $errors['errors'] = 'L\'extension du fichier n\'est pas autorisée.';
-           if (!empty($errors)) {
-               $_SESSION['errors'] = $errors;
-               header('Location: ../readitem/' . $item_id);
-               exit;
-             }
-         }
-         else if (($_FILES["image"]["size"] > 1000000)) {
-           $errors['errors'] = 'Le fichier est trop lourd.';
-           if (!empty($errors)) {
-               $_SESSION['errors'] = $errors;
-               header('Location: ../readitem/' . $item_id);
-               exit;
-             }
-         }
-         else if ($width < "300" || $height < "200") {
-           $errors['errors'] = 'Le fichier n\'a pas les bonnes dimensions';
-           if (!empty($errors)) {
-               $_SESSION['errors'] = $errors;
-               header('Location: ../readitem/' . $item_id);
-               exit;
-             }
-           }
-           else {
-             move_uploaded_file($_FILES['image']['tmp_name'], $destination . "/" . $itemimagename);
-             $this->item->changeItemImage($title, $itemimagename, $content, $item_id);
-             }
-         }
-     }
-
-
-
-
-    // Delete :
-    // Suppression d'un article
-    public function removeitem()
-    {
-
-        $item_id = $this->request->getParameter("id");
-        $this->item->eraseItem($item_id);
-        if ($item_id === false) {
-            throw new Exception('Impossible de supprimer l\' article !');
-        } else {
-            $messages['confirmation'] = 'L\'article a bien été supprimé !';
-            $this->generateadminView();
-        }
-    }
-
-    // COMMENTS
-    // Pas de création de commentaire depuis le Backend.
-
-    // Read :
     // Affichage d'un commentaire
     public function readcomment()
     {
@@ -349,23 +345,22 @@ class ControllerWriteradmin extends Controller
         ));
     }
 
-    // Update :
-    // Modification d'un commentaire
+    // UPDATE
+    // COMMENTS
+
+    // Modification d'un commentaire :
     public function updatecomment()
     {
-        $comment = $this->request->getParameter("id");
+        $id_comment = $this->request->getParameter("id");
+        $comment    = $this->comment->getComment($id_comment);
+        $content    = $comment['content'];
         $this->comment->changeCommentAdmin($content);
-        $comment = $this->comment->getItem($id_comment);
-        if ($comment === false) {
-            throw new Exception('Impossible de modifier le commentaire !');
-        } else {
-            $messages['confirmation'] = 'Le commentaire a bien été modifié !';
-            $this->generateadminView();
-        }
     }
 
-    // Delete :
-    // Suppression d'un commentaire
+    // DELETE
+    // COMMENTS
+
+    // Suppression d'un commentaire :
     public function removecomment()
     {
         $id_comment = $this->request->getParameter("id");

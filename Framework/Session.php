@@ -7,7 +7,7 @@
  * @version 1.0
  * @author Sébastien Merour
  */
- 
+
 class Session
 {
     /**
@@ -56,8 +56,7 @@ class Session
     {
         if ($this->ifAttribut($name)) {
             return $_SESSION[$name];
-        }
-        else {
+        } else {
             throw new Exception("Attribut '$name' absent de la session");
         }
     }

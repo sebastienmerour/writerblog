@@ -10,11 +10,9 @@
 				<?php
 					echo '<h1 class="mt-4">Bienvenue ' .$this->clean($user['firstname']). ' !</h1>';
 				?>
-				<!-- Author -->
 				<hr>
 
-				<!-- Date/Time -->
-
+				<!-- Profil -->
 				<p>Mon Profil</p>
 				<hr>
 
@@ -25,9 +23,7 @@
       				<div class="container">
       					<div class="row">
       						<div class="col-sm-4">
-      							<!-- Avatar - Vérifier si le membre a un avatar ou non -->
       							<?php
-      								// Vérifier si l'avatar existe :
       								if (empty($user['avatar'])) {
       										echo '<p>Cet utilisateur n\'a pas d\'avatar</p>';
       								} else {
@@ -37,12 +33,9 @@
       						      alt="<?= $this->clean($user['firstname']); ?>" title="<?= $this->clean($user['firstname']);?>">
       						      <figcaption class="figure-caption text-right"><?= $this->clean($user['firstname']); ?></figcaption>
       						      </figure>
-
-
       							<?php
       						};
       							?>
-
 									</div><!-- fin du div col-sm-4 -->
 
 							    <div class="col-sm-8"><h6>Modifier ma photo de profil :</h6>
@@ -105,29 +98,19 @@
 				  </tbody>
 				</table>
 				<a href="user/modifyuser" class="btn btn-md btn-success" role="button">Modifier</a>
-
-
 			</div>
-
 	              <div class="tab-pane fade" id="username" role="tabpanel" aria-labelledby="pills-profile-tab">
-
 									<table class="table table-striped">
 										<tbody>
 											<tr>
 												<th scope="row">Identifiant</th>
 												<td><?php echo $user['username']?></td>
 											</tr>
-
 										</tbody>
 									</table>
 									<a href="user/modifyuser"><button class="btn btn-md btn-success" role="button">Modifier</button></a>
-
-
-
 						</div>
-
 				<hr>
-
 			</div><!-- fin du div tab-content -->
 
 <?php

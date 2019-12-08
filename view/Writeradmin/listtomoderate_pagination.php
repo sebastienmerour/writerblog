@@ -12,7 +12,6 @@
       </a>&nbsp;
   </li>
   <?php
-
   }
   for ($i = 1; $i <= $number_of_comments_reported_pages; $i++)
   {

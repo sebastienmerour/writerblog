@@ -1,4 +1,3 @@
-require __DIR__ . '/../errors/confirmation.php';
 <?php $this->title = 'Jean Forteroche | écrivain et acteur | Blog - Modification de commentaire'; ?>
 <p>&nbsp;</p>
 <?php

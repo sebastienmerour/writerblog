@@ -4,8 +4,9 @@ require_once 'Model/User.php';
 require_once 'Model/Item.php';
 
 /**
- * Contrôleur des actions liées au user
+ * Contrôleur des actions liées aux utilisateurs
  *
+ * @version 1.0
  * @author Sébastien Merour
  */
 
@@ -21,7 +22,6 @@ class ControllerUser extends Controller
 
     // Create
 
-    // Inscription d'un nouveau user :
     // Affichage du formulaire d'inscription :
     public function adduser()
     {
@@ -38,49 +38,43 @@ class ControllerUser extends Controller
     // Création du user :
     public function createuser()
     {
-        if(!empty($_POST['username']) && !empty($_POST['pass']) && !empty($_POST['email'])) {
-          // Validate reCAPTCHA box
-                if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])){
-                    // Google reCAPTCHA API secret key
-                    $secretKey = '6LerX8QUAAAAAOxzR50kzN9yY9nCObsi2vz1FmcR';
-                    // Verify the reCAPTCHA response
-                    $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$_POST['g-recaptcha-response']);
-                    // Decode json data
-                    $responseData = json_decode($verifyResponse);
-                    $username  = $this->request->getParameter("username");
-                    $pass      = $this->request->getParameter("pass");
-                    $email     = $this->request->getParameter("email");
+        if (!empty($_POST['username']) && !empty($_POST['pass']) && !empty($_POST['email'])) {
 
-                    // If reCAPTCHA response is valid
-                    if($responseData->success){
-                      $this->user->insertUser($username, $pass, $email);
-                    }
-                    else{
-                        $errors['errors'] = 'La vérification a échoué. Merci de re-essayer plus tard.';
-                        if (!empty($errors)) {
-                            $_SESSION['errors'] = $errors;
-                            header('Location: adduser');
-                            exit;
-                          }
-                      }
-                    }
-                    else{
-                        $errors['errors'] = 'Merci de cocher la case reCAPTCHA.';
+            if (isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])) {
+                $secretKey      = '6LerX8QUAAAAAOxzR50kzN9yY9nCObsi2vz1FmcR';
+                $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secretKey . '&response=' . $_POST['g-recaptcha-response']);
+                $responseData   = json_decode($verifyResponse);
+                $username       = $this->request->getParameter("username");
+                $pass           = $this->request->getParameter("pass");
+                $email          = $this->request->getParameter("email");
+
+                if ($responseData->success) {
+                    $this->user->insertUser($username, $pass, $email);
+                } else {
+                    $errors['errors'] = 'La vérification a échoué. Merci de re-essayer plus tard.';
+                    if (!empty($errors)) {
                         $_SESSION['errors'] = $errors;
                         header('Location: adduser');
                         exit;
-                      }
                     }
-                else{
-                  $errors['errors'] = 'Merci de renseigner tous les champs';
-                  $_SESSION['errors'] = $errors;
-                  header('Location: adduser');
-                  exit;
                 }
+            } else {
+                $errors['errors']   = 'Merci de cocher la case reCAPTCHA.';
+                $_SESSION['errors'] = $errors;
+                header('Location: adduser');
+                exit;
+            }
+        } else {
+            $errors['errors']   = 'Merci de renseigner tous les champs';
+            $_SESSION['errors'] = $errors;
+            header('Location: adduser');
+            exit;
+        }
 
     }
 
     // Read
+
     // Affichage de Mon Compte :
     function index()
     {
@@ -114,12 +108,6 @@ class ControllerUser extends Controller
     }
 
     // Update
-
-    /**
-     * Modifie les infos user
-     *
-     * @throws Exception S'il manque des infos sur le user
-     */
 
     // Affichage de la page de modification de user :
     function modifyuser()
@@ -177,54 +165,51 @@ class ControllerUser extends Controller
         $user = $this->request->getSession()->getAttribut("user");
 
         if (isset($_POST["modifyavatar"])) {
-          $errors   = array();
-          $messages = array();
-          $fileinfo = @getimagesize($_FILES["avatar"]["tmp_name"]);
-          $width = $fileinfo[0];
-          $height = $fileinfo[1];
-          $extension_upload = pathinfo($_FILES["avatar"]["name"], PATHINFO_EXTENSION);
-          $extensions_authorized = array(
-              'jpg',
-              'jpeg',
-              'gif',
-              'png'
-          );
-          $user_id               = $_SESSION['id_user'];
-          $time                  = date("Y-m-d-H-i-s");
-          $avatarname            = str_replace(' ', '-', strtolower($_FILES['avatar']['name']));
-          $avatarname            = preg_replace("/\.[^.\s]{3,4}$/", "", $avatarname);
-          $avatarname            = "{$time}-{$user_id}-avatar.{$extension_upload}";
-          $destination           = ROOT_PATH . 'public/images/avatars';
+            $errors                = array();
+            $messages              = array();
+            $fileinfo              = @getimagesize($_FILES["avatar"]["tmp_name"]);
+            $width                 = $fileinfo[0];
+            $height                = $fileinfo[1];
+            $extension_upload      = pathinfo($_FILES["avatar"]["name"], PATHINFO_EXTENSION);
+            $extensions_authorized = array(
+                'jpg',
+                'jpeg',
+                'gif',
+                'png'
+            );
+            $user_id               = $_SESSION['id_user'];
+            $time                  = date("Y-m-d-H-i-s");
+            $avatarname            = str_replace(' ', '-', strtolower($_FILES['avatar']['name']));
+            $avatarname            = preg_replace("/\.[^.\s]{3,4}$/", "", $avatarname);
+            $avatarname            = "{$time}-{$user_id}-avatar.{$extension_upload}";
+            $destination           = ROOT_PATH . 'public/images/avatars';
 
-          if (! in_array($extension_upload, $extensions_authorized)) {
-            $errors['errors'] = 'L\'extension du fichier n\'est pas autorisée.';
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: ../user/');
-                exit;
-              }
-          }
-          else if (($_FILES["avatar"]["size"] > 1000000)) {
-            $errors['errors'] = 'Le fichier est trop lourd.';
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: ../user/');
-                exit;
-              }
-          }
-          else if ($width < "300" || $height < "200") {
-            $errors['errors'] = 'Le fichier n\'a pas les bonnes dimensions';
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header('Location: ../user/');
-                exit;
-              }
+            if (!in_array($extension_upload, $extensions_authorized)) {
+                $errors['errors'] = 'L\'extension du fichier n\'est pas autorisée.';
+                if (!empty($errors)) {
+                    $_SESSION['errors'] = $errors;
+                    header('Location: ../user/');
+                    exit;
+                }
+            } else if (($_FILES["avatar"]["size"] > 1000000)) {
+                $errors['errors'] = 'Le fichier est trop lourd.';
+                if (!empty($errors)) {
+                    $_SESSION['errors'] = $errors;
+                    header('Location: ../user/');
+                    exit;
+                }
+            } else if ($width < "300" || $height < "200") {
+                $errors['errors'] = 'Le fichier n\'a pas les bonnes dimensions';
+                if (!empty($errors)) {
+                    $_SESSION['errors'] = $errors;
+                    header('Location: ../user/');
+                    exit;
+                }
+            } else {
+                move_uploaded_file($_FILES['avatar']['tmp_name'], $destination . "/" . $avatarname);
+                $newAvatar = $this->user->changeAvatar($avatarname);
             }
-            else {
-              move_uploaded_file($_FILES['avatar']['tmp_name'], $destination . "/" . $avatarname);
-              $newAvatar = $this->user->changeAvatar($avatarname);
-              }
-          }
-      }
+        }
+    }
 
 }

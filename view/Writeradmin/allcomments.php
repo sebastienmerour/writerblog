@@ -33,7 +33,6 @@ require('allcomments_pagination.php');}
       while ($comment = $comments->fetch())
       {
       ?>
-
       <tr>
         <td><h6 class="mt-2 text-left"><?= $this->clean($comment['date_creation_fr']); ?></h6></td>
         <td><div class="media mb-4">
@@ -41,7 +40,6 @@ require('allcomments_pagination.php');}
           <div class="media-body">
             <h6 class="mt-2 text-left"><?= $this->clean(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author']);?></h6><br>
           </div>
-
         </div></td>
         <td><h6 class="mt-2 text-left"><?= $this->cleantinymce($comment['content']); ?></h6></td>
         <td><a href="<?= "readcomment/" . $this->clean($comment['id']) ;?>" role="button" class="btn btn-sm btn-primary">Modifier</a></td>
@@ -61,8 +59,6 @@ else {
 	require('allcomments_pagination.php');}
 ?>
 </div>
-
-
 <?php
 };
 ?>

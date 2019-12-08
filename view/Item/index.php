@@ -39,27 +39,15 @@ if ($comments_current_page > $number_of_comments_pages) {
 }
 ?>
 <!-- Message de confirmation -->
-<?php
-if (!empty($_SESSION['messages']['confirmation']))
-					            {?>
-					              <div class="alert alert-success alert-dismissible fade show" role="alert">
-					                <?php echo $_SESSION['messages']['confirmation'];
-					                ?>
-					                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					                  <span aria-hidden="true">&times;</span>
-					                </button>
-					              </div>
-					              <?php
- }
-?>
-<?php unset($_SESSION['messages']); ?>
+<?php require __DIR__ . '/../errors/confirmation.php'; ?>
+
 <?php require('pagination_comments.php');?>
 <?php foreach ($comments as $comment): ?>
 	<div class="media mb-4">
 	  <img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?php echo isset($comment['avatar_com']) ? $comment['avatar_com'] : $default ;?>" alt="user">
 	  <div class="media-body">
 	    <h6 class="mt-0"><?= $this->clean(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author']);?></h6>
-			<h4><?= $this->clean($comment['content']); ?></h4>
+			<h4><?= $this->cleantinymce($comment['content']); ?></h4>
 			<?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>
 				<em class="fas fa-history"></em>&nbsp;<em>commentaire modifé le&nbsp;<?php echo $comment['date_update']; ?></em><br>
 				<?php }?>

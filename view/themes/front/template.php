@@ -3,7 +3,6 @@
 
 <!-- Page Content -->
 <div class="main container">
-
   <div class="row container">
 
     <!-- Post Content Column -->

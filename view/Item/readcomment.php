@@ -1,16 +1,14 @@
 <?php $this->title = 'Jean Forteroche | écrivain et acteur | Blog - Modification de commentaire'; ?>
 <p>&nbsp;</p>
 <?php
-
 if (empty($comment)) {
 							require __DIR__ . '/../errors/comment_not_found.php';
 			    } else {
 					  require __DIR__ . '/../errors/confirmation.php';
  ?>
+ <!-- Modification d'un commentaire -->
 <h2 id="comments">Modifier le Commentaire : </h2>
 <hr>
-
-<!-- Modification d'un commentaire -->
 <div class="media mb-4">
 	<img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?= $this->clean(isset($comment['avatar_com']) ? $comment['avatar_com'] : $default );?>" alt="user">
   <div class="media-body">
@@ -37,11 +35,8 @@ if (empty($comment)) {
   </div>
 </div>
 
-
-
 <?php } ;?>
 <!-- Commentaires  -->
-
 <h2 id="comments">Commentaires</h2>
 <hr>
 <?php require('pagination_comments.php'); ?>
@@ -63,8 +58,8 @@ if (empty($comment)) {
 	  </div>
 	</div>
 <?php endforeach; ?>
-
 <?php require('pagination_comments.php'); ?>
+
 <!-- Ajout  de nouveaux commentaires : -->
 <hr>
 <div class="card my-4">

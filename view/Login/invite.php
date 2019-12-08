@@ -3,8 +3,6 @@
 <div>
 <!-- Bienvenue -->
 <h1 class="mt-4">Bonjour !</h1>
-
-<!-- Date/Time -->
 <hr>
 
 <!-- Confirmation -->

@@ -10,10 +10,9 @@
 				<?php
 					echo '<h1 class="mt-4">Bienvenue ' .$this->clean($user['firstname']). ' !</h1>';
 				?>
-				<!-- Author -->
 				<hr>
 
-				<!-- Date/Time -->
+				<!-- Profil -->
 				<p>Mon Profil</p>
 				<?php require __DIR__ . '/../errors/confirmation.php'; ?>
 				<hr>
@@ -33,12 +32,9 @@
       						      alt="<?= $this->clean($user['firstname']); ?>" title="<?= $this->clean($user['firstname']);?>">
       						      <figcaption class="figure-caption text-right"><?= $this->clean($user['firstname']); ?></figcaption>
       						      </figure>
-
-
       							<?php
       						};
       							?>
-
 									</div><!-- fin du div col-sm-4 -->
 
 							    <div class="col-sm-8"><h6>Modifier ma photo de profil :</h6>
@@ -75,7 +71,6 @@
         </ul>
         <div class="tab-content" id="pills-tabContent">
               <div class="tab-pane fade show active" id="infos" role="tabpanel" aria-labelledby="pills-home-tab">
-
                 <!-- Infos Personnelles -->
         				<form role="form" class="form needs-validation" action="user/updateuser" method="post" id="usermodification" novalidate>
                   <p>&nbsp;</p>
@@ -109,28 +104,24 @@
         									<input type="password" class="form-control" name="passcheck" id="pass2" placeholder="Confirmez le mot de passe" title="Confirmez votre mot de passe">
         							</div>
         					</div>
-
                   <div class="form-group">
                       <div class="col-xs-6">
                           <label for="email"><h4>E-Mail</h4></label>
                           <input type="email" class="form-control" name="email" id="email" value="<?php echo $user['email']?>" title="Modifiez votre email si besoin">
                       </div>
                   </div>
-
         						<div class="form-group">
         								<div class="col-xs-6">
         										<label for="firstname"><h4>Prénom</h4></label>
         										<input type="text" class="form-control" name="firstname" id="firstname" value="<?php echo $user['firstname']?>" title="Modifiez votre prénom si besoin">
         								</div>
         						</div>
-
         						<div class="form-group">
         								<div class="col-xs-6">
         									<label for="name"><h4>Nom</h4></label>
         										<input type="text" class="form-control" name="name" id="name" value="<?php echo $user['name'] ?>" title="Modifiez votre nom si besoin">
         								</div>
         						</div>
-
                     <div class="form-group">
                         <div class="col-xs-6">
                             <label for="date_birth"><h4>Date de naissance</h4></label>
@@ -153,17 +144,10 @@
                       <span id="number" class="invalid">- au moins <b>1 chiffre</b></span><br>
                       <span id="length" class="invalid">- au minimum <b>8 caractères</b></span><br>
                     </div>
-
         		        </form>
-
-
-
 			</div>
 
 			<div class="tab-pane fade" id="username" role="tabpanel" aria-labelledby="pills-profile-tab">
-
-
-
         <form role="form" class="form needs-validation" action="user/updateusername" method="post" id="usermodification" novalidate>
           <p>&nbsp;</p>
 					<?php
@@ -192,7 +176,6 @@
                   <input type="text" class="form-control" name="username" id="username" value="<?php echo $user['username']?>" title="Modifiez votre identifiant si besoin">
               </div>
           </div>
-
             <div class="form-group">
                  <div class="col-xs-12">
                       <br>
@@ -202,16 +185,10 @@
                   </div>
             </div>
             <p>&nbsp;</p>
-
-
             </form>
-
         </div>
-
 				<hr>
-
 			</div><!-- fin du div tab-content -->
-
 <?php
 $this->sidebar= 'Le blog contient ' . $number_of_items .' articles<br>
 Le blog contient '. $number_of_items_pages.' pages<br>';

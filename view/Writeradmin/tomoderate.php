@@ -12,7 +12,6 @@
 	if ($counter_comments_reported < 1) {
 	  require __DIR__ . '/../view/errors/comments_not_found.php';
 	}
-
 	else {
 	require('tomoderate_pagination.php');}
 	?>
@@ -32,7 +31,6 @@
 	      while ($comment_reported = $comments_reported->fetch())
 	      {
 	      ?>
-
 	      <tr>
 	        <td><h6 class="mt-2 text-left"><?= $this->clean($comment_reported['date_creation_fr']); ?></h6></td>
 	        <td><div class="media mb-4">
@@ -40,7 +38,6 @@
 	          <div class="media-body">
 	            <h6 class="mt-2 text-left"><?= $this->clean(isset($comment_reported['firstname_com'], $comment_reported['name_com']) ? $comment_reported['firstname_com'] . ' ' . $comment_reported['name_com'] : $comment_reported['author']);?></h6><br>
 	          </div>
-
 	        </div></td>
 	        <td><h6 class="mt-2 text-left"><?= $this->cleantinymce($comment_reported['content']); ?></h6></td>
 	        <td><a href="<?= "readcomment/" . $this->clean($comment_reported['id']) ;?>" role="button" class="btn btn-sm btn-primary">Modifier</a></td>
@@ -59,8 +56,6 @@
 	else {
 	require('tomoderate_pagination.php');}
 	?>
-
-
 </div>
 <?php
 };

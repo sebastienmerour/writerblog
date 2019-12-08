@@ -37,7 +37,6 @@
 
 <!-- Commentaires  -->
 <!-- Affichage du lien Commentaires associé au post  : -->
-
 <em class="fas fa-book-reader"></em>&nbsp; <em><a href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id'])  . "/1/" : "item/indexuser/" . $this->clean($item['id']) . "/1/"?>">Lire la suite</a> || &nbsp;<em class="fas fa-comments"></em>&nbsp;
 <a href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id']) . "/1/" : "item/indexuser/" . $this->clean($item['id']) . "/1/"?>#comments">Commentaires</a></em>
 <p>&nbsp;</p>

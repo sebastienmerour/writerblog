@@ -3,7 +3,6 @@
 <ul class="navbar-nav px-3">
 <li class="nav-item text-nowrap">
   <a class="nav-link" href="<?php echo BASE_URL; ?>login/logoutadmin">Déconnexion</a>
-
 </li>
 </ul>
 </nav>

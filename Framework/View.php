@@ -7,8 +7,9 @@ require_once 'Configuration.php';
  * @version 1.0
  * @author Sébastien Merour
  */
- 
-class View {
+
+class View
+{
     /** Nom du fichier associé à la vue */
     private $file;
     /** Titre de la vue (défini dans le fichier vue) */
@@ -20,7 +21,8 @@ class View {
      * @param string $action Action à laquelle la vue est associée
      * @param string $controleur Nom du contrôleur auquel la vue est associée
      */
-    public function __construct($action, $controller = "") {
+    public function __construct($action, $controller = "")
+    {
         // Détermination du nom du fichier vue à partir de l'action et du constructeur
         // La convention de nommage des fichiers vues est : Vue/<$controleur>/<$action>.php
         $file = "View/";
@@ -36,7 +38,8 @@ class View {
      * @param array $datas Données nécessaires à la génération de la vue
      */
 
-    public function generate($datas) {
+    public function generate($datas)
+    {
         // Génération de la partie spécifique de la vue
         $content = $this->generateFile($this->file, $datas);
         // On définit une variable locale accessible par la vue pour la racine Web
@@ -44,15 +47,17 @@ class View {
         // Nécessaire pour les URI de type controller/action/id
         $rootWeb = Configuration::get("rootWeb", "/");
         // Génération du template commun utilisant la partie spécifique
-        $view = $this->generateFile('View/themes/front/template.php',
-                array('title' => $this->title,
-                    'content' => $content,
-                    'sidebar' => $this->sidebar,
-                    'rootWeb' => $rootWeb));
+        $view    = $this->generateFile('View/themes/front/template.php', array(
+            'title' => $this->title,
+            'content' => $content,
+            'sidebar' => $this->sidebar,
+            'rootWeb' => $rootWeb
+        ));
         // Renvoi de la vue générée au navigateur
         echo $view;
     }
-    public function generateadmin($datas) {
+    public function generateadmin($datas)
+    {
         // Génération de la partie spécifique de la vue
         $content = $this->generateFile($this->file, $datas);
         // On définit une variable locale accessible par la vue pour la racine Web
@@ -60,11 +65,12 @@ class View {
         // Nécessaire pour les URI de type controller/action/id
         $rootWeb = Configuration::get("rootWeb", "/");
         // Génération du template commun utilisant la partie spécifique
-        $view = $this->generateFile('View/themes/back/template.php',
-                array('title' => $this->title,
-                    'content' => $content,
-                    'sidebar' => $this->sidebar,
-                    'rootWeb' => $rootWeb));
+        $view    = $this->generateFile('View/themes/back/template.php', array(
+            'title' => $this->title,
+            'content' => $content,
+            'sidebar' => $this->sidebar,
+            'rootWeb' => $rootWeb
+        ));
         // Renvoi de la vue générée au navigateur
         echo $view;
     }
@@ -78,7 +84,8 @@ class View {
      * @throws Exception Si le fichier vue est introuvable
      */
 
-    private function generateFile($file, $datas) {
+    private function generateFile($file, $datas)
+    {
         if (file_exists($file)) {
             // Rend les éléments du tableau $donnees accessibles dans la vue
             extract($datas);
@@ -89,8 +96,7 @@ class View {
             require $file;
             // Arrêt de la temporisation et renvoi du tampon de sortie
             return ob_get_clean();
-        }
-        else {
+        } else {
             throw new Exception("Fichier '$file' introuvable");
         }
     }
@@ -101,11 +107,13 @@ class View {
      * @param string $value Valeur à nettoyer
      * @return string Value nettoyée
      */
-    private function clean($value) {
+    private function clean($value)
+    {
         return htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
     }
 
-    private function cleantinymce($value) {
+    private function cleantinymce($value)
+    {
         return htmlspecialchars_decode($value, ENT_QUOTES);
     }
 

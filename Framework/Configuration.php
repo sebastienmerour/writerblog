@@ -1,16 +1,15 @@
 <?php
 
 /**
- *  Configuration
- *
- * @version 1.0
- * @author Sébastien Merour
- */
+*  Configuration
+*
+* @version 1.0
+* @author Sébastien Merour
+*/
 
 class Configuration {
 
   private static $parameters;
-
   // Renvoie la valeur d'un paramètre de configuration
   public static function get($name, $defaultValue = null) {
     if (isset(self::getParameters()[$name])) {

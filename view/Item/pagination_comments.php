@@ -6,17 +6,13 @@
           {
           ?>
           <li>
-
               <a class="btn btn-outline-secondary" href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id']) . "/" . $page_previous_comments : "item/indexuser/" . $this->clean($item['id']).
               "/" . $page_previous_comments ?>/#comments" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>&nbsp;
-
-
           </li>
           <?php
           }
-
           for ($i = 1; $i <= $number_of_comments_pages; $i++)
           {
             echo '<li';
@@ -31,7 +27,6 @@
                   }
                   else {
                   echo '><a class="btn btn-outline-primary" href="item/indexuser/' .$this->clean($item['id']). '/'. $i . '/#comments">' . $i . '</a>&nbsp;</li>';
-
               }
           }
         }
@@ -46,7 +41,6 @@
           </li>
           <?php
           }
-
         ?>
       </ul>
     </nav>

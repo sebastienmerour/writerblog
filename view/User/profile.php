@@ -4,12 +4,8 @@
 else {?>
 
 				<!-- Username -->
-
 				<h1 class="mt-4">Profil de <?= $this->clean($user['firstname']). ' '. $this->clean($user['name']) ?></h1>
-
-				<!-- Date/Time -->
-
-    	<hr>
+    		<hr>
 
 				<!-- Avatar-->
 				<div class="container">
@@ -17,9 +13,6 @@ else {?>
 						<div class="col-sm-4">
 							<!-- Avatar - Vérifier si le membre a un avatar ou non -->
 							<?php
-
-
-
 								// Vérifier si l'avatar existe :
 								if (empty($user['avatar'])) {
 										echo '<p>Cet utilisateur n\'a pas d\'avatar</p>';
@@ -30,20 +23,16 @@ else {?>
 						      alt="<?= $this->clean($user['firstname']); ?>" title="<?= $this->clean($user['firstname']);?>">
 						      <figcaption class="figure-caption text-right"><?= $this->clean($user['firstname']); ?></figcaption>
 						      </figure>
-
 							<?php
 						};
 							?>
-
 						</div><!-- fin du div col-sm-4 -->
-
 					</div>
 				</div>
 				<hr>
 
 				<!-- Infos Personnelles -->
 				<!-- TABS -->
-
         				<table class="table table-striped">
         				  <tbody>
         				    <tr>
@@ -60,7 +49,6 @@ else {?>
         						</tr>
         				  </tbody>
         				</table>
-
         				<hr>
 <?php };?>
 <?php $this->sidebar= 'Le blog contient ' . $number_of_items .' articles<br>
