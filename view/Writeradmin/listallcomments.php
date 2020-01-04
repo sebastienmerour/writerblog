@@ -4,7 +4,7 @@
 	}
 	else {
 ?>
-<?php $this->title = 'Jean Forteroche - Panneau d\'Administration'; ?>
+<?php $this->title = WEBSITE_NAME.' - Panneau d\'Administration'; ?>
   <!-- News -->
   <?php
   if (!empty($_SESSION['messages']['confirmation']))

@@ -34,8 +34,8 @@
 								};
 								?>
 							<div class="custom-file">
-							<input type="file" name="image" class="custom-file-input">
-							<label class="custom-file-label" for="customFile">Parcourir...</label>
+							<input type="file" name="image" class="custom-file-input" id="uploadimage">
+							<label class="custom-file-label" data-browse="Parcourir..." for="image"></label>
 							</div>
 							<label for="image">(Formats autorisés : JPG, PNG ou GIF | max. 1 Mo)</label>
 							<input type="hidden" name="MAX_FILE_SIZE" value="1048576">

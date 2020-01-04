@@ -18,7 +18,7 @@
            else {
              require('template_my_account_logout.php');
            }?>
-			<?php require('template_statistiques_items.php')?>
+			<?php require('template_module_stats.php')?>
     </div><!-- Fin du div col-md-4 -->
 
   </div><!-- Fin du div row -->

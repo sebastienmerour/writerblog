@@ -1,4 +1,4 @@
-<?php $this->title = 'Jean Forteroche | écrivain et acteur | Blog' . $this->clean($item['title']); ?>
+<?= $this->title = WEBSITE_NAME. $this->clean($item['title']); ?>
 <!-- Vérification de l'existence de l'item -->
 <?php if (empty($item)) { require __DIR__ . '/../errors/item_not_found.php';}
 else {?>

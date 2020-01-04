@@ -1,4 +1,4 @@
-<?php $this->title = 'Jean Forteroche | écrivain et acteur | Blog'; ?>
+<?php $this->title = WEBSITE_NAME; ?>
 
 <!-- Pour chaque post on met un foreach : -->
 <?php foreach ($items as $item):?>

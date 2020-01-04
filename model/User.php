@@ -265,7 +265,7 @@ class User extends Model
 
                 // on indique à l'utilisateur qu'il s'est trompé de username ou de mot de passe.
                 // on ne précise pas qu'il s'agit du username qui est faux, pour raison de sécurité :
-                $_SESSION['errors'] = "Identifiant ou Mot de passe incorrect!";
+                $_SESSION['errors']['loginfailed'] = 'Identifiant ou Mot de passe incorrect !';
                 header('Location: ../login/');
             } else {
 
@@ -328,7 +328,8 @@ class User extends Model
 
                 // on indique à l'utilisateur qu'il s'est trompé de username ou de mot de passe.
                 // on ne préciser pas qu'il s'agit du username qui est faux, pour raison de sécurité :
-                $_SESSION['errors'] = "Identifiant ou Mot de passe incorrect !";
+                $errors['errors'] = 'Identifiant ou Mot de passe incorrect !';
+                $_SESSION['errors'] = $errors;
                 header('Location: ../writeradmin/');
             } else {
 
@@ -362,7 +363,8 @@ class User extends Model
 
                 } else {
                     // Dans le cas où le mot de passe est faux, on envoie un message :
-                    $_SESSION['errors'] = "Vous n'êtes pas autorisés à accéder à l'administration !";
+                    $errors['errors'] = 'Vous n\'êtes pas autorisés à accéder à l\'administration !';
+                    $_SESSION['errors'] = $errors;
                     header('Location: ../writeradmin/');
                 }
             }

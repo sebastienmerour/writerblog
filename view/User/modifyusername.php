@@ -38,7 +38,8 @@
 
 							    <div class="col-sm-8"><h6>Modifier ma photo de profil :</h6>
 									<form action="<?php echo BASE_URL; ?>user/updateavatar" method="post" enctype="multipart/form-data">
-										                <input type="file" name="avatar" class="text-center center-block file-upload">
+																		<input type="file" name="avatar" class="custom-file-input" id="uploadimage">
+																		<label class="custom-file-label" data-browse="Parcourir..." for="avatar"></label>
 																		<label for="avatar">(JPG, PNG ou GIF | max. 1 Mo)</label>
 																		<input type="hidden" name="MAX_FILE_SIZE" value="1048576">
 																		<br>

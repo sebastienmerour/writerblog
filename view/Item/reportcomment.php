@@ -1,4 +1,4 @@
-<?php $this->title = 'Jean Forteroche | écrivain et acteur | Blog - Modification de commentaire'; ?>
+<?php $this->title = WEBSITE_NAME.' Modification de commentaire'; ?>
 <p>&nbsp;</p>
 <?php
 if (empty($comment)) {
