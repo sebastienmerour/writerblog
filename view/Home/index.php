@@ -1,4 +1,4 @@
-<?php $this->title = WEBSITE_NAME; ?>
+<?php $this->title = WEBSITE_NAME.' | '. WEBSITE_SUBTITLE.' | ';?>
 
 <!-- Pour chaque post on met un foreach : -->
 <?php foreach ($items as $item):?>
@@ -23,7 +23,7 @@
 <!-- Image du Post -->
   <figure class="figure">
   <a href="<?= !ISSET($_SESSION['id_user']) ? "item/" . $this->clean($item['id'])  . "/1/" : "item/indexuser/" . $this->clean($item['id']). "/1/" ?>">
-    <img src="<?php echo BASE_URL; ?>public/images/item_images/<?= $this->clean($item['image'])?>" class="figure-img img-fluid rounded-right"
+    <img src="<?= BASE_URL; ?>public/images/item_images/<?= $this->clean($item['image'])?>" class="figure-img img-fluid rounded-right"
   alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']) ?>"></a>
   <figcaption class="figure-caption text-right"><?= $this->clean($item['title']) ?></figcaption>
   </figure>

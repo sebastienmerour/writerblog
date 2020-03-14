@@ -29,20 +29,20 @@ placeholder="Mot de passe" data-placement="right" required>
 		if (!empty($_SESSION['errors']['username']))
 		{?>
 			<div class="bg-danger text-white rounded p-3 mb-3">
-  			<?php echo $_SESSION['errors']['username'];?>
+  			<?= $_SESSION['errors']['username'];?>
 			</div>
 	<?php
 		}
 		if (!empty($_SESSION['errors']['passdifferent']))
 		{?>
 			<div class="bg-danger text-white rounded p-3 mb-3">
-  			<?php echo $_SESSION['errors']['passdifferent'];?>
+  			<?= $_SESSION['errors']['passdifferent'];?>
 			</div>
 	<?php }
 		if (!empty($_SESSION['errors']['email']))
 		{?>
 			<div class="bg-danger text-white rounded p-3 mb-3">
-  			<?php echo $_SESSION['errors']['email'];?>
+  			<?= $_SESSION['errors']['email'];?>
 			</div>
 	 <?php
 		} ?>
@@ -51,7 +51,7 @@ placeholder="Mot de passe" data-placement="right" required>
 	if (!empty($_SESSION['messages']['usercreated']))
 	{?>
 			<div class="bg-success text-white rounded p-3">
-  			<?php echo $_SESSION['messages']['usercreated'];
+  			<?= $_SESSION['messages']['usercreated'];
 				?>
 			</div>
 Pour accéder à votre compte, veuillez vous identifier :

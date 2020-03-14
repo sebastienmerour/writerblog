@@ -27,7 +27,7 @@
       								} else {
       									?>
       									<figure class="figure">
-      						      <img src="<?php echo BASE_URL; ?>public/images/avatars/<?= $this->clean($user['avatar']);?>" class="figure-img img-fluid rounded-right"
+      						      <img src="<?= BASE_URL; ?>public/images/avatars/<?= $this->clean($user['avatar']);?>" class="figure-img img-fluid rounded-right"
       						      alt="<?= $this->clean($user['firstname']); ?>" title="<?= $this->clean($user['firstname']);?>">
       						      <figcaption class="figure-caption text-right"><?= $this->clean($user['firstname']); ?></figcaption>
       						      </figure>
@@ -37,7 +37,7 @@
 									</div><!-- fin du div col-sm-4 -->
 
 							    <div class="col-sm-8"><h6>Modifier ma photo de profil :</h6>
-									<form action="<?php echo BASE_URL; ?>user/updateavatar" method="post" enctype="multipart/form-data">
+									<form action="<?= BASE_URL; ?>user/updateavatar" method="post" enctype="multipart/form-data">
 																		<input type="file" name="avatar" class="custom-file-input" id="uploadimage">
 																		<label class="custom-file-label" data-browse="Parcourir..." for="avatar"></label>
 																		<label for="avatar">(JPG, PNG ou GIF | max. 1 Mo)</label>
@@ -52,7 +52,7 @@
 							<?php
 							if (!empty($_SESSION['messages']['userupdated'])){?>
 							<div class="alert alert-success alert-dismissible fade show" role="alert">
-								<?php  echo $_SESSION['messages']['userupdated'];?>
+								<?= $_SESSION['messages']['userupdated'];?>
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -78,7 +78,7 @@
                   <?php
                   if (!empty($_SESSION['errors']['passdifferent'])){?>
 									<div class="alert alert-danger alert-dismissible fade show" role="alert">
-										<?php  echo $_SESSION['errors']['passdifferent'];?>
+										<?= $_SESSION['errors']['passdifferent'];?>
 										<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
@@ -88,7 +88,7 @@
                   <?php
                   if (!empty($_SESSION['errorsmail']['email'])){?>
 										<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                          <?php  echo $_SESSION['errorsmail']['email']; ?>
+                          <?= $_SESSION['errorsmail']['email']; ?>
 													<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 														<span aria-hidden="true">&times;</span>
 													</button>
@@ -108,25 +108,25 @@
                   <div class="form-group">
                       <div class="col-xs-6">
                           <label for="email"><h4>E-Mail</h4></label>
-                          <input type="email" class="form-control" name="email" id="email" value="<?php echo $user['email']?>" title="Modifiez votre email si besoin">
+                          <input type="email" class="form-control" name="email" id="email" value="<?= $user['email']?>" title="Modifiez votre email si besoin">
                       </div>
                   </div>
         						<div class="form-group">
         								<div class="col-xs-6">
         										<label for="firstname"><h4>Prénom</h4></label>
-        										<input type="text" class="form-control" name="firstname" id="firstname" value="<?php echo $user['firstname']?>" title="Modifiez votre prénom si besoin">
+        										<input type="text" class="form-control" name="firstname" id="firstname" value="<?= $user['firstname']?>" title="Modifiez votre prénom si besoin">
         								</div>
         						</div>
         						<div class="form-group">
         								<div class="col-xs-6">
         									<label for="name"><h4>Nom</h4></label>
-        										<input type="text" class="form-control" name="name" id="name" value="<?php echo $user['name'] ?>" title="Modifiez votre nom si besoin">
+        										<input type="text" class="form-control" name="name" id="name" value="<?= $user['name'] ?>" title="Modifiez votre nom si besoin">
         								</div>
         						</div>
                     <div class="form-group">
                         <div class="col-xs-6">
                             <label for="date_birth"><h4>Date de naissance</h4></label>
-                            <input type="date" class="form-control" name="date_birth" id="date_birth" value="<?php echo strftime('%Y-%m-%d', strtotime($user['date_birth'])); ?>" title="Modifiez votre date de naissance si besoin">
+                            <input type="date" class="form-control" name="date_birth" id="date_birth" value="<?= strftime('%Y-%m-%d', strtotime($user['date_birth'])); ?>" title="Modifiez votre date de naissance si besoin">
                         </div>
                     </div>
         						<div class="form-group">
@@ -153,7 +153,7 @@
 					<?php
 					if (!empty($_SESSION['errors']['username'])){?>
 					<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<?php  echo $_SESSION['errors']['username'];?>
+						<?= $_SESSION['errors']['username'];?>
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -163,7 +163,7 @@
 					<?php
 					if (!empty($_SESSION['messages']['usernameupdated'])){?>
 					<div class="alert alert-success alert-dismissible fade show" role="alert">
-						<?php  echo $_SESSION['messages']['usernameupdated'];?>
+						<?= $_SESSION['messages']['usernameupdated'];?>
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -173,7 +173,7 @@
           <div class="form-group">
               <div class="col-xs-6">
                   <label for="username"><h4>Identifiant</h4></label>
-                  <input type="text" class="form-control" name="username" id="username" value="<?php echo $user['username']?>" title="Modifiez votre identifiant si besoin">
+                  <input type="text" class="form-control" name="username" id="username" value="<?= $user['username']?>" title="Modifiez votre identifiant si besoin">
               </div>
           </div>
             <div class="form-group">

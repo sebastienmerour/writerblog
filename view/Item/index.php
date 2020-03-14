@@ -1,4 +1,5 @@
-<?= $this->title = WEBSITE_NAME. $this->clean($item['title']); ?>
+<?php $this->title = WEBSITE_NAME.' | '. WEBSITE_SUBTITLE.' | ' .$this->clean($item['title']);?>
+
 <!-- Vérification de l'existence de l'item -->
 <?php if (empty($item)) { require __DIR__ . '/../errors/item_not_found.php';}
 else {?>
@@ -12,7 +13,7 @@ else {?>
 <br>
 
 <!-- Date et Heure de Publication -->
-<em>le <?= $this->clean($item['date_creation_fr']) ?></em>&nbsp;<em class="fas fa-comments">&nbsp;</em><em><a href="<?= "item/" . $this->clean($item['id']). "/1/"  ?>#comments">Commentaires (<?php echo $number_of_comments ;?>)</a></em><br>
+<em>le <?= $this->clean($item['date_creation_fr']) ?></em>&nbsp;<em class="fas fa-comments">&nbsp;</em><em><a href="<?= "item/" . $this->clean($item['id']). "/1/"  ?>#comments">Commentaires (<?= $number_of_comments ;?>)</a></em><br>
 <?php if (isset($item['date_update']) AND $item['date_update'] > 0 ) {?>
 	<em>article modifé le&nbsp;<?= $this->clean($item['date_update']) ?></em>
 	<?php } ?>
@@ -20,7 +21,7 @@ else {?>
 
 <!-- Image du Post -->
 <figure class="figure">
-<img src="<?php echo BASE_URL; ?>public/images/item_images/<?= $this->clean($item['image'])?>" class="figure-img img-fluid rounded-right"
+<img src="<?= BASE_URL; ?>public/images/item_images/<?= $this->clean($item['image'])?>" class="figure-img img-fluid rounded-right"
 alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']) ?>">
 <figcaption class="figure-caption text-right"><?= $this->clean($item['title']) ?></figcaption>
 </figure>
@@ -44,12 +45,12 @@ if ($comments_current_page > $number_of_comments_pages) {
 <?php require('pagination_comments.php');?>
 <?php foreach ($comments as $comment): ?>
 	<div class="media mb-4">
-	  <img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?php echo isset($comment['avatar_com']) ? $comment['avatar_com'] : $default ;?>" alt="user">
+	  <img class="img-fluid mr-3 rounded avatar" src="<?= BASE_URL; ?>public/images/avatars/<?php echo isset($comment['avatar_com']) ? $comment['avatar_com'] : $default ;?>" alt="user">
 	  <div class="media-body">
 	    <h6 class="mt-0"><?= $this->clean(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author']);?></h6>
 			<h4><?= $this->cleantinymce($comment['content']); ?></h4>
 			<?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>
-				<em class="fas fa-history"></em>&nbsp;<em>commentaire modifé le&nbsp;<?php echo $comment['date_update']; ?></em><br>
+				<em class="fas fa-history"></em>&nbsp;<em>commentaire modifé le&nbsp;<?= $comment['date_update']; ?></em><br>
 				<?php }?>
 				<em class="fas fa-flag"></em>&nbsp;<a href="item/reportcomment/<?= $this->clean($item['id']) ?>/<?= $this->clean($comment['id_comment']) ;?>/">signaler le commentaire</a>&nbsp;
 	</div>

@@ -10,9 +10,9 @@ if (empty($comment)) {
 <h2 id="comments">Modifier le Commentaire : </h2>
 <hr>
 <div class="media mb-4">
-	<img class="img-fluid mr-3 rounded avatar" src="<?php echo BASE_URL; ?>public/images/avatars/<?= $this->clean(isset($comment['avatar_com']) ? $comment['avatar_com'] : $default );?>" alt="user">
+	<img class="img-fluid mr-3 rounded avatar" src="<?= BASE_URL; ?>public/images/avatars/<?= $this->clean(isset($comment['avatar_com']) ? $comment['avatar_com'] : $default );?>" alt="user">
   <div class="media-body">
-      <form role="form" class="form needs-validation" action="<?php echo BASE_URL; ?>item/updatecomment/<?= $this->clean($item['id']) ?>/<?= $this->clean($comment['id']) ;?>/" method="post" id="commentmodification" novalidate>
+      <form role="form" class="form needs-validation" action="<?= BASE_URL; ?>item/updatecomment/<?= $this->clean($item['id']) ?>/<?= $this->clean($comment['id']) ;?>/" method="post" id="commentmodification" novalidate>
         <div class="form-group">
             <div class="col-xs-6">
 							<h6 class="mt-0"><?= $this->clean(isset($comment['firstname_com'], $comment['name_com']) ? $comment['firstname_com'] . ' ' . $comment['name_com'] : $comment['author']);?></h6>
@@ -28,7 +28,7 @@ if (empty($comment)) {
                   <br>
                   <button class="btn btn-md btn-success" name="modify" type="submit">Enregistrer</button>
                   <a href="#"><button class="btn btn-md btn-secondary" type="reset">Annuler</button></a>
-                  <a href="<?php echo $_SERVER['HTTP_REFERER']; ?>"><button class="btn btn-md btn-primary" type="button">Retour</button></a>
+                  <a href="<?= $_SERVER['HTTP_REFERER']; ?>"><button class="btn btn-md btn-primary" type="button">Retour</button></a>
               </div>
         </div>
       </form>
@@ -48,7 +48,7 @@ if (empty($comment)) {
 			<h4><?= $this->cleantinymce($comment['content']); ?></h4>
 			<em>le <?= $comment['date_creation_fr']; ?></em><br>
 				<?php if (isset($comment['date_update']) AND $comment['date_update'] > 0 ) {?>
-						<em class="fas fa-history"></em>&nbsp;<em>commentaire modifé le&nbsp;<?php echo $comment['date_update']; ?></em><br>
+						<em class="fas fa-history"></em>&nbsp;<em>commentaire modifé le&nbsp;<?= $comment['date_update']; ?></em><br>
 						<?php }?>
 						<em class="fas fa-flag"></em>&nbsp;<a href="item/reportcomment/<?= $this->clean($item['id']) ?>/<?= $this->clean($comment['id_comment']) ;?>/">signaler le commentaire</a>&nbsp;
 						<?php if(ISSET($_SESSION['id_user']) AND  $_SESSION['id_user'] == $comment['user_com'])  {

@@ -30,7 +30,7 @@
         <td><h6 class="mt-2 text-left"><a target="_blank" href="<?= "../user/profile/" . $this->clean($item['id_user']) ?>">
         <?= $this->clean($item['firstname']); ?>&nbsp;<?= $this->clean($item['name']);?></a></span></td>
 				<td><a href="<?= "readitem/" . $this->clean($item['id'])?>/1">
-				<img width="125px" src="<?php echo BASE_URL; ?>public/images/item_images/<?= $this->clean($item['image'])?>" class="figure-img img-fluid rounded-right"
+				<img width="125px" src="<?= BASE_URL; ?>public/images/item_images/<?= $this->clean($item['image'])?>" class="figure-img img-fluid rounded-right"
 				alt="<?= $this->clean($item['title']) ?>" title="<?= $this->clean($item['title']) ?>"></a></td>
         <td><span class="text-body newstitle"><a href="<?= "readitem/" . $this->clean($item['id'])?>/1">
 				<h6 class="mt-2 text-left"><?= $this->clean($item['title']); ?></h6></a></span></td>

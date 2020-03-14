@@ -4,14 +4,14 @@
     <?php
     if ($items_current_page > $number_of_items_pages) {
       require __DIR__ . '/../errors/page_not_found.php';
-    } 
+    }
         else {
 
           if ($items_current_page > 1  AND $items_current_page <= $number_of_items_pages)// Si la page active n'est pas la première page
           {
           ?>
           <li>
-              <a class="btn btn-outline-secondary" href="home/page/<?= $previous_page ;?>" aria-label="Previous">
+              <a class="btn btn-outline-secondary" href="<?= BASE_URL; ?><?= $previous_page ;?>" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>&nbsp;
           </li>
@@ -26,7 +26,7 @@
                 echo ' class="btn btn-outline-secondary disabled">'.$i.' </li>&nbsp;';
               }
               else {
-                echo '><a class="btn btn-outline-primary" href="home/page/' . $i . '">' . $i . '</a>&nbsp;</li>';
+                echo '><a class="btn btn-outline-primary" href="'. BASE_URL . $i . '">' . $i . '</a>&nbsp;</li>';
               }
           }
 
@@ -34,7 +34,7 @@
           {
           ?>
           <li>
-              <a class="btn btn-outline-secondary" href="home/page/<?= $next_page; ?>" aria-label="Next">
+              <a class="btn btn-outline-secondary" href="<?= BASE_URL; ?><?= $next_page; ?>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
           </li>

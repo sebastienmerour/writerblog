@@ -16,7 +16,7 @@
             <a href="user">Mon Compte</a>
           </li>
           <li>
-            <a href="<?php echo BASE_URL; ?>">Le Blog</a>
+            <a href="<?= BASE_URL; ?>">Le Blog</a>
           </li>
         </ul>
       </div>

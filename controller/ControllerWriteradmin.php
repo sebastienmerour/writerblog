@@ -117,34 +117,18 @@ class ControllerWriteradmin extends Controller
     // Affichage de la page d'accueil après connexion :
     public function dashboard()
     {
+      if (null!= $this->request->ifParameter("id"))  {
+        $items_current_page  = $this->request->getParameter("id");
+        }
+        else {
+          $items_current_page = 1;
+        }
         $items                 = $this->item->count();
-        $items                 = $this->item->getItems();
         $number_of_items       = $this->item->count();
-        $items_current_page    = 1;
+        $items                 = $this->item->getItems($items_current_page);
         $page_previous_items   = $items_current_page - 1;
         $page_next_items       = $items_current_page + 1;
         $number_of_items_pages = $this->item->getNumberOfPages();
-        $this->generateadminView(array(
-            'items' => $items,
-            'number_of_items' => $number_of_items,
-            'items_current_page' => $items_current_page,
-            'page_previous_items' => $page_previous_items,
-            'page_next_items' => $page_next_items,
-            'number_of_items_pages' => $number_of_items_pages
-        ));
-    }
-
-    // Pagination des articles :
-    public function listitems()
-    {
-        $items                 = $this->item->count();
-        $items                 = $this->item->getItems();
-        $number_of_items       = $this->item->count();
-        $items_current_page    = $this->request->getParameter("id");
-        $items                 = $this->item->getPaginationItems($items_current_page);
-        $number_of_items_pages = $this->item->getNumberOfPages();
-        $page_previous_items   = $items_current_page - 1;
-        $page_next_items       = $items_current_page + 1;
         $this->generateadminView(array(
             'items' => $items,
             'number_of_items' => $number_of_items,
@@ -252,9 +236,15 @@ class ControllerWriteradmin extends Controller
     // Affichage des commentaires à modérer :
     public function tomoderate()
     {
-        $comments_reported_current_page    = 1;
+
+      if (null!= $this->request->ifParameter("id"))  {
+        $comments_reported_current_page  = $this->request->getParameter("id");
+        }
+        else {
+          $comments_reported_current_page = 1;
+        }
         $comments_reported_previous_page   = $comments_reported_current_page - 1;
-        $comments_reported_next_page       = $comments_reported_current_page - 1;
+        $comments_reported_next_page       = $comments_reported_current_page + 1;
         $comments_reported                 = $this->comment->selectCommentsReported($comments_reported_current_page);
         $default                           = "default.png";
         $number_of_comments_reported_pages = $this->comment->getNumberOfCommentsReportedPagesFromAdmin();
@@ -270,31 +260,16 @@ class ControllerWriteradmin extends Controller
         ));
     }
 
-    // Pagination des commentaires à modérer :
-    public function listtomoderate()
-    {
-        $comments_reported_current_page    = $this->comment->getCommentsReportedCurrentPage();
-        $comments_reported_previous_page   = $comments_reported_current_page - 1;
-        $comments_reported_next_page       = $comments_reported_current_page - 1;
-        $comments_reported                 = $this->comment->selectCommentsReported($comments_reported_current_page);
-        $default                           = "default.png";
-        $number_of_comments_reported_pages = $this->comment->getNumberOfCommentsReportedPagesFromAdmin();
-        $counter_comments_reported         = $this->comment->getTotalOfCommentsReported();
-        $this->generateadminView(array(
-            'comments_reported' => $comments_reported,
-            'default' => $default,
-            'comments_reported_current_page' => $comments_reported_current_page,
-            'comments_reported_previous_page' => $comments_reported_previous_page,
-            'comments_reported_next_page' => $comments_reported_next_page,
-            'number_of_comments_reported_pages' => $number_of_comments_reported_pages,
-            'counter_comments_reported' => $counter_comments_reported
-        ));
-    }
 
     // Affichage de l'ensemble des commentaires :
     public function allcomments()
     {
-        $comments_current_page    = 1;
+      if (null!= $this->request->ifParameter("id"))  {
+      $comments_current_page    = $this->request->getParameter("id");
+      }
+      else {
+        $comments_current_page  = 1;
+      }
         $comments_previous_page   = $comments_current_page - 1;
         $comments_next_page       = $comments_current_page + 1;
         $comments                 = $this->comment->selectComments($comments_current_page);
@@ -312,26 +287,6 @@ class ControllerWriteradmin extends Controller
         ));
     }
 
-    // Pagination de tous les commentaires :
-    public function listallcomments()
-    {
-        $comments_current_page    = $this->comment->getCommentsCurrentPageUser();
-        $comments_previous_page   = $comments_current_page - 1;
-        $comments_next_page       = $comments_current_page + 1;
-        $comments                 = $this->comment->selectComments($comments_current_page);
-        $default                  = "default.png";
-        $number_of_comments_pages = $this->comment->getNumberOfCommentsPagesFromAdmin();
-        $counter_comments         = $this->comment->getTotalOfComments();
-        $this->generateadminView(array(
-            'comments' => $comments,
-            'default' => $default,
-            'comments_current_page' => $comments_current_page,
-            'comments_previous_page' => $comments_previous_page,
-            'comments_next_page' => $comments_next_page,
-            'number_of_comments_pages' => $number_of_comments_pages,
-            'counter_comments' => $counter_comments
-        ));
-    }
 
     // Affichage d'un commentaire
     public function readcomment()

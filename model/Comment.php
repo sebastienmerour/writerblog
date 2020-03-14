@@ -285,7 +285,7 @@ class Comment extends Model
     public function getCommentsReportedCurrentPage()
     {
         $q                              = explode("/", $_SERVER['REQUEST_URI']);
-        $value                          = $q[5];
+        $value                          = $q[4];
         $comments_reported_current_page = (int) $value;
         return $comments_reported_current_page;
     }

@@ -29,7 +29,7 @@
       								} else {
       									?>
       									<figure class="figure">
-      						      <img src="<?php echo BASE_URL; ?>public/images/avatars/<?= $this->clean($user['avatar']);?>" class="figure-img img-fluid rounded-right"
+      						      <img src="<?= BASE_URL; ?>public/images/avatars/<?= $this->clean($user['avatar']);?>" class="figure-img img-fluid rounded-right"
       						      alt="<?= $this->clean($user['firstname']); ?>" title="<?= $this->clean($user['firstname']);?>">
       						      <figcaption class="figure-caption text-right"><?= $this->clean($user['firstname']); ?></figcaption>
       						      </figure>
@@ -39,7 +39,7 @@
 									</div><!-- fin du div col-sm-4 -->
 
 							    <div class="col-sm-8"><h6>Modifier ma photo de profil :</h6>
-									<form action="<?php echo BASE_URL; ?>user/updateavatar" method="post" enctype="multipart/form-data">
+									<form action="<?= BASE_URL; ?>user/updateavatar" method="post" enctype="multipart/form-data">
 										<div class="custom-file">
 											<input type="file" name="avatar" class="custom-file-input" id="uploadimage">
 											<label class="custom-file-label" data-browse="Parcourir..." for="avatar"></label>
@@ -56,7 +56,7 @@
 							<?php
 							if (!empty($_SESSION['messages']['userupdated'])){?>
 							<div class="alert alert-success alert-dismissible fade show" role="alert">
-								<?php  echo $_SESSION['messages']['userupdated'];?>
+								<?= $_SESSION['messages']['userupdated'];?>
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -84,19 +84,19 @@
 				    </tr>
 						<tr>
 				      <th scope="row">E-Mail</th>
-				      <td><?php echo $user['email'] ?></td>
+				      <td><?= $user['email'] ?></td>
 				    </tr>
 				    <tr>
 				      <th scope="row">Prénom</th>
-				      <td><?php echo $user['firstname'] ?></td>
+				      <td><?= $user['firstname'] ?></td>
 				    </tr>
 						<tr>
 				      <th scope="row">Nom</th>
-				      <td><?php echo $user['name'] ?></td>
+				      <td><?= $user['name'] ?></td>
 				    </tr>
 						<tr>
 							<th scope="row">Date de naissance</th>
-							<td><?php echo strftime('%d/%m/%Y', strtotime($user['date_birth'])); ?></td>
+							<td><?= strftime('%d/%m/%Y', strtotime($user['date_birth'])); ?></td>
 						</tr>
 				  </tbody>
 				</table>
@@ -107,7 +107,7 @@
 										<tbody>
 											<tr>
 												<th scope="row">Identifiant</th>
-												<td><?php echo $user['username']?></td>
+												<td><?= $user['username']?></td>
 											</tr>
 										</tbody>
 									</table>

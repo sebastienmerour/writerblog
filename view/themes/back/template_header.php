@@ -10,8 +10,8 @@
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900" rel="stylesheet">
     <script src="https://kit.fontawesome.com/14f8a7289e.js"></script>
     <!-- Custom styles for this template -->
-    <link href="<?php echo BASE_URL; ?>public/css/scroll.css" rel="stylesheet">
-    <link href="<?php echo BASE_URL; ?>public/css/dashboard.css" rel="stylesheet">
+    <link href="<?= BASE_URL; ?>public/css/scroll.css" rel="stylesheet">
+    <link href="<?= BASE_URL; ?>public/css/dashboard.css" rel="stylesheet">
     <!-- TINYMCE script -->
     <script src="https://cdn.tiny.cloud/1/g3t2j6ax1fih16h88zn6d7z6bd9akw3ur6zuo3p7qainhbeq/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
@@ -21,6 +21,6 @@
       height: "400px"
     });
     </script>
-    <title><?php echo $title; ?></title>
+    <title><?= $title; ?></title>
 </head>
 <body>

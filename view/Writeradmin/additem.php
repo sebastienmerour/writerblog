@@ -11,7 +11,7 @@
 <div class="card my-4">
   <h5 class="card-header">Ajout d'un nouvel article</h5>
     <div class="card-body">
-			<form action="<?php echo BASE_URL; ?>writeradmin/createitem" method="post" enctype="multipart/form-data">
+			<form action="<?= BASE_URL; ?>writeradmin/createitem" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <input class="form-control" id="title" name="title" type="text" placeholder="Titre"><br>
 						<hr>
@@ -27,7 +27,7 @@
 				</div>
 				<button class="btn btn-md btn-success" name="modify" type="submit">Enregistrer</button>
 				<input class="btn btn-md btn-secondary" type="reset" value="Annuler">
-				<a href="<?php echo BASE_URL; ?>writeradmin" role="button" class="btn btn-md btn-primary">Retour</a>
+				<a href="<?= BASE_URL; ?>writeradmin" role="button" class="btn btn-md btn-primary">Retour</a>
 </form>
 </div>
 </div>

@@ -7,7 +7,7 @@
   {
   ?>
   <li>
-      <a class="btn btn-outline-secondary" href="listtomoderate/1/<?= $comments_reported_previous_page; ?>/#tomoderate" aria-label="Previous">
+      <a class="btn btn-outline-secondary" href="<?= BASE_ADMIN_URL ;?>tomoderate/<?= $comments_reported_previous_page; ?>/#tomoderate" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>&nbsp;
   </li>
@@ -22,7 +22,7 @@
       }
       else {
 
-        echo '><a class="btn btn-outline-primary" href="listtomoderate/1/' . $i . '/#tomoderate">' . $i . '</a>&nbsp;</li>';
+        echo '><a class="btn btn-outline-primary" href="'.BASE_ADMIN_URL.'tomoderate/' . $i . '/#tomoderate">' . $i . '</a>&nbsp;</li>';
       }
   }
 
@@ -30,7 +30,7 @@
   {
   ?>
   <li>
-      <a class="btn btn-outline-secondary" href="listtomoderate/1/<?php $comments_reported_next_page; ?>/#tomoderate" aria-label="Next">
+      <a class="btn btn-outline-secondary" href="<?= BASE_ADMIN_URL ;?>tomoderate/<?= $comments_reported_next_page; ?>/#tomoderate" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
   </li>

@@ -7,7 +7,7 @@
           <a href="login/" role="button" class="btn btn-md btn-success">Se connecter</a>
         </li>
         <li class="p-1">
-          <a href="<?php echo BASE_URL; ?>user/adduser" role="button" class="btn btn-md btn-primary">Inscription</a>
+          <a href="<?= BASE_URL; ?>user/adduser" role="button" class="btn btn-md btn-primary">Inscription</a>
         </li>
       </ul>
     </div>

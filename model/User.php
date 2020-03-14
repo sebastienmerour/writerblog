@@ -299,7 +299,7 @@ class User extends Model
 
                 } else {
                     // Dans le cas où le mot de passe est faux, on envoie un message :
-                    $_SESSION['errors'] = "Identifiant ou Mot de passe incorrect !";
+                    $_SESSION['errors']['loginfailed'] = 'Identifiant ou Mot de passe incorrect !';
                     header('Location: ../login/');
                 }
             }

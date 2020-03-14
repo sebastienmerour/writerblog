@@ -19,7 +19,7 @@ else {?>
 								} else {
 									?>
 									<figure class="figure">
-						      <img src="<?php echo BASE_URL; ?>public/images/avatars/<?= $this->clean($user['avatar']);?>" class="figure-img img-fluid rounded-right"
+						      <img src="<?= BASE_URL; ?>public/images/avatars/<?= $this->clean($user['avatar']);?>" class="figure-img img-fluid rounded-right"
 						      alt="<?= $this->clean($user['firstname']); ?>" title="<?= $this->clean($user['firstname']);?>">
 						      <figcaption class="figure-caption text-right"><?= $this->clean($user['firstname']); ?></figcaption>
 						      </figure>
@@ -37,15 +37,15 @@ else {?>
         				  <tbody>
         				    <tr>
         				      <th scope="row">Prénom</th>
-        				      <td><?php echo $user['firstname'] ?></td>
+        				      <td><?= $user['firstname'] ?></td>
         				    </tr>
         						<tr>
         				      <th scope="row">Nom</th>
-        				      <td><?php echo $user['name'] ?></td>
+        				      <td><?= $user['name'] ?></td>
         				    </tr>
         						<tr>
         							<th scope="row">Date de naissance</th>
-											<td><?php echo strftime('%d/%m/%Y', strtotime($user['date_birth'])); ?></td>
+											<td><?= strftime('%d/%m/%Y', strtotime($user['date_birth'])); ?></td>
         						</tr>
         				  </tbody>
         				</table>

@@ -1,7 +1,7 @@
 <footer class="shadow container-fluid">
   <div class="row text-center">
     <div class="col-12 bg-danger p-3">
-       <h6 class="lead font-weight-bold text-white"><?= WEBSITE_NAME; ?>&nbsp;<span class="font-weight-lighter">écrivain et acteur</span>&nbsp;|&nbsp;&copy; <?= COPYRIGHT_YEAR ;?></h6>
+       <h6 class="lead font-weight-bold text-white"><?= WEBSITE_NAME; ?>&nbsp;|&nbsp;<span class="font-weight-lighter"><?= WEBSITE_SUBTITLE; ?></span>&nbsp;|&nbsp;&copy; <?= COPYRIGHT_YEAR ;?></h6>
     </div>
   </div>
 </footer>
@@ -10,8 +10,8 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <!-- Custom JavaScript for this theme -->
-<script src="<?php echo BASE_URL; ?>public/js/scroll.js"></script>
-<script src="<?php echo BASE_URL; ?>public/js/password_policy.js"></script>
+<script src="<?= BASE_URL; ?>public/js/scroll.js"></script>
+<script src="<?= BASE_URL; ?>public/js/password_policy.js"></script>
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>feather.replace()</script>

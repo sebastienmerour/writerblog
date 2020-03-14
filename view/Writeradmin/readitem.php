@@ -14,7 +14,7 @@
 <div class="card my-4">
   <h5 class="card-header">Modification de l'article</h5>
     <div class="card-body">
-				<form role="form" class="form needs-validation" action="<?php echo BASE_URL; ?>writeradmin/updateitem/<?= $this->clean($item['id']);?>" method="post"
+				<form role="form" class="form needs-validation" action="<?= BASE_URL; ?>writeradmin/updateitem/<?= $this->clean($item['id']);?>" method="post"
 	        id="itemmodification" enctype="multipart/form-data" novalidate>
 					<div class="form-group">
 	            <div class="col-xs-6">
@@ -26,7 +26,7 @@
 							} else {
 								?>
 								<figure class="figure">
-								<img src="<?php echo BASE_URL; ?>public/images/item_images/<?= $this->clean($item['image']);?>" class="figure-img img-fluid rounded-right"
+								<img src="<?= BASE_URL; ?>public/images/item_images/<?= $this->clean($item['image']);?>" class="figure-img img-fluid rounded-right"
 								alt="<?= $this->clean($item['title']); ?>" title="<?= $this->clean($item['title']);?>">
 								<figcaption class="figure-caption text-right"><?= $this->clean($item['title']); ?></figcaption>
 								</figure>
@@ -50,7 +50,7 @@
 	                  <br>
 	                  <button class="btn btn-md btn-success" name="modify" type="submit">Enregistrer</button>
 	                  <a href="#" role="button" class="btn btn-md btn-secondary" type="reset">Annuler</a>
-	                  <a href="<?php echo BASE_URL; ?>writeradmin" role="button" class="btn btn-md btn-primary" type="button">Retour</a>
+	                  <a href="<?= BASE_URL; ?>writeradmin" role="button" class="btn btn-md btn-primary" type="button">Retour</a>
 	              </div>
 	        </div>
       </form>
